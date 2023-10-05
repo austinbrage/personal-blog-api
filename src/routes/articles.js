@@ -11,9 +11,9 @@ const createArticleRouter = ({ articleModel }) => {
 
     articleRouter.post('./', articleController.createArticle)
 
-    articleRouter.put('./', articleController.updateArticle)
-    articleRouter.put('./name', articleController.updateArticleName)
-    articleRouter.put('./state', articleController.updateArticleState)
+    articleRouter.patch('./', articleController.updateArticle)
+    articleRouter.patch('./name', articleController.updateArticleName)
+    articleRouter.patch('./state', articleController.updateArticleState)
     
     articleRouter.delete('./', articleController.deleteArticle)
     articleRouter.delete('./section', articleController.deleteSection)
