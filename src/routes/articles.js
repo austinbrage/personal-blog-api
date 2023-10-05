@@ -6,17 +6,17 @@ const createArticleRouter = ({ articleModel }) => {
 
     const articleController = new ArticleController({ articleModel })
 
-    articleRouter.get('./article', articleController.getArticle)
-    articleRouter.get('./article/all', articleController.getAllArticles)
+    articleRouter.get('./', articleController.getArticle)
+    articleRouter.get('./all', articleController.getAllArticles)
 
-    articleRouter.post('./article', articleController.createArticle)
+    articleRouter.post('./', articleController.createArticle)
 
-    articleRouter.put('./article', articleController.updateArticle)
-    articleRouter.put('./article/name', articleController.updateArticleName)
-    articleRouter.put('./article/state', articleController.updateArticleState)
+    articleRouter.put('./', articleController.updateArticle)
+    articleRouter.put('./name', articleController.updateArticleName)
+    articleRouter.put('./state', articleController.updateArticleState)
     
-    articleRouter.delete('./article', articleController.deleteArticle)
-    articleRouter.delete('./article/section', articleController.deleteSection)
+    articleRouter.delete('./', articleController.deleteArticle)
+    articleRouter.delete('./section', articleController.deleteSection)
 }
 
 module.exports = createArticleRouter

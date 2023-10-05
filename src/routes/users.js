@@ -6,12 +6,12 @@ const createUserRouter = ({ userModel }) => {
 
     const userController = new UserController({ userModel })
 
-    userRouter.get('/user', userController.getUser)
-    userRouter.get('/user/validate', userController.getUserPassword)
+    userRouter.get('/', userController.getUser)
+    userRouter.get('/validate', userController.getUserPassword)
 
-    userRouter.post('/user', userController.insertNewUser)
+    userRouter.post('/', userController.insertNewUser)
 
-    userRouter.delete('/user', userController.deleteUser)
+    userRouter.delete('/', userController.deleteUser)
 }
 
 module.exports = createUserRouter
