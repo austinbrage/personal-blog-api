@@ -9,7 +9,7 @@ const createApp = ({ userModel, articleModel }) => {
     
     app.use(express.json())
     app.use(corsMiddleware())
-    app.use(disable('x-powered-by'))
+    app.disable('x-powered-by')
     
     app.use('./blogApi/user', createUserRouter({ userModel }))
     app.use('./blogApi/article', createArticleRouter({ articleModel }))

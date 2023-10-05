@@ -7,7 +7,7 @@ class Articles {
         this.validateArticle = new articleValidation()
     }    
 
-    getArticle = asyncErrorHandler(async (req, res, next) => {
+    getArticle = asyncErrorHandler(async (req, res, _next) => {
         // const { id, post } = req.query
         const validation = this.validateArticle.idPost(req.query)
 
@@ -28,7 +28,7 @@ class Articles {
         }
     })
     
-    getAllArticles = asyncErrorHandler(async (req, res, next) => {
+    getAllArticles = asyncErrorHandler(async (req, res, _next) => {
         // const { id } = req.query
         const validation = this.validateArticle.id(req.query)
 
@@ -49,7 +49,7 @@ class Articles {
         }
     })
 
-    createArticle = asyncErrorHandler(async (req, res, next) => {
+    createArticle = asyncErrorHandler(async (req, res, _next) => {
         // const { id, post, order, content, styles, isPublish } = req.body
         const validation = this.validateArticle.all(req.body)
 
@@ -68,7 +68,7 @@ class Articles {
         }
     })
 
-    updateArticle = asyncErrorHandler(async (req, res, next) => {
+    updateArticle = asyncErrorHandler(async (req, res, _next) => {
         // const { id, post, order, content, styles } = req.body
         const validation = this.validateArticle.partial(req.body)
 
@@ -87,7 +87,7 @@ class Articles {
         }
     })
     
-    updateArticleName = asyncErrorHandler(async (req, res, next) => {
+    updateArticleName = asyncErrorHandler(async (req, res, _next) => {
         // const { id, oldName, newName } = req.body
         const validation = this.validateArticle.nameChange(req.body)
 
@@ -106,7 +106,7 @@ class Articles {
         }
     })
     
-    updateArticlePublishState = asyncErrorHandler(async (req, res, next) => {
+    updateArticlePublishState = asyncErrorHandler(async (req, res, _next) => {
         // const { id, post, isPublish } = req.body
         const validation = this.validateArticle.publishState(req.body)
 
@@ -125,7 +125,7 @@ class Articles {
         }
     })
 
-    deleteSection = asyncErrorHandler(async (req, res, next) => {
+    deleteSection = asyncErrorHandler(async (req, res, _next) => {
         // const { id, post, content, order } = req.body
         const validation = this.validateArticle.section(req.body)
 
@@ -144,7 +144,7 @@ class Articles {
         }
     })
     
-    deleteArticle = asyncErrorHandler(async (req, res, next) => {
+    deleteArticle = asyncErrorHandler(async (req, res, _next) => {
         // const { id, post } = req.body
         const validation = this.validateArticle.idPost(req.body)
 
