@@ -1,0 +1,20 @@
+{
+  "name": "blog-site-api",
+  "version": "0.0.0",
+  "description": "CRUD operations to the blog site database",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon serve.js",
+    "test": "jest"
+  },
+  "keywords": [
+    "Blog",
+    "Personal"
+  ],
+  "author": "Austin Brage",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
