@@ -1,6 +1,6 @@
 const { articleSchema, articleNameChangeSchema } = require('../schemas/article')
 
-class Article {
+class Articles {
     constructor() {
         this.articleSchema = articleSchema
     }
@@ -52,4 +52,4 @@ class Article {
     }
 }
 
-module.exports = Article
+module.exports = Articles
