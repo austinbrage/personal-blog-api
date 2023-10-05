@@ -6,44 +6,34 @@ class Users {
         this.userModel = userModel
         this.validateUser = new userValidation()
     }
-
-    getUser = asyncErrorHandler(async (req, res, next) => {
-        // const { user } = req.query
-        const validation = this.validateUser.name(req.query)
-
-        if(validation.success) {
-            const userName = await this.userModel.getUser(validation.data)
-    
-            res.satus(200).json({
-                success: 'success',
-                data: {
-                    userName
-                }
-            })
-        } else {
-            res.status(400).json({
-                success: 'error',
-                validationError: validation.error
-            })
-        }
-    })
     
     getUserPassword = asyncErrorHandler(async (req, res, next) => {
         // const { user, password } = req.query
         const validation = this.validateUser.nameAndPassword(req.query)
 
         if(validation.success) {
-            const userName = await this.userModel.getUserPassword(validation.data)
+            const result = await this.userModel.getUserPassword(validation.data)
     
-            res.satus(200).json({
-                success: 'success',
-                data: {
-                    userName
-                }
-            })
+            if(result.length === 0) {
+                res.satus(401).json({
+                    status: 'error',
+                    message: 'Incorrect username' 
+                })
+            } else if(result[0].password !== validation.data.password) {
+                res.satus(401).json({
+                    status: 'error',
+                    message: 'Incorrect password' 
+                })
+            } else {
+                res.satus(200).json({
+                    status: 'success',
+                    message: 'User validated successfully' 
+                })
+            }
+
         } else {
             res.status(400).json({
-                success: 'error',
+                status: 'error',
                 validationError: validation.error
             })
         }
@@ -54,15 +44,24 @@ class Users {
         const validation = this.validateUser.nameAndPassword(req.query)
 
         if(validation.success) {
-            const result = await this.userModel.insertNewUser(validation.data)
-    
-            res.status(200).json({
-                success: 'success',
-                result
-            })
+            const userName = await this.userModel.getUser(validation.data.user)
+            
+            if(userName.length === 0) {
+                res.satus(401).json({
+                    status: 'error',
+                    message: 'Existing user' 
+                })
+            } else {
+                const result = await this.userModel.insertNewUser(validation.data)
+        
+                res.status(201).json({
+                    status: 'success',
+                    result
+                })
+            }
         } else {
             res.status(400).json({
-                success: 'error',
+                status: 'error',
                 validationError: validation.error
             })
         }
@@ -76,12 +75,12 @@ class Users {
             const result = await this.userModel.deleteUser(validation.data)
     
             res.status(200).json({
-                success: 'success',
+                status: 'success',
                 result
             })
         } else {
             res.status(400).json({
-                success: 'error',
+                status: 'error',
                 validationError: validation.error
             })
         }
