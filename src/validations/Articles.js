@@ -3,6 +3,7 @@ const { articleSchema, articleNameChangeSchema } = require('../schemas/article')
 class Articles {
     constructor() {
         this.articleSchema = articleSchema
+        this.articleNameChangeSchema = articleNameChangeSchema
     }
 
     all(data) {
@@ -48,7 +49,7 @@ class Articles {
     nameChange(data) {
         return this.articleSchema.pick({
             id: true
-        }).merge(articleNameChangeSchema).safeParse(data)
+        }).merge(this.articleNameChangeSchema).safeParse(data)
     }
 }
 
