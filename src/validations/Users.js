@@ -6,11 +6,11 @@ class Users {
         this.userPasswordSchema = userPasswordSchema
     }
 
-    userName(data) {
+    name(data) {
         return this.userName.safeParse(data)
     }
 
-    userAndPassword(data) {
+    nameAndPassword(data) {
         return this.userAndPassword.safeParse(data)
     }
 }
