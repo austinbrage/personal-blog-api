@@ -1,9 +1,9 @@
 const { z } = require('zod')
 
 const articleSchema = z.object({
-    name: z.string({
-        required_error: 'Article name is required',
-        invalid_type_error: 'Article name must be a string'
+    id: z.string({
+        required_error: 'Article id is required',
+        invalid_type_error: 'Article id must be a string'
     }),
     
     post: z.string({
