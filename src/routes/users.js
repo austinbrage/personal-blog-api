@@ -12,6 +12,8 @@ const createUserRouter = ({ userModel }) => {
     userRouter.post('/', userController.insertNewUser)
 
     userRouter.delete('/', userController.deleteUser)
+
+    return userRouter
 }
 
 module.exports = createUserRouter

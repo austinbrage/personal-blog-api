@@ -17,6 +17,8 @@ const createArticleRouter = ({ articleModel }) => {
     
     articleRouter.delete('./', articleController.deleteArticle)
     articleRouter.delete('./section', articleController.deleteSection)
+
+    return articleRouter
 }
 
 module.exports = createArticleRouter
