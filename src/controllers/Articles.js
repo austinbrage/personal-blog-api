@@ -6,9 +6,9 @@ class Articles {
     }    
 
     getArticle = asyncErrorHandler(async (req, res, next) => {
-        const { name, post } = req.query
+        const { id, post } = req.query
         
-        const article = await this.articleModel.getArticle({ name, post })
+        const article = await this.articleModel.getArticle({ id, post })
 
         res.status(200).json({
             status: 'success',
@@ -19,9 +19,9 @@ class Articles {
     })
     
     getAllArticles = asyncErrorHandler(async (req, res, next) => {
-        const { name } = req.query
+        const { id } = req.query
         
-        const article = await this.articleModel.getAllArticles({ name })
+        const article = await this.articleModel.getAllArticles({ id })
 
         res.status(200).json({
             status: 'success',
@@ -32,9 +32,11 @@ class Articles {
     })
 
     createArticle = asyncErrorHandler(async (req, res, next) => {
-        const { name, post, order, content, styles, state } = req.body
+        const { id, post, order, content, styles, isPublish } = req.body
 
-        const result = await this.articleModel.createArticle({ name, post, order, content, styles, state })
+        const result = await this.articleModel.createArticle({ 
+            id, post, order, content, styles, isPublish 
+        })
 
         res.status(201).json({
             status: 'success',
@@ -43,9 +45,9 @@ class Articles {
     })
 
     updateArticle = asyncErrorHandler(async (req, res, next) => {
-        const { name, post, order, content, styles } = req.body
+        const { id, post, order, content, styles } = req.body
 
-        const result = await this.articleModel.updateArticle({ name, post, order, content, styles })
+        const result = await this.articleModel.updateArticle({ id, post, order, content, styles })
 
         res.status(200).json({
             status: 'success',
@@ -54,9 +56,9 @@ class Articles {
     })
     
     updateArticleName = asyncErrorHandler(async (req, res, next) => {
-        const { name, oldName, newName } = req.body
+        const { id, oldName, newName } = req.body
 
-        const result = await this.articleModel.updateArticleName({ name, oldName, newName })
+        const result = await this.articleModel.updateArticleName({ id, oldName, newName })
 
         res.status(200).json({
             status: 'success',
@@ -64,10 +66,10 @@ class Articles {
         })
     })
     
-    updateArticleState = asyncErrorHandler(async (req, res, next) => {
-        const { name, post, state } = req.body
+    updateArticlePublishState = asyncErrorHandler(async (req, res, next) => {
+        const { id, post, isPublish } = req.body
 
-        const result = await this.articleModel.updateArticleState({ name, post, state })
+        const result = await this.articleModel.updateArticlePublishState({ id, post, isPublish })
 
         res.status(200).json({
             status: 'success',
@@ -76,9 +78,9 @@ class Articles {
     })
 
     deleteSection = asyncErrorHandler(async (req, res, next) => {
-        const { name, post, content, order } = req.body
+        const { id, post, content, order } = req.body
 
-        const result = await this.articleModel.deleteSection({ name, post, content, order })
+        const result = await this.articleModel.deleteSection({ id, post, content, order })
 
         res.status(200).json({
             status: 'success',
@@ -87,9 +89,9 @@ class Articles {
     })
     
     deleteArticle = asyncErrorHandler(async (req, res, next) => {
-        const { name, post } = req.body
+        const { id, post } = req.body
 
-        const result = await this.articleModel.deleteArticle({ name, post })
+        const result = await this.articleModel.deleteArticle({ id, post })
 
         res.status(200).json({
             status: 'success',

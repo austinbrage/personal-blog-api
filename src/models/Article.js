@@ -5,95 +5,95 @@ class Article {
         this.pool = pool
     }
 
-    getArticle = async ({ name, post }) => {
+    getArticle = async ({ id, post }) => {
         const connection = await this.pool.getConnection()
 
-        const query2 = `SELECT Post, Order, Content, Styles, State
+        const query2 = `SELECT Post, Order, Content, Styles, isPublish
                         FROM articles
                         WHERE ID_name = ? AND Post = ?`
         
-        const [rows] = await connection.execute(query2, [name, post]) 
+        const [rows] = await connection.execute(query2, [id, post]) 
         
         return rows
     }
 
-    getAllArticles = async ({ name, post }) => {
+    getAllArticles = async ({ id }) => {
         const connection = await this.pool.getConnection()
 
-        const query1 = `SELECT Post, Order, Content, Styles, State
+        const query1 = `SELECT Post, Order, Content, Styles, isPublish
                         FROM articles
                         WHERE ID_name = ?`
         
-        const [rows] = await connection.execute(query1, [name]) 
+        const [rows] = await connection.execute(query1, [id]) 
         
         return rows
     }
 
-    createArticle = async ({ name, post, order, content, styles, state }) => {
+    createArticle = async ({ id, post, order, content, styles, isPublish }) => {
         const connection = await this.pool.getConnection()
 
-        const query = `INSERT INTO articles (ID_name, Post, Order, Content, Styles, State)
+        const query = `INSERT INTO articles (ID_name, Post, Order, Content, Styles, isPublish)
                        VALUES (?, ?, ?, ?, ?, ?)`
         
-        const [rows] = await connection.execute(query, [name, post, order, content, styles, state])
+        const [rows] = await connection.execute(query, [id, post, order, content, styles, isPublish])
 
         return rows
     }
 
-    updateArticle = async ({ name, post, order, content, styles }) => {
+    updateArticle = async ({ id, post, order, content, styles }) => {
         const connection = await this.pool.getConnection()
 
         const query = `UPDATE articles 
                        SET Content = ?, Styles = ?
                        WHERE ID_name = ? AND Post = ? AND Order = ?`
 
-        const [rows] = await connection.execute(query, [content, styles, name, post, order])
+        const [rows] = await connection.execute(query, [content, styles, id, post, order])
 
         return rows               
     }
 
-    updateArticleName = async ({ name, oldName, newName }) => {
+    updateArticleName = async ({ id, oldName, newName }) => {
         const connection = await this.pool.getConnection()
 
         const query = `UPDATE articles
                        SET Post = ?
                        WHERE ID_name = ? AND Post = ?`
 
-        const [rows] = await connection.execute(query, [newName, name, oldName])
+        const [rows] = await connection.execute(query, [newName, id, oldName])
 
         return rows
     }
 
-    updateArticleState = async ({ name, post, state }) => {
+    updateArticlePublishState = async ({ id, post, isPublish }) => {
         const connection = await this.pool.getConnection()
 
         const query = `UPDATE articles
-                       SET State = ?
+                       SET isPublish = ?
                        WHERE ID_name = ? AND Post = ?`
 
-        const [rows] = await connection.execute(query, [state, name, post])
+        const [rows] = await connection.execute(query, [isPublish, id, post])
 
         return rows
     }
 
-    deleteSection = async ({ name, post, content, order }) => {
+    deleteSection = async ({ id, post, content, order }) => {
         const connection = await this.pool.getConnection()
 
         const query = `DELETE FROM articles
                        WHERE ID_name = ? AND Post = ? AND Content = ? AND Order = ?`
 
-        const [rows] = await connection.execute(query, [name, post, content, order]) 
+        const [rows] = await connection.execute(query, [id, post, content, order]) 
 
         return rows
     }
     
-    deleteArticle = async ({ name, post }) => {
+    deleteArticle = async ({ id, post }) => {
         const connection = await this.pool.getConnection()
 
         const query = `DELETE FROM articles
                        WHERE ID_name = ? AND Post = ?`
 
-        const [rows] = await connection.execute(query, [name, post]) 
+        const [rows] = await connection.execute(query, [id, post]) 
 
         return rows
     }
