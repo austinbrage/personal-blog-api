@@ -1,15 +1,25 @@
 const { z } = require('zod')
 
+const articleNameSchema = z.string({
+    required_error: 'Article post name is required',
+    invalid_type_error: 'Article post name must be a string'
+})
+
+const articleNameChangeSchema = z.object({
+    oldName: articleNameSchema,
+    newName: z.string({
+        required_error: 'Article post new name is required',
+        invalid_type_error: 'Article post new name must be a string'
+    })
+})
+
 const articleSchema = z.object({
     id: z.string({
         required_error: 'Article id is required',
         invalid_type_error: 'Article id must be a string'
     }),
     
-    post: z.string({
-        required_error: 'Article post is required',
-        invalid_type_error: 'Article post must be a string'
-    }),
+    post: articleNameSchema,
 
     order: z.number({
         required_error: 'Article section order is required',
@@ -32,4 +42,7 @@ const articleSchema = z.object({
     })
 })
 
-module.exports = articleSchema
+module.exports = {
+    articleSchema,
+    articleNameChangeSchema
+}
