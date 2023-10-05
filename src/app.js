@@ -17,6 +17,8 @@ const createApp = ({ userModel, articleModel }) => {
     app.listen(PORT, () => {
         console.log(`Server running on Port: ${PORT}`)
     })
+
+    return app
 }
 
 module.exports = createApp
