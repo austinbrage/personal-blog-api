@@ -52,7 +52,7 @@ class Users {
                     message: 'Existing user' 
                 })
             } else {
-                const result = await this.userModel.insertNewUser(validation.data)
+                const _result = await this.userModel.insertNewUser(validation.data)
         
                 res.status(201).json({
                     status: 'success',
@@ -72,7 +72,7 @@ class Users {
         const validation = this.validateUser.nameAndPassword(req.query)
 
         if(validation.success) {
-            const result = await this.userModel.deleteUser(validation.data)
+            const _result = await this.userModel.deleteUser(validation.data)
     
             res.status(200).json({
                 status: 'success',
