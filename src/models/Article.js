@@ -1,4 +1,4 @@
-const pool = require('../utils/config')
+const { pool } = require('../utils/config')
 
 class Article {
     constructor() {
@@ -8,17 +8,23 @@ class Article {
     getArticle = async ({ name, post }) => {
         const connection = await this.pool.getConnection()
 
-        const query1 = `SELECT Post, Order, Content, Styles, State
-                        FROM articles
-                        WHERE ID_name = ?`
-
         const query2 = `SELECT Post, Order, Content, Styles, State
                         FROM articles
                         WHERE ID_name = ? AND Post = ?`
         
-        const [rows] = await post 
-            ? connection.execute(query1, [name]) 
-            : connection.execute(query2, [name, post]) 
+        const [rows] = await connection.execute(query2, [name, post]) 
+        
+        return rows
+    }
+
+    getAllArticles = async ({ name, post }) => {
+        const connection = await this.pool.getConnection()
+
+        const query1 = `SELECT Post, Order, Content, Styles, State
+                        FROM articles
+                        WHERE ID_name = ?`
+        
+        const [rows] = await connection.execute(query1, [name]) 
         
         return rows
     }
@@ -92,3 +98,5 @@ class Article {
         return rows
     }
 }
+
+module.exports.default = Article 

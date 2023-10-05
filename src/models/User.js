@@ -51,3 +51,5 @@ class User {
         return rows
     }
 }
+
+module.exports.default = User
