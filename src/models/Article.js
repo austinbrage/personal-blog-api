@@ -99,4 +99,4 @@ class Article {
     }
 }
 
-module.exports.default = Article 
+module.exports = Article 
