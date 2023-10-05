@@ -1,6 +1,7 @@
 const express = require('express')
 const { PORT } = require('./utils/config')
 const createUserRouter = require('./routes/users')
+const createArticleRouter = require('./routes/articles')
 const corsMiddleware = require('./middlewares/cors')
 
 const createApp = ({ userModel, articleModel }) => {
@@ -11,7 +12,7 @@ const createApp = ({ userModel, articleModel }) => {
     app.use(disable('x-powered-by'))
     
     app.use('./blogApi/user', createUserRouter({ userModel }))
-    app.use('./blogApi/article', createUserRouter({ userModel }))
+    app.use('./blogApi/article', createArticleRouter({ articleModel }))
 
     app.listen(PORT, () => {
         console.log(`Server running on Port: ${PORT}`)
