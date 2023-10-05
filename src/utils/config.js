@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
