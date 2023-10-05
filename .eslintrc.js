@@ -1,8 +1,9 @@
 module.exports = {
     "env": {
-        "browser": true,
+        "node": true,
         "commonjs": true,
-        "es2021": true
+        "es2021": true,
+        "jest/globals": true
     },
     "extends": [
         "eslint:recommended",
@@ -10,9 +11,6 @@ module.exports = {
     ],
     "overrides": [
         {
-            "env": {
-                "node": true
-            },
             "files": [
                 ".eslintrc.{js,cjs}"
             ],
@@ -26,9 +24,11 @@ module.exports = {
         "ecmaVersion": "latest"
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "jest"
     ],
     "rules": {
-        "@typescript-eslint/no-var-requires": "off"
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/no-unused-vars": "off"
     }
 }
