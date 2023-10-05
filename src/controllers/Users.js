@@ -56,7 +56,7 @@ class Users {
         
                 res.status(201).json({
                     status: 'success',
-                    result
+                    message: 'User added successfully'
                 })
             }
         } else {
@@ -76,7 +76,7 @@ class Users {
     
             res.status(200).json({
                 status: 'success',
-                result
+                message: 'User removed successfully'
             })
         } else {
             res.status(400).json({
