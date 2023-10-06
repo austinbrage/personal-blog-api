@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon serve.js",
+    "dev": "ts-node-dev serve.js",
     "lint": "eslint ./**/*.{js,ts}",
     "test": "jest"
   },
@@ -21,8 +21,9 @@
     "eslint": "^8.50.0",
     "eslint-plugin-jest": "^27.4.2",
     "jest": "^29.7.0",
-    "nodemon": "^3.0.1",
-    "supertest": "^6.3.3"
+    "supertest": "^6.3.3",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "cors": "^2.8.5",
