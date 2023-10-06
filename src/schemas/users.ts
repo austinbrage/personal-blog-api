@@ -1,4 +1,4 @@
-const { z } = require('zod')
+import { z } from 'zod'
 
 const userSchema = z.object({
     user: z.string({
@@ -16,7 +16,7 @@ const passwordSchema = z.object({
 
 const userPasswordSchema = userSchema.merge(passwordSchema)
 
-module.exports = {
+export {
     userSchema,
     userPasswordSchema
 }

@@ -1,4 +1,4 @@
-const { z } = require('zod')
+import { z } from 'zod'
 
 const articleNameSchema = z.string({
     required_error: 'Article post name is required',
@@ -42,7 +42,7 @@ const articleSchema = z.object({
     })
 })
 
-module.exports = {
+export {
     articleSchema,
     articleNameChangeSchema
 }
