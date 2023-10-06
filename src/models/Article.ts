@@ -1,11 +1,23 @@
-const { pool } = require('../utils/config')
+const pool = require('../utils/config')
+import { Pool, RowDataPacket } from 'mysql2/promise'
+import { 
+    idType, 
+    idPostType, 
+    sectionType, 
+    allArticleType, 
+    publishStateType,
+    partialArticleType,
+    articleNameChangeType 
+} from '../types'
 
 class Article {
+    private pool: Pool
+
     constructor() {
         this.pool = pool
     }
 
-    getArticle = async ({ id, post }) => {
+    getArticle = async ({ id, post }: idPostType) => {
         const connection = await this.pool.getConnection()
 
         const query2 = `SELECT Post, Order, Content, Styles, isPublish
@@ -14,10 +26,11 @@ class Article {
         
         const [rows] = await connection.execute(query2, [id, post]) 
         
-        return rows
+        connection.release()
+        return rows as RowDataPacket[]
     }
 
-    getAllArticles = async ({ id }) => {
+    getAllArticles = async ({ id }: idType) => {
         const connection = await this.pool.getConnection()
 
         const query1 = `SELECT Post, Order, Content, Styles, isPublish
@@ -26,10 +39,11 @@ class Article {
         
         const [rows] = await connection.execute(query1, [id]) 
         
-        return rows
+        connection.release()
+        return rows as RowDataPacket[]
     }
 
-    createArticle = async ({ id, post, order, content, styles, isPublish }) => {
+    createArticle = async ({ id, post, order, content, styles, isPublish }: allArticleType) => {
         const connection = await this.pool.getConnection()
 
         const query = `INSERT INTO articles (ID_name, Post, Order, Content, Styles, isPublish)
@@ -37,10 +51,11 @@ class Article {
         
         const [rows] = await connection.execute(query, [id, post, order, content, styles, isPublish])
 
-        return rows
+        connection.release()
+        return rows as RowDataPacket[]
     }
 
-    updateArticle = async ({ id, post, order, content, styles }) => {
+    updateArticle = async ({ id, post, order, content, styles }: partialArticleType) => {
         const connection = await this.pool.getConnection()
 
         const query = `UPDATE articles 
@@ -49,10 +64,11 @@ class Article {
 
         const [rows] = await connection.execute(query, [content, styles, id, post, order])
 
-        return rows               
+        connection.release()
+        return rows as RowDataPacket[]    
     }
 
-    updateArticleName = async ({ id, oldName, newName }) => {
+    updateArticleName = async ({ id, oldName, newName }: articleNameChangeType) => {
         const connection = await this.pool.getConnection()
 
         const query = `UPDATE articles
@@ -61,10 +77,11 @@ class Article {
 
         const [rows] = await connection.execute(query, [newName, id, oldName])
 
-        return rows
+        connection.release()
+        return rows as RowDataPacket[]
     }
 
-    updateArticlePublishState = async ({ id, post, isPublish }) => {
+    updateArticlePublishState = async ({ id, post, isPublish }: publishStateType) => {
         const connection = await this.pool.getConnection()
 
         const query = `UPDATE articles
@@ -73,10 +90,11 @@ class Article {
 
         const [rows] = await connection.execute(query, [isPublish, id, post])
 
-        return rows
+        connection.release()
+        return rows as RowDataPacket[]
     }
 
-    deleteSection = async ({ id, post, content, order }) => {
+    deleteSection = async ({ id, post, content, order }: sectionType) => {
         const connection = await this.pool.getConnection()
 
         const query = `DELETE FROM articles
@@ -84,10 +102,11 @@ class Article {
 
         const [rows] = await connection.execute(query, [id, post, content, order]) 
 
-        return rows
+        connection.release()
+        return rows as RowDataPacket[]
     }
     
-    deleteArticle = async ({ id, post }) => {
+    deleteArticle = async ({ id, post }: idPostType) => {
         const connection = await this.pool.getConnection()
 
         const query = `DELETE FROM articles
@@ -95,7 +114,8 @@ class Article {
 
         const [rows] = await connection.execute(query, [id, post]) 
 
-        return rows
+        connection.release()
+        return rows as RowDataPacket[]
     }
 }
 
