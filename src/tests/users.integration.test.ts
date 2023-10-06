@@ -1,5 +1,5 @@
 const request = require('supertest')
-const app = require('../../server')
+const app = require('../server')
 import type { userPasswordType } from "../types"
 
 describe('User-Route: Validate log-in, Make registrations and delete counts', () => {
