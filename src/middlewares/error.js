@@ -1,4 +1,4 @@
-const globalErrorController = (error, req, res, next) => {
+const globalErrorMiddleware = (error, _req, res, _next) => {
     error.statusCode = error.statusCode || 500 
     error.status = error.status || 'error'
     
@@ -8,4 +8,4 @@ const globalErrorController = (error, req, res, next) => {
     })
 }
 
-module.exports = globalErrorController
+module.exports = globalErrorMiddleware
