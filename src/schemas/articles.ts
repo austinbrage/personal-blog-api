@@ -5,7 +5,7 @@ const articleNameSchema = z.string({
     invalid_type_error: 'Article post name must be a string'
 })
 
-const articleNameChangeSchema = z.object({
+export const articleNameChangeSchema = z.object({
     oldName: articleNameSchema,
     newName: z.string({
         required_error: 'Article post new name is required',
@@ -13,7 +13,7 @@ const articleNameChangeSchema = z.object({
     })
 })
 
-const articleSchema = z.object({
+export const articleSchema = z.object({
     id: z.string({
         required_error: 'Article id is required',
         invalid_type_error: 'Article id must be a string'
@@ -41,8 +41,3 @@ const articleSchema = z.object({
         invalid_type_error: 'Article section isPublish must be a boolean'
     })
 })
-
-export {
-    articleSchema,
-    articleNameChangeSchema
-}
