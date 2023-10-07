@@ -1,11 +1,15 @@
-const fs = require('fs')
-const path = require('path')
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
-const processSQLFile = (filePath) => {
-    const fileText = fs.readFileSync(filePath, 'utf8')
+interface SQLQueries {
+    [comment: string]: string
+}
+
+const processSQLFile = (filePath: string) => {
+    const fileText = readFileSync(filePath, 'utf8')
     const lines = fileText.split('\n')
 
-    const data = {}
+    const data: SQLQueries = {}
     let currentQuery = ''
     let currentComment = ''
 
@@ -28,20 +32,18 @@ const processSQLFile = (filePath) => {
     return data
 }
 
-const sqlFiles = ['users.sql', 'articles.sql', 'sections.sql', 'styles.sql']
-const results = {}
+const sqlFiles: string[] = ['users.sql', 'articles.sql', 'sections.sql', 'styles.sql']
+const results: { [table: string]: SQLQueries } = {}
 
 for (const fileName of sqlFiles) {
-    const filePath = path.join(__dirname, '..', 'sql', fileName)
+    const filePath = join(__dirname, '..', 'sql', fileName)
     const fileData = processSQLFile(filePath)
     results[fileName.replace('.sql', '')] = fileData
 }
 
 (process.env.NODE_ENV === 'test') && console.log(results)
 
-module.exports = {
-    userQueries: results.users,
-    articleQueries: results.articles,
-    sectionQueries: results.sections,
-    stylesQueries: results.styles
-}
+export const userQueries = results.users
+export const articleQueries = results.articles
+export const sectionQueries = results.sections
+export const stylesQueries = results.styles
