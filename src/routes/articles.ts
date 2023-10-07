@@ -1,8 +1,8 @@
-const express = require('express')
-const ArticleController = require('../controllers/Articles')
+import { Router } from 'express'
+import ArticleController from '../controllers/Articles'
 
 const createArticleRouter = ({ articleModel }) => {
-    const articleRouter = express.Router()
+    const articleRouter = Router()
 
     const articleController = new ArticleController({ articleModel })
 
@@ -21,4 +21,4 @@ const createArticleRouter = ({ articleModel }) => {
     return articleRouter
 }
 
-module.exports = createArticleRouter
+export default createArticleRouter

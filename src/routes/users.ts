@@ -1,8 +1,8 @@
-const express = require('../controllers/Users')
-const UserController = require('../controllers/Users')
+import { Router } from '../controllers/Users'
+import UserController from '../controllers/Users'
 
 const createUserRouter = ({ userModel }) => {
-    const userRouter = express.Router()
+    const userRouter = Router()
 
     const userController = new UserController({ userModel })
 
@@ -13,4 +13,4 @@ const createUserRouter = ({ userModel }) => {
     return userRouter
 }
 
-module.exports = createUserRouter
+export default createUserRouter
