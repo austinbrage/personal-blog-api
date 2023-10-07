@@ -1,10 +1,14 @@
-const asyncErrorHandler = require('../utils/errorHandler')
-const articleValidation = require('../validations/articles')
+import { asyncErrorHandler } from '../utils/errorHandler'
+import { ArticlesValidation, type IArticlesValidation } from '../validations/Articles'
+import { type IArticle } from '../types/articles'
 
-class Articles {
-    constructor({ articleModel }) {
+export class Articles {
+    private articleModel: IArticle
+    private validateArticle: IArticlesValidation
+
+    constructor({ articleModel }: { articleModel: IArticle }) {
         this.articleModel = articleModel
-        this.validateArticle = new articleValidation()
+        this.validateArticle = new ArticlesValidation()
     }    
 
     getArticle = asyncErrorHandler(async (req, res, _next) => {
@@ -23,7 +27,7 @@ class Articles {
         } else {
             res.status(400).json({
                 status: 'error',
-                validationError: JSON.parse(validation.error)
+                validationError: validation.error.format()
             })
         }
     })
@@ -44,7 +48,7 @@ class Articles {
         } else {
             res.status(400).json({
                 status: 'error',
-                validationError: JSON.parse(validation.error)
+                validationError: validation.error.format()
             })
         }
     })
@@ -63,7 +67,7 @@ class Articles {
         } else {
             res.status(400).json({
                 status: 'error',
-                validationError: JSON.parse(validation.error)
+                validationError: validation.error.format()
             })
         }
     })
@@ -82,7 +86,7 @@ class Articles {
         } else {
             res.status(400).json({
                 status: 'error',
-                validationError: JSON.parse(validation.error)
+                validationError: validation.error.format()
             })
         }
     })
@@ -101,7 +105,7 @@ class Articles {
         } else {
             res.status(400).json({
                 status: 'error',
-                validationError: validation.error
+                validationError: validation.error.format()
             })
         }
     })
@@ -120,7 +124,7 @@ class Articles {
         } else {
             res.status(400).json({
                 status: 'error',
-                validationError: JSON.parse(validation.error)
+                validationError: validation.error.format()
             })
         }
     })
@@ -139,7 +143,7 @@ class Articles {
         } else {
             res.status(400).json({
                 status: 'error',
-                validationError: JSON.parse(validation.error)
+                validationError: validation.error.format()
             })
         }
     })
@@ -158,10 +162,8 @@ class Articles {
         } else {
             res.status(400).json({
                 status: 'error',
-                validationError: validation.error
+                validationError: validation.error.format()
             })
         }
     })
 }
-
-module.exports = Articles
