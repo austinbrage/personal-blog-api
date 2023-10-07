@@ -6,6 +6,10 @@
     SELECT `password` FROM `users` 
     WHERE `name` = ?;
 
+-- getApiKey
+    SELECT `api_key` FROM `users`
+    WHERE `id` = ?;
+
 -- addNew
     INSERT INTO `users` (`name`, `password`, `email`, `phone`, `author`) 
     VALUES (?, ?, ?, ?, ?);
