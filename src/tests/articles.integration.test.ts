@@ -1,7 +1,7 @@
-const request = require('supertest')
-const app = require('../server')
-import { type idPostType } from "../types"
+import request from 'supertest'
+import app from '../server.js'
 import { ARTICLES } from "./articleMock"
+import { type idPostType } from "../types/articles"
 
 describe('Article-Route: Create, Update, Read and Delete articles and article sections', () => {
     const RESOURCE = '/blogApi/article'

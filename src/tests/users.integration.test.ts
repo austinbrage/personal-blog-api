@@ -1,6 +1,6 @@
-const request = require('supertest')
-const app = require('../server')
-import type { userPasswordType } from "../types"
+import request from 'supertest'
+import app from '../server'
+import { type userPasswordType } from "../types/users"
 
 describe('User-Route: Validate log-in, Make registrations and delete counts', () => {
     const RESOURCE = '/blogApi/user'
