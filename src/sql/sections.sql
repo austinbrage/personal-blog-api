@@ -1,17 +1,18 @@
--- Get all article sections from sections and style tables
+-- getAll
     SELECT `sections`.*, `styles`.* FROM `sections`
     INNER JOIN `styles` ON `sections`.`id` = `styles`.`section_id`
     WHERE `sections`.`article_id` = ?;
 
--- Post new article section in sections table
+-- addNew
     INSERT INTO `sections` (`article_id`, `content`)
     VALUES (?, ?);
 
--- Patch new article section in sections table
+-- changeContent
     UPDATE `sections`
     SET `content` = ?
     WHERE `id` = ?;
 
--- Delete article section in sections table
+-- remove
     DELETE FROM `sections`
     WHERE `id` = ?
+    

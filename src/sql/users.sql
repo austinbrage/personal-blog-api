@@ -1,36 +1,41 @@
--- Get all user data from users table
+-- getAll
     SELECT * FROM `users` 
-    WHERE `id` = ?;
+    WHERE `name` = ?;
 
--- Post new user data in users table
+-- getId
+    SELECT `id` FROM `users` 
+    WHERE `name` = ?;
+
+-- addNew
     INSERT INTO `users` (`name`, `password`, `email`, `phone`, `author`) 
     VALUES (?, ?, ?, ?, ?);
 
--- Patch new user name in users table
+-- changeName
     UPDATE `users` 
     SET `name` = ?
     WHERE `id` = ?;
 
--- Patch new user password in users table
+-- changePassword
     UPDATE `users` 
     SET `password` = ?
     WHERE `id` = ?;
 
--- Patch new user author in users table
+-- changeAuthor
     UPDATE `users` 
     SET `author` = ?
     WHERE `id` = ?;
 
--- Patch new user email in users table
+-- changeEmail
     UPDATE `users` 
     SET `email` = ?
     WHERE `id` = ?;
 
--- Patch new user phone in users table
+-- changePhone
     UPDATE `users` 
     SET `phone` = ?
     WHERE `id` = ?;
 
--- Delete user in users table
+-- remove
     DELETE FROM `users` 
     WHERE `id` = ?;
+    

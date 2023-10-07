@@ -1,25 +1,26 @@
--- Get list of user article names from articles table
+-- getAll
     SELECT * FROM `articles`
     Where `user_id` = ?;
 
--- Get id of article with user and article name from articles table
+-- getId
     SELECT `id` FROM `articles`
     Where `user_id` = ? AND `name` = ?;
 
--- Post new article name in articles table
+-- addNew
     INSERT INTO `articles` (`user_id`, `name`)
     VALUES (?, ?);
 
--- Patch new article name in articles table
+-- changeName
     UPDATE `articles`
     SET `name` = ?
     WHERE `id` = ?;
 
--- Patch new article publish state in articles table
+-- changePublishment
     UPDATE `articles`
     SET `is_publish` = ?
     WHERE `id` = ?;
 
--- Delete article from articles table
+-- remove
     DELETE FROM `articles`
     WHERE `id` = ?;
+    
