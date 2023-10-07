@@ -1,4 +1,6 @@
-const globalErrorMiddleware = (error, _req, res, _next) => {
+import { ErrorRequestHandler } from "express"
+
+const globalErrorMiddleware: ErrorRequestHandler = (error, _req, res, _next) => {
     error.statusCode = error.statusCode || 500 
     error.status = error.status || 'error'
     
@@ -8,4 +10,4 @@ const globalErrorMiddleware = (error, _req, res, _next) => {
     })
 }
 
-module.exports = globalErrorMiddleware
+export default globalErrorMiddleware
