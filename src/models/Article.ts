@@ -1,6 +1,6 @@
-const pool = require('../utils/config')
-import { Pool, RowDataPacket } from 'mysql2/promise'
-import { 
+import { pool } from '../utils/config'
+import { RowDataPacket } from 'mysql2/promise'
+import type { 
     idType, 
     idPostType, 
     sectionType, 
@@ -8,10 +8,11 @@ import {
     publishStateType,
     partialArticleType,
     articleNameChangeType 
-} from '../types'
+} from '../types/articles'
+import { IArticle } from '../types/articles'
 
-class Article {
-    private pool: Pool
+class Article implements IArticle {
+    private pool
 
     constructor() {
         this.pool = pool
@@ -119,4 +120,4 @@ class Article {
     }
 }
 
-module.exports = Article 
+export default Article

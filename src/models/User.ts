@@ -1,9 +1,10 @@
-const pool = require('../utils/config')
-import { Pool, RowDataPacket } from 'mysql2/promise'
-import { userType, userPasswordType } from '../types'
+import { pool } from '../utils/config'
+import { RowDataPacket } from 'mysql2/promise'
+import { type userType, type userPasswordType } from '../types/users'
+import { type IUser } from '../types/users'
 
-class User {
-    private pool: Pool
+class User implements IUser {
+    private pool
     
     constructor() {
         this.pool = pool
@@ -32,7 +33,7 @@ class User {
         const [rows] = await connection.execute(query, [user, password])
 
         connection.release()
-        return rows
+        return rows as RowDataPacket[]
     }
 
     insertNewUser = async ({ user, password }: userPasswordType) => {
@@ -44,7 +45,7 @@ class User {
         const [rows] = await connection.execute(query, [user, password])
 
         connection.release()
-        return rows
+        return rows as RowDataPacket[]
     }
 
     deleteUser = async ({ user, password }: userPasswordType) => {
@@ -56,8 +57,8 @@ class User {
         const [rows] = await connection.execute(query, [user, password])
 
         connection.release()
-        return rows
+        return rows as RowDataPacket[]
     }
 }
 
-module.exports = User
+export default User
