@@ -5,7 +5,7 @@ import { type UserController } from '../types/users'
 import { type ZodError } from 'zod'
 import type { Request, Response, NextFunction } from "express"
 
-class Users implements UserController {
+export class Users implements UserController {
     private userModel: IUser
     private validateUser: IUsersValidation
 
