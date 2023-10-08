@@ -1,5 +1,5 @@
 import { SafeParseReturnType } from 'zod'
-import { UserType } from '../types/users'
+import { type UserType } from '../types/users'
 import { userSchema } from '../schemas/users'
 
 export interface IUsersValidation {

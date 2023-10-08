@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { userSchema } from '../schemas/users'
-import { RowDataPacket } from 'mysql2'
+import { type RowDataPacket } from 'mysql2'
 
 export type UserType = {
     id: z.infer<typeof userSchema.id>,
