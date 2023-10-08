@@ -1,6 +1,7 @@
 import { pool } from '../utils/config'
-import { RowDataPacket } from 'mysql2/promise'
-import { type userType, type userPasswordType } from '../types/users'
+import { userQueries } from '../utils/modelQueries'
+import { type RowDataPacket } from 'mysql2/promise'
+import { type UserType } from '../types/users'
 import { type IUser } from '../types/users'
 
 class User implements IUser {
@@ -10,51 +11,85 @@ class User implements IUser {
         this.pool = pool
     }
 
-    getUser = async ({ user }: userType): Promise<RowDataPacket[]> => {
+    getAll = async ({ id }: UserType['id']) => {
         const connection = await this.pool.getConnection()
-
-        const query = `SELECT User
-                       FROM users
-                       WHERE User = ?`
-
-        const [rows] = await connection.execute(query, [user])
+        
+        const [rows] = await connection.execute(userQueries.getAll, [id])
 
         connection.release()
         return rows as RowDataPacket[]
     }
 
-    getUserPassword = async ({ user, password }: userPasswordType) => {
+    getPassword = async ({ name }: UserType['name']) => {
         const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(userQueries.getPassword, [name])
 
-        const query = `SELECT User, Password
-                       FROM users
-                       WHERE User = ?`
-
-        const [rows] = await connection.execute(query, [user, password])
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+    
+    changeName = async ({ id, name }: UserType['idName']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(userQueries.changeName, [name, id])
 
         connection.release()
         return rows as RowDataPacket[]
     }
 
-    insertNewUser = async ({ user, password }: userPasswordType) => {
+    changeEmail = async ({ id, email }: UserType['idEmail']) => {
         const connection = await this.pool.getConnection()
-
-        const query = `INSERT INTO users (User, Password)
-                       VALUES (?, ?)`
-
-        const [rows] = await connection.execute(query, [user, password])
+        
+        const [rows] = await connection.execute(userQueries.changeEmail, [email, id])
 
         connection.release()
         return rows as RowDataPacket[]
     }
 
-    deleteUser = async ({ user, password }: userPasswordType) => {
+    changePhone = async ({ id, phone }: UserType['idPhone']) => {
         const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(userQueries.changePhone, [phone, id])
 
-        const query = `DELETE FROM users
-                       WHERE User = ? AND Password = ?`
+        connection.release()
+        return rows as RowDataPacket[]
+    }
 
-        const [rows] = await connection.execute(query, [user, password])
+    changeAuthor = async ({ id, author }: UserType['idAuthor']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(userQueries.changeAuthor, [author, id])
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
+    changePassword = async ({ id, password }: UserType['idPassword']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(userQueries.changePassword, [password, id])
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
+    remove = async ({ id }: UserType['id']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(userQueries.remove, [id])
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
+    addNew = async ({ name, password, email, phone, author }: UserType['data']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(
+            userQueries.remove, 
+            [name, password, email, phone, author]
+        )
 
         connection.release()
         return rows as RowDataPacket[]
