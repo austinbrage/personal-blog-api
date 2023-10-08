@@ -1,6 +1,4 @@
-import type { allArticleType } from "../types"
-
-export const ARTICLES: allArticleType[] = [
+export const ARTICLES = [
     {
         id: '1',
         post: 'Artículo 1',
