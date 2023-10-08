@@ -1,7 +1,8 @@
 import { Router } from 'express'
-import ArticleController from '../controllers/Articles'
+import { Articles as ArticleController } from '../controllers/Articles'
+import { type IArticle } from '../types/articles'
 
-const createArticleRouter = ({ articleModel }) => {
+const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
     const articleRouter = Router()
 
     const articleController = new ArticleController({ articleModel })
@@ -13,7 +14,7 @@ const createArticleRouter = ({ articleModel }) => {
 
     articleRouter.patch('./', articleController.updateArticle)
     articleRouter.patch('./name', articleController.updateArticleName)
-    articleRouter.patch('./state', articleController.updateArticleState)
+    articleRouter.patch('./state', articleController.updateArticle)
     
     articleRouter.delete('./', articleController.deleteArticle)
     articleRouter.delete('./section', articleController.deleteSection)
