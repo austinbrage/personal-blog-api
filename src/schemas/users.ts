@@ -29,6 +29,7 @@ const userTableSchema = z.object({
 
 const id = userTableSchema.pick({ id: true })
 const data = userTableSchema.omit({ id: true })
+const name = userTableSchema.pick({ name: true })
 const idName = userTableSchema.pick({ id: true, name: true })
 const idEmail = userTableSchema.pick({ id: true, email: true })
 const idPhone = userTableSchema.pick({ id: true, phone: true })
@@ -39,6 +40,7 @@ const namePassword = userTableSchema.pick({ name: true, password: true })
 export const userSchema = {
     id,
     data,
+    name,
     idName,
     idEmail,
     idPhone,
