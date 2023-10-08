@@ -27,11 +27,22 @@ const userTableSchema = z.object({
     })
 })
 
-export const userIdSchema = userTableSchema.pick({ id: true })
-export const userDataSchema = userTableSchema.omit({ id: true })
-export const userNameSchema = userTableSchema.pick({ name: true })
-export const userIdNameSchema = userTableSchema.pick({ id: true, name: true })
-export const userIdEmailSchema = userTableSchema.pick({ id: true, email: true })
-export const userIdPhoneSchema = userTableSchema.pick({ id: true, phone: true })
-export const userIdAuthorSchema = userTableSchema.pick({ id: true, author: true })
-export const userIdPasswordSchema = userTableSchema.pick({ id: true, password: true })
+const id = userTableSchema.pick({ id: true })
+const data = userTableSchema.omit({ id: true })
+const name = userTableSchema.pick({ name: true })
+const idName = userTableSchema.pick({ id: true, name: true })
+const idEmail = userTableSchema.pick({ id: true, email: true })
+const idPhone = userTableSchema.pick({ id: true, phone: true })
+const idAuthor = userTableSchema.pick({ id: true, author: true })
+const idPassword = userTableSchema.pick({ id: true, password: true })
+
+export const userSchema = {
+    id,
+    data,
+    name,
+    idName,
+    idEmail,
+    idPhone,
+    idAuthor,
+    idPassword,
+}
