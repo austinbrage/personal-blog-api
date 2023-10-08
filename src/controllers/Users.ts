@@ -1,9 +1,11 @@
 import { asyncErrorHandler } from '../utils/errorHandler'
 import { UsersValidation, type IUsersValidation } from '../validations/Users'
 import { type IUser } from '../types/users'
-import { Request, Response, NextFunction } from "express"
+import { type UserController } from '../types/users'
+import { type ZodError } from 'zod'
+import type { Request, Response, NextFunction } from "express"
 
-class Users {
+class Users implements UserController {
     private userModel: IUser
     private validateUser: IUsersValidation
 
@@ -12,83 +14,152 @@ class Users {
         this.validateUser = new UsersValidation()
     }
     
-    getUserPassword = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
-        // const { user, password } = req.query
-        const validation = this.validateUser.nameAndPassword(req.query)
+    private validationErr(res: Response, validationError: ZodError<unknown>) {
+        return res.status(400).json({
+            status: 'error',
+            validationError: validationError.format()
+        })
+    } 
 
-        if(validation.success) {
-            const result = await this.userModel.getUserPassword(validation.data)
+    getAll = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+        // const { id } = req.query
+        const validation = this.validateUser.id(req.query)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        const result = await this.userModel.getAll(validation.data)
+
+        return res.status(200).json({
+            status: 'success',
+            data: result
+        })
+    })
     
-            if(result.length === 0) {
-                res.status(401).json({
-                    status: 'error',
-                    message: 'Incorrect username' 
-                })
-            } else if(result[0].password !== validation.data.password) {
-                res.status(401).json({
-                    status: 'error',
-                    message: 'Incorrect password' 
-                })
-            } else {
-                res.status(200).json({
-                    status: 'success',
-                    message: 'User validated successfully' 
-                })
-            }
+    getPassword = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+        // const { name, password } = req.query
+        const validation = this.validateUser.namePassword(req.query)
 
-        } else {
-            res.status(400).json({
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        const result = await this.userModel.getPassword(validation.data)
+
+        if(result.length === 0 || result[0].password !== validation.data.password) {
+            return res.status(401).json({
                 status: 'error',
-                validationError: validation.error.format()
+                message: result.length === 0 
+                    ? 'Incorrect username' 
+                    : 'Incorrect password'
             })
         }
+
+        return res.status(200).json({
+            status: 'success',
+            message: 'User validated successfully' 
+        })
     })
 
-    insertNewUser = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
-        // const { user, password } = req.body
-        const validation = this.validateUser.nameAndPassword(req.query)
+    changeName = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+        // const { id, name } = req.body
+        const validation = this.validateUser.idName(req.body) 
 
-        if(validation.success) {
-            const userName = await this.userModel.getUser(validation.data.user)
-            
-            if(userName.length === 0) {
-                res.status(401).json({
-                    status: 'error',
-                    message: 'Existing user' 
-                })
-            } else {
-                const _result = await this.userModel.insertNewUser(validation.data)
-        
-                res.status(201).json({
-                    status: 'success',
-                    message: 'User added successfully'
-                })
-            }
-        } else {
-            res.status(400).json({
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        await this.userModel.changeName(validation.data)
+
+        res.status(200).json({
+            status: 'success',
+            message: 'User name changed successfully'
+        })
+    })
+
+    changeEmail = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+        // const { id, email } = req.body
+        const validation = this.validateUser.idEmail(req.body) 
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        await this.userModel.changeEmail(validation.data)
+
+        res.status(200).json({
+            status: 'success',
+            message: 'User email changed successfully'
+        })
+    })  
+
+    changePhone = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+        // const { id, phone } = req.body
+        const validation = this.validateUser.idPhone(req.body) 
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        await this.userModel.changePhone(validation.data)
+
+        res.status(200).json({
+            status: 'success',
+            message: 'User phone changed successfully'
+        })
+    })  
+
+    changeAuthor = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+        // const { id, author } = req.body
+        const validation = this.validateUser.idAuthor(req.body) 
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        await this.userModel.changeAuthor(validation.data)
+
+        res.status(200).json({
+            status: 'success',
+            message: 'User author changed successfully'
+        })
+    })  
+
+    changePassword = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+        // const { id, password } = req.body
+        const validation = this.validateUser.idPassword(req.body) 
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        await this.userModel.changePassword(validation.data)
+
+        res.status(200).json({
+            status: 'success',
+            message: 'User password changed successfully'
+        })
+    })  
+
+    addNew = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+        // const { name, password, email, phone, author } = req.body
+        const validation = this.validateUser.data(req.body) 
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        const result = await this.userModel.getPassword(validation.data)
+
+        if(result.length === 0) {
+            res.status(401).json({
                 status: 'error',
-                validationError: validation.error.format()
-            })
-        }
-    })
-
-    deleteUser = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
-        // const { user, password } = req.body
-        const validation = this.validateUser.nameAndPassword(req.query)
-
-        if(validation.success) {
-            const _result = await this.userModel.deleteUser(validation.data)
-    
+                message: 'Existing user'
+            })    
+        } else {
+            await this.userModel.addNew(validation.data)
             res.status(200).json({
                 status: 'success',
-                message: 'User removed successfully'
-            })
-        } else {
-            res.status(400).json({
-                status: 'error',
-                validationError: validation.error.format()
+                message: 'User added successfully'
             })
         }
+    })  
+
+    remove = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+        // const { id } = req.body
+        const validation = this.validateUser.data(req.body)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+        
+        res.status(200).json({
+            status: 'success',
+            message: 'User removed successfully'
+        })
     })
 }
 
