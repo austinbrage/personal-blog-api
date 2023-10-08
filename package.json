@@ -7,7 +7,7 @@
     "start": "cross-env NODE_ENV=production node dist/server.js",
     "dev": "cross-env NODE_ENV=development ts-node-dev src/serve.ts",
     "build": "tsc",
-    "lint": "eslint .src/**/*.{js,ts}",
+    "lint": "eslint ./src/**/*.{js,ts}",
     "test": "cross-env NODE_ENV=test jest",
     "show-queries": "npm run build && cross-env NODE_ENV=test node dist/utils/modelQueries.js"
   },
