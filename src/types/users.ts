@@ -24,5 +24,5 @@ export interface IUser {
     changePassword({ id, password }: UserType['idPassword']): Promise<RowDataPacket[]>
     
     remove({ id }: UserType['id']): Promise<RowDataPacket[]>
-    addNew({ name, password, author, email, phone }: UserType['data']): Promise<RowDataPacket[]>
+    addNew({ name, password, email, phone, author }: UserType['data']): Promise<RowDataPacket[]>
 }
