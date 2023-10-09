@@ -1,8 +1,11 @@
 import { asyncErrorHandler } from '../utils/errorHandler'
 import { ArticlesValidation, type IArticlesValidation } from '../validations/Articles'
+import type { Request, Response, NextFunction } from 'express'
+import { type ArticleController } from '../types/articles'
 import { type IArticle } from '../types/articles'
+import { type ZodError } from 'zod'
 
-export class Articles {
+export class Articles implements ArticleController {
     private articleModel: IArticle
     private validateArticle: IArticlesValidation
 
@@ -11,159 +14,88 @@ export class Articles {
         this.validateArticle = new ArticlesValidation()
     }    
 
-    getArticle = asyncErrorHandler(async (req, res, _next) => {
-        // const { id, post } = req.query
-        const validation = this.validateArticle.idPost(req.query)
+    private validationErr(res: Response, validationError: ZodError<unknown>) {
+        return res.status(400).json({
+            status: 'error',
+            validationError: validationError.format()
+        })
+    }
 
-        if(validation.success) {
-            const article = await this.articleModel.getArticle(validation.data)
-    
-            res.status(200).json({
-                status: 'success',
-                data: {
-                    article
-                } 
-            })
-        } else {
-            res.status(400).json({
-                status: 'error',
-                validationError: validation.error.format()
-            })
-        }
-    })
-    
-    getAllArticles = asyncErrorHandler(async (req, res, _next) => {
+    getAll = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
         // const { id } = req.query
-        const validation = this.validateArticle.id(req.query)
+        const validation = this.validateArticle.userId(req.query)
 
-        if(validation.success) {
-            const article = await this.articleModel.getAllArticles(validation.data)
-    
-            res.status(200).json({
-                status: 'success',
-                data: {
-                    article
-                } 
+        if(!validation.success) return this.validationErr(res, validation.error)
+        
+        const result = await this.articleModel.getAll(validation.data)
+
+        return res.status(200).json({
+            status: 'success',
+            data: result
+        })
+    })
+
+    changeName = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+        // const { id, name } = req.body
+        const validation = this.validateArticle.idName(req.body)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        await this.articleModel.changeName(validation.data)
+
+        return res.status(200).json({
+            status: 'success',
+            message: 'Article name changed successfully'
+        })
+    })
+
+    changePublishState = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+        // const { id, is_publish } = req.body
+        const validation = this.validateArticle.idPublishState(req.body)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        await this.articleModel.changePublishState(validation.data)
+        
+        return res.status(200).json({
+            status: 'success',
+            message: 'Article publish state changed successfully'
+        })
+    })
+
+    addNew = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+        // const { user_id, name } = req.body
+        const validation = this.validateArticle.userIdName(req.body)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        const result = await this.articleModel.getId(validation.data)
+        
+        if(result.length === 0) {
+            return res.status(401).json({
+                status: 'error',
+                message: 'Existing article'
             })
         } else {
-            res.status(400).json({
-                status: 'error',
-                validationError: validation.error.format()
+            await this.articleModel.addNew(validation.data)
+            return res.status(201).json({
+                status: 'success',
+                message: 'New article created successfully'
             })
         }
     })
 
-    createArticle = asyncErrorHandler(async (req, res, _next) => {
-        // const { id, post, order, content, styles, isPublish } = req.body
-        const validation = this.validateArticle.all(req.body)
+    remove = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+        // const { id } = req.body
+        const validation = this.validateArticle.id(req.body)
 
-        if(validation.success) {
-            const result = await this.articleModel.createArticle(validation.data)
-    
-            res.status(201).json({
-                status: 'success',
-                result
-            })
-        } else {
-            res.status(400).json({
-                status: 'error',
-                validationError: validation.error.format()
-            })
-        }
-    })
+        if(!validation.success) return this.validationErr(res, validation.error)
 
-    updateArticle = asyncErrorHandler(async (req, res, _next) => {
-        // const { id, post, order, content, styles } = req.body
-        const validation = this.validateArticle.partial(req.body)
+        await this.articleModel.remove(validation.data)
 
-        if(validation.success) {
-            const result = await this.articleModel.updateArticle(validation.data)
-
-            res.status(200).json({
-                status: 'success',
-                result
-            })
-        } else {
-            res.status(400).json({
-                status: 'error',
-                validationError: validation.error.format()
-            })
-        }
-    })
-    
-    updateArticleName = asyncErrorHandler(async (req, res, _next) => {
-        // const { id, oldName, newName } = req.body
-        const validation = this.validateArticle.nameChange(req.body)
-
-        if(validation.success) {
-            const result = await this.articleModel.updateArticleName(validation.data)
-    
-            res.status(200).json({
-                status: 'success',
-                result
-            })
-        } else {
-            res.status(400).json({
-                status: 'error',
-                validationError: validation.error.format()
-            })
-        }
-    })
-    
-    updateArticlePublishState = asyncErrorHandler(async (req, res, _next) => {
-        // const { id, post, isPublish } = req.body
-        const validation = this.validateArticle.publishState(req.body)
-
-        if(validation.success) {
-            const result = await this.articleModel.updateArticlePublishState(validation.data)
-    
-            res.status(200).json({
-                status: 'success',
-                result
-            })
-        } else {
-            res.status(400).json({
-                status: 'error',
-                validationError: validation.error.format()
-            })
-        }
-    })
-
-    deleteSection = asyncErrorHandler(async (req, res, _next) => {
-        // const { id, post, content, order } = req.body
-        const validation = this.validateArticle.section(req.body)
-
-        if(validation.success) {
-            const result = await this.articleModel.deleteSection(validation.data)
-
-            res.status(200).json({
-                status: 'success',
-                result
-            })
-        } else {
-            res.status(400).json({
-                status: 'error',
-                validationError: validation.error.format()
-            })
-        }
-    })
-    
-    deleteArticle = asyncErrorHandler(async (req, res, _next) => {
-        // const { id, post } = req.body
-        const validation = this.validateArticle.idPost(req.body)
-
-        if(validation.success) {
-            const result = await this.articleModel.deleteArticle(validation.data)
-    
-            res.status(200).json({
-                status: 'success',
-                result
-            })
-        } else {
-            res.status(400).json({
-                status: 'error',
-                validationError: validation.error.format()
-            })
-        }
+        return res.status(200).json({
+            status: 'success',
+            message: 'Article removed successfully'      
+        })
     })
 }
