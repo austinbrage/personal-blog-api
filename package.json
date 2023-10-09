@@ -6,10 +6,11 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node dist/server.js",
     "dev": "cross-env NODE_ENV=development ts-node-dev src/serve.ts",
-    "build": "tsc",
+    "build": "tsc && npm run copy-sql",
+    "copy-sql": "xcopy /E /I /Y src\\sql dist\\sql",
     "lint": "eslint ./src/**/*.{js,ts}",
-    "test": "cross-env NODE_ENV=test jest",
-    "show-queries": "npm run build && cross-env NODE_ENV=test node dist/utils/modelQueries.js"
+    "test:unit": "cross-env NODE_ENV=test jest --testPathPattern='dist/tests/*.unit.test.js'",
+    "test:integration": "cross-env NODE_ENV=test jest --testPathPattern='dist/tests/*.integration.test.js'"
   },
   "keywords": [
     "Blog",
