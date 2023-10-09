@@ -41,7 +41,7 @@ for (const fileName of sqlFiles) {
     results[fileName.replace('.sql', '')] = fileData
 }
 
-(process.env.NODE_ENV === 'test') && console.log(results)
+// (process.env.NODE_ENV === 'test') && console.log(results)
 
 export const userQueries = results.users
 export const articleQueries = results.articles
