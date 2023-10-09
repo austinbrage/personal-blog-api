@@ -1,8 +1,9 @@
 import { pool } from '../utils/config'
-import { userQueries } from '../utils/modelQueries'
+import { userQueries } from '../utils/queries'
 import { type RowDataPacket } from 'mysql2/promise'
 import { type UserType } from '../types/users'
 import { type IUser } from '../types/users'
+import { UserQueries } from '../types/queries'
 
 class User implements IUser {
     private pool
@@ -14,7 +15,10 @@ class User implements IUser {
     getAll = async ({ id }: UserType['id']) => {
         const connection = await this.pool.getConnection()
         
-        const [rows] = await connection.execute(userQueries.getAll, [id])
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.getAll], 
+            [id]
+        )
 
         connection.release()
         return rows as RowDataPacket[]
@@ -23,7 +27,10 @@ class User implements IUser {
     getPassword = async ({ name }: UserType['name']) => {
         const connection = await this.pool.getConnection()
         
-        const [rows] = await connection.execute(userQueries.getPassword, [name])
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.getPassword], 
+            [name]
+        )
 
         connection.release()
         return rows as RowDataPacket[]
@@ -32,7 +39,10 @@ class User implements IUser {
     changeName = async ({ id, name }: UserType['idName']) => {
         const connection = await this.pool.getConnection()
         
-        const [rows] = await connection.execute(userQueries.changeName, [name, id])
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.changeName], 
+            [name, id]
+        )
 
         connection.release()
         return rows as RowDataPacket[]
@@ -41,7 +51,10 @@ class User implements IUser {
     changeEmail = async ({ id, email }: UserType['idEmail']) => {
         const connection = await this.pool.getConnection()
         
-        const [rows] = await connection.execute(userQueries.changeEmail, [email, id])
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.changeEmail], 
+            [email, id]
+        )
 
         connection.release()
         return rows as RowDataPacket[]
@@ -50,7 +63,10 @@ class User implements IUser {
     changePhone = async ({ id, phone }: UserType['idPhone']) => {
         const connection = await this.pool.getConnection()
         
-        const [rows] = await connection.execute(userQueries.changePhone, [phone, id])
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.changePhone], 
+            [phone, id]
+        )
 
         connection.release()
         return rows as RowDataPacket[]
@@ -59,7 +75,10 @@ class User implements IUser {
     changeAuthor = async ({ id, author }: UserType['idAuthor']) => {
         const connection = await this.pool.getConnection()
         
-        const [rows] = await connection.execute(userQueries.changeAuthor, [author, id])
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.changeAuthor], 
+            [author, id]
+        )
 
         connection.release()
         return rows as RowDataPacket[]
@@ -68,7 +87,10 @@ class User implements IUser {
     changePassword = async ({ id, password }: UserType['idPassword']) => {
         const connection = await this.pool.getConnection()
         
-        const [rows] = await connection.execute(userQueries.changePassword, [password, id])
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.changePassword], 
+            [password, id]
+        )
 
         connection.release()
         return rows as RowDataPacket[]
@@ -77,7 +99,10 @@ class User implements IUser {
     remove = async ({ id }: UserType['id']) => {
         const connection = await this.pool.getConnection()
         
-        const [rows] = await connection.execute(userQueries.remove, [id])
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.remove], 
+            [id]
+        )
 
         connection.release()
         return rows as RowDataPacket[]
@@ -87,7 +112,7 @@ class User implements IUser {
         const connection = await this.pool.getConnection()
         
         const [rows] = await connection.execute(
-            userQueries.remove, 
+            userQueries[UserQueries.remove], 
             [name, password, email, phone, author]
         )
 
