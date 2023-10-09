@@ -1,119 +1,88 @@
-import { pool } from '../utils/config'
-import { RowDataPacket } from 'mysql2/promise'
-import type { 
-    idType, 
-    idPostType, 
-    sectionType, 
-    allArticleType, 
-    publishStateType,
-    partialArticleType,
-    articleNameChangeType 
-} from '../types/articles'
-import { IArticle } from '../types/articles'
+import { createPoolConnection } from '../utils/config'
+import { type RowDataPacket } from 'mysql2/promise'
+import { type ArticleType } from '../types/articles'
+import { type IArticle } from '../types/articles'
+import { ArticleQueries } from '../types/queries'
+import { articleQueries } from '../utils/queries'
 
 class Article implements IArticle {
     private pool
 
     constructor() {
-        this.pool = pool
+        this.pool = createPoolConnection({
+            waitForConnection: true,
+            connectionLimit: 10,
+            queueLimit: 0
+        })
     }
 
-    getArticle = async ({ id, post }: idPostType) => {
+    getAll = async ({ user_id }: ArticleType['userId']) => {
         const connection = await this.pool.getConnection()
 
-        const query2 = `SELECT Post, Order, Content, Styles, isPublish
-                        FROM articles
-                        WHERE ID_name = ? AND Post = ?`
-        
-        const [rows] = await connection.execute(query2, [id, post]) 
-        
-        connection.release()
-        return rows as RowDataPacket[]
-    }
-
-    getAllArticles = async ({ id }: idType) => {
-        const connection = await this.pool.getConnection()
-
-        const query1 = `SELECT Post, Order, Content, Styles, isPublish
-                        FROM articles
-                        WHERE ID_name = ?`
-        
-        const [rows] = await connection.execute(query1, [id]) 
-        
-        connection.release()
-        return rows as RowDataPacket[]
-    }
-
-    createArticle = async ({ id, post, order, content, styles, isPublish }: allArticleType) => {
-        const connection = await this.pool.getConnection()
-
-        const query = `INSERT INTO articles (ID_name, Post, Order, Content, Styles, isPublish)
-                       VALUES (?, ?, ?, ?, ?, ?)`
-        
-        const [rows] = await connection.execute(query, [id, post, order, content, styles, isPublish])
+        const [rows] = await connection.execute(
+            articleQueries[ArticleQueries.getAll],
+            [user_id]
+        )
 
         connection.release()
         return rows as RowDataPacket[]
     }
 
-    updateArticle = async ({ id, post, order, content, styles }: partialArticleType) => {
+    getId = async ({ user_id, name }: ArticleType['userIdName']) => {
         const connection = await this.pool.getConnection()
 
-        const query = `UPDATE articles 
-                       SET Content = ?, Styles = ?
-                       WHERE ID_name = ? AND Post = ? AND Order = ?`
-
-        const [rows] = await connection.execute(query, [content, styles, id, post, order])
-
-        connection.release()
-        return rows as RowDataPacket[]    
-    }
-
-    updateArticleName = async ({ id, oldName, newName }: articleNameChangeType) => {
-        const connection = await this.pool.getConnection()
-
-        const query = `UPDATE articles
-                       SET Post = ?
-                       WHERE ID_name = ? AND Post = ?`
-
-        const [rows] = await connection.execute(query, [newName, id, oldName])
-
-        connection.release()
-        return rows as RowDataPacket[]
-    }
-
-    updateArticlePublishState = async ({ id, post, isPublish }: publishStateType) => {
-        const connection = await this.pool.getConnection()
-
-        const query = `UPDATE articles
-                       SET isPublish = ?
-                       WHERE ID_name = ? AND Post = ?`
-
-        const [rows] = await connection.execute(query, [isPublish, id, post])
-
-        connection.release()
-        return rows as RowDataPacket[]
-    }
-
-    deleteSection = async ({ id, post, content, order }: sectionType) => {
-        const connection = await this.pool.getConnection()
-
-        const query = `DELETE FROM articles
-                       WHERE ID_name = ? AND Post = ? AND Content = ? AND Order = ?`
-
-        const [rows] = await connection.execute(query, [id, post, content, order]) 
+        const [rows] = await connection.execute(
+            articleQueries[ArticleQueries.getId],
+            [user_id, name]
+        )
 
         connection.release()
         return rows as RowDataPacket[]
     }
     
-    deleteArticle = async ({ id, post }: idPostType) => {
+    changeName = async ({ id, name }: ArticleType['idName']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(
+            articleQueries[ArticleQueries.changeName],
+            [name, id]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
+    changePublishState = async ({ id, is_publish }: ArticleType['idPublishState']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(
+            articleQueries[ArticleQueries.changePublishment],
+            [is_publish, id]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
+    addNew = async ({ user_id, name }: ArticleType['userIdName']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(
+            articleQueries[ArticleQueries.addNew],
+            [user_id, name]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]   
+    }
+
+    remove = async ({ id }: ArticleType['id']) => {
         const connection = await this.pool.getConnection()
 
-        const query = `DELETE FROM articles
-                       WHERE ID_name = ? AND Post = ?`
-
-        const [rows] = await connection.execute(query, [id, post]) 
+        const [rows] = await connection.execute(
+            articleQueries[ArticleQueries.remove],
+            [id]
+        )
 
         connection.release()
         return rows as RowDataPacket[]
