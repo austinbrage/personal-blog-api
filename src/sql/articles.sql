@@ -2,10 +2,6 @@
     SELECT * FROM `articles`
     Where `user_id` = ?;
 
--- getId
-    SELECT `id` FROM `articles`
-    Where `user_id` = ? AND `name` = ?;
-
 -- addNew
     INSERT INTO `articles` (`user_id`, `name`)
     VALUES (?, ?);
