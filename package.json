@@ -9,8 +9,8 @@
     "build": "tsc && npm run copy-sql",
     "copy-sql": "xcopy /E /I /Y src\\sql dist\\sql",
     "lint": "eslint ./src/**/*.{js,ts}",
-    "test:unit": "cross-env NODE_ENV=test jest --testPathPattern='dist/tests/*.unit.test.js'",
-    "test:integration": "cross-env NODE_ENV=test jest --testPathPattern='dist/tests/*.integration.test.js'"
+    "test:unit": "cross-env NODE_ENV=test jest queries.unit.test.js",
+    "test:integration": "cross-env NODE_ENV=test jest users.integration.test.js'"
   },
   "keywords": [
     "Blog",
