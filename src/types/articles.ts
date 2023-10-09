@@ -12,7 +12,7 @@ export type ArticleType = {
 }
 
 export interface IArticle {
-    getAll({ id }: ArticleType['id']): Promise<RowDataPacket[]>
+    getAll({ user_id }: ArticleType['userId']): Promise<RowDataPacket[]>
     getId({ user_id, name }: ArticleType['userIdName']): Promise<RowDataPacket[]>
     changeName({ id, name }: ArticleType['idName']): Promise<RowDataPacket[]>
     changePublishState({ id, is_publish }: ArticleType['idPublishState']): Promise<RowDataPacket[]>
