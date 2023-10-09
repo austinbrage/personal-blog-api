@@ -7,17 +7,13 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
 
     const articleController = new ArticleController({ articleModel })
 
-    articleRouter.get('./', articleController.getArticle)
-    articleRouter.get('./all', articleController.getAllArticles)
+    articleRouter.get('/', articleController.getAll)
 
-    articleRouter.post('./', articleController.createArticle)
+    articleRouter.patch('/name', articleController.changeName)
+    articleRouter.patch('/publishment', articleController.changePublishState)
 
-    articleRouter.patch('./', articleController.updateArticle)
-    articleRouter.patch('./name', articleController.updateArticleName)
-    articleRouter.patch('./state', articleController.updateArticle)
-    
-    articleRouter.delete('./', articleController.deleteArticle)
-    articleRouter.delete('./section', articleController.deleteSection)
+    articleRouter.post('/', articleController.addNew)
+    articleRouter.delete('/', articleController.remove)
 
     return articleRouter
 }
