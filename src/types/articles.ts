@@ -13,17 +13,17 @@ export type ArticleType = {
 
 export interface IArticle {
     getAll({ id }: ArticleType['id']): Promise<RowDataPacket[]>
-    addNew({ user_id, name }: ArticleType['userIdName']): Promise<RowDataPacket[]>
     changeName({ id, name }: ArticleType['idName']): Promise<RowDataPacket[]>
     changePublishState({ id, is_publish }: ArticleType['idPublishState']): Promise<RowDataPacket[]>
+    addNew({ user_id, name }: ArticleType['userIdName']): Promise<RowDataPacket[]>
     remove({ id }: ArticleType['id']): Promise<RowDataPacket[]>
 }
 
 export interface ArticleController {
     getAll: AsyncFuntion
-    addNew: AsyncFuntion
     changeName: AsyncFuntion
     changePublishState: AsyncFuntion
+    addNew: AsyncFuntion
     remove: AsyncFuntion
 }
 
