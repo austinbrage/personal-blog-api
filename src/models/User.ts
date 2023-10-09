@@ -9,7 +9,11 @@ class User implements IUser {
     private pool
     
     constructor() {
-        this.pool = createPoolConnection(true, 10, 0)
+        this.pool = createPoolConnection({
+            waitForConnection: true,
+            connectionLimit: 10,
+            queueLimit: 0
+        })
     }
 
     getAll = async ({ id }: UserType['id']) => {
