@@ -1,15 +1,15 @@
-import { pool } from '../utils/config'
-import { userQueries } from '../utils/queries'
+import { createPoolConnection } from '../utils/config'
 import { type RowDataPacket } from 'mysql2/promise'
 import { type UserType } from '../types/users'
 import { type IUser } from '../types/users'
+import { userQueries } from '../utils/queries'
 import { UserQueries } from '../types/queries'
 
 class User implements IUser {
     private pool
     
     constructor() {
-        this.pool = pool
+        this.pool = createPoolConnection(true, 10, 0)
     }
 
     getAll = async ({ id }: UserType['id']) => {
