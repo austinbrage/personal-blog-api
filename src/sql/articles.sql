@@ -1,6 +1,10 @@
 -- getAll
     SELECT * FROM `articles`
-    Where `user_id` = ?;
+    WHERE `user_id` = ?;
+
+-- getId
+    SELECT `id` FROM `articles`
+    WHERE `user_id` = ? AND `name` = ?
 
 -- addNew
     INSERT INTO `articles` (`user_id`, `name`)
