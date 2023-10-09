@@ -1,43 +1,34 @@
 import { z } from 'zod'
 
-const articleNameSchema = z.string({
-    required_error: 'Article post name is required',
-    invalid_type_error: 'Article post name must be a string'
-})
-
-export const articleNameChangeSchema = z.object({
-    oldName: articleNameSchema,
-    newName: z.string({
-        required_error: 'Article post new name is required',
-        invalid_type_error: 'Article post new name must be a string'
-    })
-})
-
-export const articleSchema = z.object({
-    id: z.string({
+const articleTableSchema = z.object({
+    id: z.number({
         required_error: 'Article id is required',
-        invalid_type_error: 'Article id must be a string'
+        invalid_type_error: 'Article id must be a number'
     }),
-    
-    post: articleNameSchema,
-
-    order: z.number({
-        required_error: 'Article section order is required',
-        invalid_type_error: 'Article section order must be a number'
+    user_id: z.number({
+        required_error: 'User id for article is required',
+        invalid_type_error: 'User id for article must be a number'
     }),
-    
-    content: z.string({
-        required_error: 'Article section content is required',
-        invalid_type_error: 'Article section content must be a string'
+    name: z.string({
+        required_error: 'Article name is required',
+        invalid_type_error: 'Article name must be a string'
     }),
-
-    styles: z.string({
-        required_error: 'Article section styles is required',
-        invalid_type_error: 'Article section styles must be a string'
+    is_publish: z.boolean({
+        required_error: 'Article publishment state is required',
+        invalid_type_error: 'Article publishment state must be a boolean'
     }),
-
-    isPublish: z.boolean({
-        required_error: 'Article section isPublish is required',
-        invalid_type_error: 'Article section isPublish must be a boolean'
-    })
 })
+
+const id = articleTableSchema.pick({ id: true })
+const userId = articleTableSchema.pick({ user_id: true })
+const idName = articleTableSchema.pick({ id: true, name: true })
+const userIdName = articleTableSchema.pick({ user_id: true, name: true })
+const idPublishState = articleTableSchema.pick({ id: true, is_publish: true })
+
+export const articleSchema = {
+    id,
+    userId,
+    idName,
+    userIdName,
+    idPublishState
+}
