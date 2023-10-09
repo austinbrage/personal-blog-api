@@ -1,0 +1,32 @@
+import { z } from 'zod'
+
+const sectionTableSchema = z.object({
+    id: z.number({
+        required_error: 'Section id is required',
+        invalid_type_error: 'Section id must be a number'
+    }),
+    article_id: z.number({
+        required_error: 'Article id for section is required',
+        invalid_type_error: 'Article id for section must be a number'
+    }),
+    order: z.number({
+        required_error: 'Order section is required',
+        invalid_type_error: 'Order section must be a number'
+    }),
+    content: z.string({
+        required_error: 'Content section is required',
+        invalid_type_error: 'Content section must be a string'
+    }),
+})
+
+const id = sectionTableSchema.pick({ id: true })
+const articleId = sectionTableSchema.pick({ article_id: true })
+const idContent = sectionTableSchema.pick({ id: true, content: true })
+const articleIdContent = sectionTableSchema.pick({ article_id: true, content: true })
+
+export const sectionSchema = {
+    id,
+    articleId,
+    idContent,
+    articleIdContent
+}
