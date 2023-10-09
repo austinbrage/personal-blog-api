@@ -1,9 +1,9 @@
 import { asyncErrorHandler } from '../utils/errorHandler'
 import { UsersValidation, type IUsersValidation } from '../validations/Users'
-import { type IUser } from '../types/users'
-import { type UserController } from '../types/users'
-import { type ZodError } from 'zod'
 import type { Request, Response, NextFunction } from "express"
+import { type UserController } from '../types/users'
+import { type IUser } from '../types/users'
+import { type ZodError } from 'zod'
 
 export class Users implements UserController {
     private userModel: IUser
@@ -152,10 +152,12 @@ export class Users implements UserController {
 
     remove = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
         // const { id } = req.body
-        const validation = this.validateUser.data(req.body)
+        const validation = this.validateUser.id(req.body)
 
         if(!validation.success) return this.validationErr(res, validation.error)
         
+        await this.userModel.remove(validation.data)
+
         res.status(200).json({
             status: 'success',
             message: 'User removed successfully'
