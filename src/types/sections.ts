@@ -13,7 +13,7 @@ export type SectionType = {
 export interface ISection {
     getAll({ article_id }: SectionType['articleId']): Promise<RowDataPacket[]>
     changeContent({ id, content }: SectionType['idContent']): Promise<RowDataPacket[]>
-    addNew({ article_id, content }: SectionType['articleIdContent']): Promise<RowDataPacket[]>
+    addNew({ article_id, content }: SectionType['articleIdContent']): Promise<number>
     remove({ id }: SectionType['id']): Promise<RowDataPacket[]>
 }
 
