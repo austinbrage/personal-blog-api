@@ -13,6 +13,7 @@ export type ArticleType = {
 
 export interface IArticle {
     getAll({ id }: ArticleType['id']): Promise<RowDataPacket[]>
+    getId({ user_id, name }: ArticleType['userIdName']): Promise<RowDataPacket[]>
     changeName({ id, name }: ArticleType['idName']): Promise<RowDataPacket[]>
     changePublishState({ id, is_publish }: ArticleType['idPublishState']): Promise<RowDataPacket[]>
     addNew({ user_id, name }: ArticleType['userIdName']): Promise<RowDataPacket[]>
@@ -26,40 +27,3 @@ export interface ArticleController {
     addNew: AsyncFuntion
     remove: AsyncFuntion
 }
-
-// export interface IArticle {
-//     getArticle({ id, post }: IdPostType): Promise<RowDataPacket[]>
-//     getAllArticles({ id }: IdType): Promise<RowDataPacket[]>
-//     createArticle({
-//         id,
-//         post,
-//         order,
-//         content,
-//         styles,
-//         isPublish,
-//     }: AllArticleType): Promise<RowDataPacket[]>
-//     updateArticle({
-//         id,
-//         post,
-//         order,
-//         content,
-//         styles,
-//     }: PartialArticleType): Promise<RowDataPacket[]>
-//     updateArticleName({
-//         id,
-//         oldName,
-//         newName,
-//     }: ArticleNameChangeType): Promise<RowDataPacket[]>
-//     updateArticlePublishState({
-//         id,
-//         post,
-//         isPublish,
-//     }: PublishStateType): Promise<RowDataPacket[]>
-//     deleteSection({
-//         id,
-//         post,
-//         content,
-//         order,
-//     }: SectionType): Promise<RowDataPacket[]>
-//     deleteArticle({ id, post }: IdPostType): Promise<RowDataPacket[]>
-// }
