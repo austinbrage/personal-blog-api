@@ -21,7 +21,7 @@ export interface ISection {
 
 export interface SectionController {
     getAll: AsyncFuntion
-    changeContent: AsyncFuntion
+    changeAll: AsyncFuntion
     addNew: AsyncFuntion
     remove: AsyncFuntion
 }
