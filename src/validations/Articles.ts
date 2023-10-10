@@ -1,6 +1,6 @@
-import { SafeParseReturnType } from 'zod'
 import { articleSchema } from '../schemas/articles'
 import { type ArticleType } from '../types/articles'
+import { type SafeParseReturnType } from 'zod'
 
 export interface IArticlesValidation {
     id(data: unknown): SafeParseReturnType<unknown, ArticleType['id']>

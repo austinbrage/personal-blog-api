@@ -1,6 +1,6 @@
-import { SafeParseReturnType } from 'zod'
 import { userSchema } from '../schemas/users'
 import { type UserType } from '../types/users'
+import { type SafeParseReturnType } from 'zod'
 
 export interface IUsersValidation {
     id(data: unknown): SafeParseReturnType<unknown, UserType['id']>
