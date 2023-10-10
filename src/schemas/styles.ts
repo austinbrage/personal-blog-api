@@ -40,5 +40,6 @@ const styleTableSchema = z.object({
 })
 
 const data = styleTableSchema.omit({ id: true })
+const partialData = styleTableSchema.omit({ id: true, section_id: true })
 
-export const styleSchema = { data }
+export const styleSchema = { data, partialData }
