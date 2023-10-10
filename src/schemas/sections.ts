@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { styleSchema } from './styles'
 
 const sectionTableSchema = z.object({
     id: z.number({
@@ -24,9 +25,13 @@ const articleId = sectionTableSchema.pick({ article_id: true })
 const idContent = sectionTableSchema.pick({ id: true, content: true })
 const articleIdContent = sectionTableSchema.pick({ article_id: true, content: true })
 
+const articleIdData = articleIdContent.merge(styleSchema.partialData)
+const idData = idContent.merge(styleSchema.partialData)
+
 export const sectionSchema = {
     id,
     articleId,
     idContent,
+    articleIdData,
     articleIdContent
 }
