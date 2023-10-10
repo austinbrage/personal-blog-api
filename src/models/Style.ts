@@ -15,7 +15,7 @@ class Style implements IStyle {
         })
     }
 
-    changeAll = async ({ 
+    changeStyles = async ({ 
         section_id, 
         fontSize, 
         fontWeight, 

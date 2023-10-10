@@ -7,7 +7,7 @@ export type StyleType = {
 }
 
 export interface IStyle {
-    changeAll({ 
+    changeStyles({ 
         section_id, 
         fontSize, 
         fontWeight, 
