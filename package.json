@@ -1,7 +1,7 @@
 {
   "name": "blog-site-api",
   "version": "0.0.0",
-  "description": "CRUD operations to the blog site database",
+  "description": "RESTful API for management of users and blog articles",
   "main": "server.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node dist/server.js",
@@ -40,5 +40,13 @@
     "express": "^4.18.2",
     "mysql2": "^3.6.1",
     "zod": "^3.22.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agusb19/personal-blog-api"
+  },
+  "bugs": {
+    "url": "https://github.com/agusb19/personal-blog-api/issues"
+  },
+  "homepage": "https://github.com/agusb19/personal-blog-api/blob/main/README.md"
 }
