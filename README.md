@@ -1,46 +1,9 @@
-# Blog Site API
+# Personal Blog Site API
+![Node](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) ![Express](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge) ![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![Jest](https://img.shields.io/badge/Jest-323330?style=for-the-badge&logo=Jest&logoColor=white) 
 
-This Blog Site API uses Node.js and Express to manage articles and users on a blog site.
-
-## Prerequisites
-
-Make sure you have the following installed before running the API:
-
-- Node.js
-- npm
-- MongoDB (database)
+##### **The Personal Blog Site API controls resgister and log in of users, and the management of the articles stored by the users.**
 
 ## Using the API
-
-1. Clone this repository to your local machine:
-
-```
-git clone https://github.com/your-username/blog-api.git
-```
-
-2. Navigate to the project directory:
-
-```
-cd blog-api
-```
-
-3. Install dependencies:
-
-```
-npm install
-```
-
-4. Configure the MongoDB database in the `.env` file:
-
-```
-MONGODB_URI=your_mongodb_url
-```
-
-5. Start the server:
-
-```
-npm start
-```
 
 The API will be available at `http://localhost:3000`.
 
@@ -57,5 +20,3 @@ The API will be available at `http://localhost:3000`.
 - **POST /users**: Create a new user.
 - **PUT /users/:id**: Update an existing user.
 - **DELETE /users/:id**: Delete a user by their ID.
-
-Enjoy using the Blog Site API!
