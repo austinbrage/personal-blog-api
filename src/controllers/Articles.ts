@@ -1,6 +1,6 @@
 import { asyncErrorHandler } from '../utils/errorHandler'
 import { ArticlesValidation, type IArticlesValidation } from '../validations/Articles'
-import type { Request, Response, NextFunction } from 'express'
+import type { Request, Response } from 'express'
 import { type ArticleController } from '../types/articles'
 import { type IArticle } from '../types/articles'
 import { type ZodError } from 'zod'
@@ -21,7 +21,7 @@ export class Articles implements ArticleController {
         })
     }
 
-    getAll = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+    getAll = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id } = req.query
         const validation = this.validateArticle.userId(req.query)
 
@@ -35,7 +35,7 @@ export class Articles implements ArticleController {
         })
     })
 
-    changeName = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+    changeName = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, name } = req.body
         const validation = this.validateArticle.idName(req.body)
 
@@ -49,7 +49,7 @@ export class Articles implements ArticleController {
         })
     })
 
-    changePublishState = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+    changePublishState = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, is_publish } = req.body
         const validation = this.validateArticle.idPublishState(req.body)
 
@@ -63,7 +63,7 @@ export class Articles implements ArticleController {
         })
     })
 
-    addNew = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+    addNew = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { user_id, name } = req.body
         const validation = this.validateArticle.userIdName(req.body)
 
@@ -85,7 +85,7 @@ export class Articles implements ArticleController {
         }
     })
 
-    remove = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+    remove = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id } = req.body
         const validation = this.validateArticle.id(req.body)
 

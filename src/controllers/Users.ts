@@ -1,6 +1,6 @@
 import { asyncErrorHandler } from '../utils/errorHandler'
 import { UsersValidation, type IUsersValidation } from '../validations/Users'
-import type { Request, Response, NextFunction } from "express"
+import type { Request, Response } from "express"
 import { type UserController } from '../types/users'
 import { type IUser } from '../types/users'
 import { type ZodError } from 'zod'
@@ -21,7 +21,7 @@ export class Users implements UserController {
         })
     } 
 
-    getAll = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+    getAll = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id } = req.query
         const validation = this.validateUser.id(req.query)
 
@@ -35,7 +35,7 @@ export class Users implements UserController {
         })
     })
     
-    getPassword = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+    getPassword = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { name, password } = req.query
         const validation = this.validateUser.namePassword(req.query)
 
@@ -58,7 +58,7 @@ export class Users implements UserController {
         })
     })
 
-    changeName = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+    changeName = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, name } = req.body
         const validation = this.validateUser.idName(req.body) 
 
@@ -72,7 +72,7 @@ export class Users implements UserController {
         })
     })
 
-    changeEmail = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+    changeEmail = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, email } = req.body
         const validation = this.validateUser.idEmail(req.body) 
 
@@ -86,7 +86,7 @@ export class Users implements UserController {
         })
     })  
 
-    changePhone = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+    changePhone = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, phone } = req.body
         const validation = this.validateUser.idPhone(req.body) 
 
@@ -100,7 +100,7 @@ export class Users implements UserController {
         })
     })  
 
-    changeAuthor = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+    changeAuthor = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, author } = req.body
         const validation = this.validateUser.idAuthor(req.body) 
 
@@ -114,7 +114,7 @@ export class Users implements UserController {
         })
     })  
 
-    changePassword = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+    changePassword = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, password } = req.body
         const validation = this.validateUser.idPassword(req.body) 
 
@@ -128,7 +128,7 @@ export class Users implements UserController {
         })
     })  
 
-    addNew = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+    addNew = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { name, password, email, phone, author } = req.body
         const validation = this.validateUser.data(req.body) 
 
@@ -150,7 +150,7 @@ export class Users implements UserController {
         }
     })  
 
-    remove = asyncErrorHandler(async (req: Request, res: Response, _next: NextFunction) => {
+    remove = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id } = req.body
         const validation = this.validateUser.id(req.body)
 
