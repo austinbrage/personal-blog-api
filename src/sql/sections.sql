@@ -14,5 +14,5 @@
 
 -- remove
     DELETE FROM `sections`
-    WHERE `id` = ?
+    WHERE `id` = ?;
     
