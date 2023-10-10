@@ -66,3 +66,5 @@ class Section implements ISection {
         return rows as RowDataPacket[]
     }
 }
+
+export default Section

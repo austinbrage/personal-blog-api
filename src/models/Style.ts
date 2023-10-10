@@ -75,3 +75,5 @@ class Style implements IStyle {
         return rows as RowDataPacket[]
     }
 }
+
+export default Style
