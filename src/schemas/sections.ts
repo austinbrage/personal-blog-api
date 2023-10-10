@@ -30,6 +30,7 @@ const idData = idContent.merge(styleSchema.partialData)
 
 export const sectionSchema = {
     id,
+    idData,
     articleId,
     idContent,
     articleIdData,
