@@ -1,8 +1,10 @@
-import { RowDataPacket } from 'mysql2'
+import { type UserType } from "./users";
 
-declare module 'express' {
-    interface Request {
-        userData: RowDataPacket[]
+declare global{
+    namespace Express {
+        interface Request {
+            currentUser: UserType['data']
+        }
     }
 }
 
