@@ -9,17 +9,17 @@ const createUserRouter = ({ userModel }: { userModel: IUser }) => {
     const userAuth = createAuthorization({ userModel })
     const userController = new UserController({ userModel })
     
-    userRouter.get('/all', userAuth, userController.getAll)
-    userRouter.get('/validate', userController.getPassword)
-
+    userRouter.get('/data', userAuth, userController.getAll)
+    
     userRouter.patch('/name', userAuth, userController.changeName)
     userRouter.patch('/email', userAuth, userController.changeEmail)
     userRouter.patch('/phone', userAuth, userController.changePhone)
     userRouter.patch('/author', userAuth, userController.changeAuthor)
     userRouter.patch('/password', userAuth, userController.changePassword)
-
-    userRouter.post('/', userController.addNew)
-    userRouter.delete('/', userAuth, userController.remove)
+    
+    userRouter.post('/register', userController.addNew)
+    userRouter.post('/login', userController.getPassword)
+    userRouter.delete('/data', userAuth, userController.remove)
 
     return userRouter
 }
