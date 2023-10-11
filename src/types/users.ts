@@ -17,7 +17,7 @@ export type UserType = {
 
 export interface IUser {
     getAll({ id }: UserType['id']): Promise<RowDataPacket[]>
-    getPassword({ name }: UserType['name']): Promise<RowDataPacket[]>
+    getIdPassword({ name }: UserType['name']): Promise<RowDataPacket[]>
     changeName({ id, name }: UserType['idName']): Promise<RowDataPacket[]>
     changeEmail({ id, email }: UserType['idEmail']): Promise<RowDataPacket[]>
     changePhone({ id, phone }: UserType['idPhone']): Promise<RowDataPacket[]>

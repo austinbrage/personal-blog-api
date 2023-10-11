@@ -1,6 +1,6 @@
 export enum UserQueries {
     getAll = 'getAll',
-    getPassword = 'getPassword',
+    getIdPassword = 'getPassword',
     addNew = 'addNew',
     changeName = 'changeName',
     changePassword = 'changePassword',

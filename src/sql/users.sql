@@ -2,8 +2,8 @@
     SELECT * FROM `users` 
     WHERE `id` = ?;
 
--- getPassword
-    SELECT `password` FROM `users` 
+-- getIdPassword
+    SELECT `id`, `password` FROM `users` 
     WHERE `name` = ?;
 
 -- addNew

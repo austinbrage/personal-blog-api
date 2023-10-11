@@ -41,7 +41,7 @@ export class Users implements UserController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        const result = await this.userModel.getPassword(validation.data)
+        const result = await this.userModel.getIdPassword(validation.data)
 
         if(result.length === 0 || result[0].password !== validation.data.password) {
             return res.status(401).json({
@@ -134,7 +134,7 @@ export class Users implements UserController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        const result = await this.userModel.getPassword(validation.data)
+        const result = await this.userModel.getIdPassword(validation.data)
 
         if(result.length === 0) {
             res.status(401).json({
