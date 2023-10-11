@@ -55,7 +55,7 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
             expiresIn: JWT_EXPIRE
         })
 
-        return res.status(200).json({
+        return res.status(200).cookie("token", token).json({
             status: 'success',
             message: 'User validated successfully'
         })
