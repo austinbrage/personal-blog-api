@@ -1,5 +1,5 @@
 import { createPoolConnection } from '../utils/config'
-import { type RowDataPacket } from 'mysql2/promise'
+import { type RowDataPacket, type ResultSetHeader } from 'mysql2/promise'
 import { type UserType } from '../types/users'
 import { type IUser } from '../types/users'
 import { userQueries } from '../utils/queries'
@@ -115,13 +115,15 @@ class User implements IUser {
     addNew = async ({ name, password, email, phone, author }: UserType['data']) => {
         const connection = await this.pool.getConnection()
         
-        const [rows] = await connection.execute(
+        const [results] = await connection.execute(
             userQueries[UserQueries.remove], 
             [name, password, email, phone, author]
-        )
+        ) as ResultSetHeader[]
+
+        const newId = results.insertId
 
         connection.release()
-        return rows as RowDataPacket[]
+        return newId as number
     }
 }
 
