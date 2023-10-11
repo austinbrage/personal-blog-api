@@ -9,6 +9,7 @@ import { type IUser } from './types/users'
 import { type IArticle } from './types/articles'
 import { type ISection } from './types/sections'
 import { type IStyle } from './types/styles'
+import { notFoundHandler } from './utils/notFoundHandler'
 
 type ModelsType = {
     userModel: IUser,
@@ -29,8 +30,12 @@ const createApp = ({ userModel, articleModel, sectionModel, styleModel }: Models
     app.use('./blogApi/article', createArticleRouter({ articleModel }))
     app.use('./blogApi/section', createSectionRouter({ sectionModel, styleModel }))
 
+    app.all('*', notFoundHandler)
+
     app.listen(PORT, () => {
-        console.log(`Server running on Port: ${PORT}`)
+        if(process.env.NODE_ENV !== 'production') {
+            console.log(`Server running on Port: ${PORT}`)
+        }
     })
 
     return app
