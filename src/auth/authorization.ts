@@ -3,10 +3,10 @@ import { SECRET_KEY } from '../utils/config'
 import { CustomError } from '../utils/customError'
 import { type JwtPayload } from '../types/custom'
 import { type UserType, type IUser } from '../types/users'
-import type { Request, NextFunction } from 'express'
+import { type RequestHandler } from 'express'
 
 const createAuthorization = ({ userModel }: { userModel: IUser }) => {
-    const authMiddleware = async (req: Request, _res: Response, next: NextFunction) => {
+    const authMiddleware: RequestHandler = async (req, _res, next) => {
         const { token }: { token?: string } = req.cookies
     
         if(!token) return next(new CustomError('Unauthorized, please login', 401))
