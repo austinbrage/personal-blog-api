@@ -30,7 +30,7 @@ export class Users implements UserController {
 
     getAll = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id } = req.query
-        const validation = this.validateUser.id(req.query)
+        const validation = this.validateUser.id(req.userId)
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
@@ -80,7 +80,7 @@ export class Users implements UserController {
 
     changeName = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, name } = req.body
-        const validation = this.validateUser.idName(req.body) 
+        const validation = this.validateUser.idName({...req.body, ...req.userId}) 
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
@@ -94,7 +94,7 @@ export class Users implements UserController {
 
     changeEmail = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, email } = req.body
-        const validation = this.validateUser.idEmail(req.body) 
+        const validation = this.validateUser.idEmail({...req.body, ...req.userId}) 
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
@@ -108,7 +108,7 @@ export class Users implements UserController {
 
     changePhone = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, phone } = req.body
-        const validation = this.validateUser.idPhone(req.body) 
+        const validation = this.validateUser.idPhone({...req.body, ...req.userId}) 
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
@@ -122,7 +122,7 @@ export class Users implements UserController {
 
     changeAuthor = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, author } = req.body
-        const validation = this.validateUser.idAuthor(req.body) 
+        const validation = this.validateUser.idAuthor({...req.body, ...req.userId}) 
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
@@ -136,7 +136,7 @@ export class Users implements UserController {
 
     changePassword = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, password } = req.body
-        const validation = this.validateUser.idPassword(req.body) 
+        const validation = this.validateUser.idPassword({...req.body, ...req.userId}) 
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
@@ -173,7 +173,7 @@ export class Users implements UserController {
 
     remove = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id } = req.body
-        const validation = this.validateUser.id(req.body)
+        const validation = this.validateUser.id(req.userId)
 
         if(!validation.success) return this.validationErr(res, validation.error)
         

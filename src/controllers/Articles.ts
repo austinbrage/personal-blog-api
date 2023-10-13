@@ -23,7 +23,7 @@ export class Articles implements ArticleController {
 
     getAll = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id } = req.query
-        const validation = this.validateArticle.userId(req.query)
+        const validation = this.validateArticle.userId(req.userId)
 
         if(!validation.success) return this.validationErr(res, validation.error)
         
@@ -65,7 +65,7 @@ export class Articles implements ArticleController {
 
     addNew = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { user_id, name } = req.body
-        const validation = this.validateArticle.userIdName(req.body)
+        const validation = this.validateArticle.userIdName({...req.body, ...req.userId})
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
