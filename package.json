@@ -7,6 +7,7 @@
     "start": "cross-env NODE_ENV=production node dist/server.js",
     "dev": "cross-env NODE_ENV=development ts-node-dev src/serve.ts",
     "build": "tsc && npm run copy-sql",
+    "clean": "cross-env NODE_ENV=development rimraf dist",
     "copy-sql": "xcopy /E /I /Y src\\sql dist\\sql",
     "lint": "eslint ./src/**/*.{js,ts}",
     "test:unit": "cross-env NODE_ENV=test jest queries.unit.test.js",
@@ -32,6 +33,7 @@
     "eslint": "^8.50.0",
     "eslint-plugin-jest": "^27.4.2",
     "jest": "^29.7.0",
+    "rimraf": "^5.0.5",
     "supertest": "^6.3.3",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"
