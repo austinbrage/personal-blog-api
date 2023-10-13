@@ -1,10 +1,10 @@
 import bcript from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
-import { CustomError } from '../utils/customError'
+import { CustomError } from '../helpers/customError'
 import type { IUser, UserType } from '../types/users'
 import type { Response, NextFunction } from 'express'
 import { JWT_EXPIRE, SECRET_KEY } from '../utils/config'
-import { createOkResponse, createErrorResponse } from '../utils/appResponse'
+import { createOkResponse, createErrorResponse } from '../helpers/appResponse'
 
 type Data = {
     modelResult: UserType['idPassword']

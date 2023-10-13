@@ -11,7 +11,7 @@ import { type IUser } from './types/users'
 import { type IArticle } from './types/articles'
 import { type ISection } from './types/sections'
 import { type IStyle } from './types/styles'
-import { notFoundHandler } from './utils/notFoundHandler'
+import { notFoundHandler } from './services/notFoundHandler'
 
 type ModelsType = {
     userModel: IUser,

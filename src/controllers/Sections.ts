@@ -1,6 +1,6 @@
-import { asyncErrorHandler } from "../utils/errorHandler"
+import { asyncErrorHandler } from "../services/errorHandler"
 import { SectionValidation, type ISectionsValidation } from "../validations/Sections"
-import { createOkResponse, createErrorResponse } from "../utils/appResponse"
+import { createOkResponse, createErrorResponse } from "../helpers/appResponse"
 import type { Request, Response } from 'express'
 import { type SectionController } from "../types/sections"
 import { type ISection } from "../types/sections"

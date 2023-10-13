@@ -1,7 +1,7 @@
 import createAuthentication from '../auth/authentication'
-import { asyncErrorHandler } from '../utils/errorHandler'
+import { asyncErrorHandler } from '../services/errorHandler'
 import { UsersValidation, type IUsersValidation } from '../validations/Users'
-import { createOkResponse, createErrorResponse } from '../utils/appResponse'
+import { createOkResponse, createErrorResponse } from '../helpers/appResponse'
 import type { NextFunction, Request, Response } from "express"
 import { type UserController } from '../types/users'
 import { type IUser } from '../types/users'

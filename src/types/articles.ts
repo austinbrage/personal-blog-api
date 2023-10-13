@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { articleSchema } from '../schemas/articles'
 import { type RowDataPacket } from 'mysql2'
-import { type AsyncFuntion } from '../utils/errorHandler'
+import { type AsyncFuntion } from '../services/errorHandler'
 
 export type ArticleType = {
     id: z.infer<typeof articleSchema.id>

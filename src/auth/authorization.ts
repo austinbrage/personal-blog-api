@@ -1,6 +1,6 @@
 import { verify } from 'jsonwebtoken'
 import { SECRET_KEY } from '../utils/config'
-import { CustomError } from '../utils/customError'
+import { CustomError } from '../helpers/customError'
 import { type UserType } from '../types/users'
 import { type JwtPayload } from '../types/custom'
 import { type RequestHandler } from 'express'

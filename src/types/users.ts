@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { userSchema } from '../schemas/users'
 import { type RowDataPacket } from 'mysql2'
-import { type AsyncFuntion } from '../utils/errorHandler'
+import { type AsyncFuntion } from '../services/errorHandler'
 
 export type UserType = {
     id: z.infer<typeof userSchema.id>,

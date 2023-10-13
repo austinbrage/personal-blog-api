@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { sectionSchema } from '../schemas/sections'
 import { type RowDataPacket } from 'mysql2'
-import { type AsyncFuntion } from '../utils/errorHandler'
+import { type AsyncFuntion } from '../services/errorHandler'
 
 export type SectionType = {
     id: z.infer<typeof sectionSchema.id>
