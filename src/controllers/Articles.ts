@@ -1,5 +1,6 @@
 import { asyncErrorHandler } from '../utils/errorHandler'
 import { ArticlesValidation, type IArticlesValidation } from '../validations/Articles'
+import { createOkResponse, createErrorResponse } from '../utils/appResponse'
 import type { Request, Response } from 'express'
 import { type ArticleController } from '../types/articles'
 import { type IArticle } from '../types/articles'
@@ -15,10 +16,10 @@ export class Articles implements ArticleController {
     }    
 
     private validationErr(res: Response, validationError: ZodError<unknown>) {
-        return res.status(400).json({
-            status: 'error',
-            validationError: validationError.format()
-        })
+        return res.status(400).json(createErrorResponse({
+            message: 'Validation data error',
+            error: validationError.format()
+        }))
     }
 
     getAll = asyncErrorHandler(async (req: Request, res: Response) => {
@@ -29,10 +30,10 @@ export class Articles implements ArticleController {
         
         const result = await this.articleModel.getAll(validation.data)
 
-        return res.status(200).json({
-            status: 'success',
+        return res.status(200).json(createOkResponse({
+            message: 'Articles from user requested',
             data: result
-        })
+        }))
     })
 
     changeName = asyncErrorHandler(async (req: Request, res: Response) => {
@@ -43,10 +44,9 @@ export class Articles implements ArticleController {
 
         await this.articleModel.changeName(validation.data)
 
-        return res.status(200).json({
-            status: 'success',
+        return res.status(200).json(createOkResponse({
             message: 'Article name changed successfully'
-        })
+        }))
     })
 
     changePublishState = asyncErrorHandler(async (req: Request, res: Response) => {
@@ -57,10 +57,9 @@ export class Articles implements ArticleController {
 
         await this.articleModel.changePublishState(validation.data)
         
-        return res.status(200).json({
-            status: 'success',
+        return res.status(200).json(createOkResponse({
             message: 'Article publish state changed successfully'
-        })
+        }))
     })
 
     addNew = asyncErrorHandler(async (req: Request, res: Response) => {
@@ -72,16 +71,14 @@ export class Articles implements ArticleController {
         const result = await this.articleModel.getId(validation.data)
         
         if(result.length === 0) {
-            return res.status(401).json({
-                status: 'error',
+            return res.status(401).json(createErrorResponse({
                 message: 'Existing article'
-            })
+            }))
         } else {
             await this.articleModel.addNew(validation.data)
-            return res.status(201).json({
-                status: 'success',
+            return res.status(201).json(createOkResponse({
                 message: 'New article created successfully'
-            })
+            }))
         }
     })
 
@@ -93,9 +90,8 @@ export class Articles implements ArticleController {
 
         await this.articleModel.remove(validation.data)
 
-        return res.status(200).json({
-            status: 'success',
-            message: 'Article removed successfully'      
-        })
+        return res.status(200).json(createOkResponse({
+            message: 'Article removed successfully'
+        }))
     })
 }

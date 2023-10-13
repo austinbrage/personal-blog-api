@@ -4,7 +4,7 @@ import { CustomError } from '../utils/customError'
 import type { IUser, UserType } from '../types/users'
 import type { Response, NextFunction } from 'express'
 import { JWT_EXPIRE, SECRET_KEY } from '../utils/config'
-import { RowDataPacket } from 'mysql2'
+import { createOkResponse, createErrorResponse } from '../utils/appResponse'
 
 type Data = {
     modelResult: UserType['idPassword']
@@ -29,10 +29,9 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
             expiresIn: JWT_EXPIRE
         })
 
-        return res.status(201).cookie("token", token).json({
-            status: 'success',
+        return res.status(201).cookie("token", token).json(createOkResponse({
             message: 'User registered successfully'
-        })
+        }))
     }
 
     const compareHash = async (data: Data, res: Response, next: NextFunction) => {
@@ -43,10 +42,9 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
         )
 
         if(!isPassowordMatched) {
-            return res.status(401).json({
-                status: 'error',
+            return res.status(401).json(createErrorResponse({
                 message: 'Incorrect password'
-            })
+            }))
         }
 
         if(!SECRET_KEY) return next(new CustomError('Secret key is not provided in the API', 500))
@@ -55,10 +53,9 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
             expiresIn: JWT_EXPIRE
         })
 
-        return res.status(200).cookie("token", token).json({
-            status: 'success',
+        return res.status(200).cookie("token", token).json(createOkResponse({
             message: 'User validated successfully'
-        })
+        }))
     }
 
     return { registerHash, compareHash }

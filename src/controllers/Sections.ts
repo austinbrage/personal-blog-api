@@ -1,5 +1,6 @@
-import { AsyncFuntion, asyncErrorHandler } from "../utils/errorHandler"
+import { asyncErrorHandler } from "../utils/errorHandler"
 import { SectionValidation, type ISectionsValidation } from "../validations/Sections"
+import { createOkResponse, createErrorResponse } from "../utils/appResponse"
 import type { Request, Response } from 'express'
 import { type SectionController } from "../types/sections"
 import { type ISection } from "../types/sections"
@@ -23,10 +24,10 @@ export class Sections implements SectionController {
     }
 
     private validationErr(res: Response, validationError: ZodError<unknown>) {
-        return res.status(400).json({
-            status: 'error',
-            validationError: validationError.format()
-        })
+        return res.status(401).json(createErrorResponse({
+            message: 'Validation data error',
+            error: validationError.format()
+        }))
     }
 
     getAll = asyncErrorHandler(async (req: Request, res: Response) => {
@@ -37,10 +38,10 @@ export class Sections implements SectionController {
 
         const result = await this.sectionModel.getAll(validation.data)
 
-        return res.status(200).json({
-            status: 'success',
+        return res.status(200).json(createOkResponse({
+            message: 'Sections from article requested',
             data: result
-        })
+        }))
     })
 
     changeAll = asyncErrorHandler(async (req: Request, res: Response) => {
@@ -58,10 +59,9 @@ export class Sections implements SectionController {
 
         await this.styleModel.changeStyles(changeStyleData)
 
-        return res.status(200).json({
-            status: 'success',
+        return res.status(200).json(createOkResponse({
             message: 'Section content and styles changed successfully'
-        })
+        }))
     })
 
     addNew = asyncErrorHandler(async (req: Request, res: Response) => {
@@ -79,10 +79,9 @@ export class Sections implements SectionController {
 
         await this.styleModel.addNew(addNewStyles)
 
-        return res.status(200).json({
-            status: 'success',
-            message: 'New section content and styles changed successfully'
-        })
+        return res.status(200).json(createOkResponse({
+            message: 'New section content and styles created successfully'
+        }))
     })
 
     remove = asyncErrorHandler(async (req: Request, res: Response) => {
@@ -93,9 +92,8 @@ export class Sections implements SectionController {
 
         await this.sectionModel.remove(validation.data)
 
-        return res.status(200).json({
-            status: 'success',
+        return res.status(200).json(createOkResponse({
             message: 'Section content and styles removed successfully'
-        })
+        }))
     })
 }
