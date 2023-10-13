@@ -6,7 +6,7 @@ import { type IUser } from '../types/users'
 const createUserRouter = ({ userModel }: { userModel: IUser }) => {
     const userRouter = Router()
 
-    const userAuth = createAuthorization({ userModel })
+    const userAuth = createAuthorization()
     const userController = new UserController({ userModel })
     
     userRouter.get('/data', userAuth, userController.getAll)

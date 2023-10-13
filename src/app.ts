@@ -22,7 +22,7 @@ type ModelsType = {
 
 const createApp = ({ userModel, articleModel, sectionModel, styleModel }: ModelsType) => {
     const app = express()
-    const userAuth = createAuthorization({ userModel })
+    const userAuth = createAuthorization()
 
     app.use(json())
     app.use(cookieParser()) 
