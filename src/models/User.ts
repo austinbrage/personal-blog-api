@@ -1,4 +1,4 @@
-import { createPoolConnection } from '../utils/config'
+import { createPoolConnection } from '../services/database'
 import { type RowDataPacket, type ResultSetHeader } from 'mysql2/promise'
 import { type UserType } from '../types/users'
 import { type IUser } from '../types/users'

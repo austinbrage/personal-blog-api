@@ -1,4 +1,4 @@
-import { createPoolConnection } from "../utils/config"
+import { createPoolConnection } from "../services/database"
 import { ResultSetHeader, type RowDataPacket } from "mysql2/promise"
 import { type SectionType } from "../types/sections"
 import { type ISection } from "../types/sections"

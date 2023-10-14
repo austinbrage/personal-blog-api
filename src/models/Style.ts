@@ -1,4 +1,4 @@
-import { createPoolConnection } from "../utils/config"
+import { createPoolConnection } from "../services/database"
 import { type RowDataPacket } from "mysql2/promise"
 import { IStyle, type StyleType } from "../types/styles"
 import { StyleQueries } from "../types/queries"
