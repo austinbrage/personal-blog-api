@@ -4,32 +4,29 @@ import { config } from 'dotenv'
 
 config()
 
-export const PORT = process.env.PORT || 3000
+export const PORT = process.env.PORT ?? 3000
+export const ENVIRONMENT = process.env.NODE_ENV ?? 'development'
+
 export const JWT_EXPIRE = process.env.JWT_EXPIRE
 export const SECRET_KEY = process.env.SECRET_KEY
 
-type CreatePool = {
-    waitForConnection: boolean, 
-    connectionLimit: number, 
-    queueLimit: number
-}
-
-export const createPoolConnection = ({
-    waitForConnection, 
-    connectionLimit, 
-    queueLimit
-}: CreatePool) => {
-    const pool: Pool = createPool({
+export const dbCofig: {[env: string]: object} = {
+    development: {
         host: process.env.DB_HOST,
         user: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,
-        waitForConnections: waitForConnection,
-        connectionLimit: connectionLimit,
-        queueLimit: queueLimit
-        // waitForConnections: true,
-        // connectionLimit: 10,
-        // queueLimit: 0
-    })
-    return pool
+    },
+    production: {
+        host: process.env.PROD_DB_HOST,
+        user: process.env.PROD_DB_USER,
+        password: process.env.PROD_DB_PASSWORD,
+        database: process.env.PROD_DB_DATABASE,
+    },
+    test: {
+        host: process.env.TEST_DB_HOST,
+        user: process.env.TEST_DB_USER,
+        password: process.env.TEST_DB_PASSWORD,
+        database: process.env.TEST_DB_DATABASE,
+    },
 }
