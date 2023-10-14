@@ -15,6 +15,18 @@
     "test:integration": "cross-env NODE_ENV=test jest users.integration.test.js'",
     "generate-key": "node -e \"console.log(require('crypto').randomBytes(256).toString('base64'));\""
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run lint && npm run ts-check"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "npm run lint",
+      "npm run ts-check"
+    ]
+  },
   "keywords": [
     "Blog",
     "Personal"
@@ -34,7 +46,9 @@
     "@typescript-eslint/parser": "^6.7.4",
     "eslint": "^8.50.0",
     "eslint-plugin-jest": "^27.4.2",
+    "husky": "^8.0.3",
     "jest": "^29.7.0",
+    "lint-staged": "^15.0.0",
     "rimraf": "^5.0.5",
     "supertest": "^6.3.3",
     "ts-node-dev": "^2.0.0",
