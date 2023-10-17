@@ -5,6 +5,7 @@ import createAuthorization from './auth/authorization'
 import createUserRouter from './routes/users'
 import createArticleRouter from './routes/articles'
 import createSectionRouter from './routes/sections'
+import connectionRouter from './routes/connection'
 import corsMiddleware from './middlewares/cors'
 import errorMiddleware from './middlewares/error'
 import { type IUser } from './types/users'
@@ -30,9 +31,10 @@ const createApp = ({ userModel, articleModel, sectionModel, styleModel }: Models
     app.use(errorMiddleware)
     app.disable('x-powered-by')
     
-    app.use('./personal-blog/user', createUserRouter({ userModel }))
-    app.use('./personal-blog/article', userAuth, createArticleRouter({ articleModel }))
-    app.use('./personal-blog/section', userAuth, createSectionRouter({ sectionModel, styleModel }))
+    app.use('/personal-blog/ping', connectionRouter)
+    app.use('/personal-blog/user', createUserRouter({ userModel }))
+    app.use('/personal-blog/article', userAuth, createArticleRouter({ articleModel }))
+    app.use('/personal-blog/section', userAuth, createSectionRouter({ sectionModel, styleModel }))
 
     app.all('*', notFoundHandler)
 
