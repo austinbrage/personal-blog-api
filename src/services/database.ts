@@ -13,7 +13,7 @@ export const createPoolConnection = ({
     waitForConnection, 
     connectionLimit, 
     queueLimit
-}: CreatePool) => {
+}: CreatePool = {}) => {
     const pool = createPool({
         ...currentDBConfig,
         waitForConnections: waitForConnection ?? true,
