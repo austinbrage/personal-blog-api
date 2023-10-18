@@ -27,7 +27,6 @@ const createApp = ({ userModel, articleModel, sectionModel, styleModel }: Models
     app.use(json())
     app.use(cookieParser()) 
     app.use(corsMiddleware())
-    app.use(errorMiddleware)
     app.disable('x-powered-by')
     
     app.use('/personal-blog/ping', connectionRouter)
@@ -36,6 +35,7 @@ const createApp = ({ userModel, articleModel, sectionModel, styleModel }: Models
     app.use('/personal-blog/section', userAuth, createSectionRouter({ sectionModel, styleModel }))
     
     app.all('*', notFoundHandler)
+    app.use(errorMiddleware)
 
     return app
 }
