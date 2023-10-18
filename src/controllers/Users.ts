@@ -43,8 +43,8 @@ export class Users implements UserController {
     })
     
     getPassword = asyncErrorHandler(async (req: Request, res: Response, next: NextFunction) => {
-        // const { name, password } = req.query
-        const validation = this.validateUser.namePassword(req.query)
+        // const { name, password } = req.body
+        const validation = this.validateUser.namePassword(req.body)
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
