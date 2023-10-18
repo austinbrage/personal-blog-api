@@ -27,7 +27,7 @@ const createApp = ({ userModel, articleModel, sectionModel, styleModel }: Models
 
     app.use(json())
     app.use(cookieParser()) 
-    app.use(corsMiddleware)
+    app.use(corsMiddleware())
     app.use(errorMiddleware)
     app.disable('x-powered-by')
     
@@ -35,7 +35,7 @@ const createApp = ({ userModel, articleModel, sectionModel, styleModel }: Models
     app.use('/personal-blog/user', createUserRouter({ userModel }))
     app.use('/personal-blog/article', userAuth, createArticleRouter({ articleModel }))
     app.use('/personal-blog/section', userAuth, createSectionRouter({ sectionModel, styleModel }))
-
+    
     app.all('*', notFoundHandler)
 
     app.listen(PORT, () => {
