@@ -6,7 +6,7 @@ const connectionRouter = Router()
 
 const pool = createPoolConnection()
 
-connectionRouter.get('/ping', async (_req: Request, res: Response) => {
+connectionRouter.get('/', async (_req: Request, res: Response) => {
     try {
         const connection = await pool.getConnection()
         await connection.query('SELECT 1')
