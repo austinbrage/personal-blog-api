@@ -1,5 +1,4 @@
 import express, { json } from 'express'
-import { PORT } from './utils/config'
 import cookieParser from 'cookie-parser'
 import createAuthorization from './auth/authorization'
 import createUserRouter from './routes/users'
@@ -37,12 +36,6 @@ const createApp = ({ userModel, articleModel, sectionModel, styleModel }: Models
     app.use('/personal-blog/section', userAuth, createSectionRouter({ sectionModel, styleModel }))
     
     app.all('*', notFoundHandler)
-
-    app.listen(PORT, () => {
-        if(process.env.NODE_ENV !== 'production') {
-            console.log(`Server running on Port: ${PORT}`)
-        }
-    })
 
     return app
 }
