@@ -13,7 +13,7 @@ connectionRouter.get('/', async (_req: Request, res: Response) => {
         res.status(200).send('pong')      
         
     } catch(err) {
-        res.status(500).send(`Database connection error: ${err}`)
+        res.status(500).send(`Database connection error (${err})`)
 
     }
 })
