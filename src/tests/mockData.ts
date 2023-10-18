@@ -1,4 +1,5 @@
 import { type UserType } from "../types/users"
+import { type ArticleType } from "../types/articles"
 
 type UserMock = {
     signUp: UserType['data']
@@ -7,6 +8,10 @@ type UserMock = {
     badPassword: UserType['namePassword']
     badData: UserType['namePassword']
     rightData: UserType['namePassword']
+}
+
+type ArticleMock = {
+    newArticle: ArticleType['userIdName']
 }
 
 export const userMock: UserMock = {
@@ -36,5 +41,12 @@ export const userMock: UserMock = {
     rightData: { 
         name: 'Usuario0', 
         password: '1234' 
+    }
+}
+
+export const artileMock: ArticleMock = {
+    newArticle: {
+        name: 'New Article Test',
+        user_id: 1
     }
 }
