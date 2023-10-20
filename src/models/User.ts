@@ -110,7 +110,7 @@ class User implements IUser {
         const connection = await this.pool.getConnection()
         
         const [results] = await connection.execute(
-            userQueries[UserQueries.remove], 
+            userQueries[UserQueries.addNew], 
             [name, password, email, phone, author]
         ) as ResultSetHeader[]
 
