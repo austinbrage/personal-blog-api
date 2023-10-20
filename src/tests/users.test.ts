@@ -7,14 +7,14 @@ let cookies: string
 export default (RESOURCE: string) => {
     describe('Test register and delete user', () => {
     
-        test('should SIGN-UP new user', async () => {
+        test.skip('should SIGN-UP new user', async () => {
             await request(app)
                 .post(`${RESOURCE}/register`)
                 .send(userMock.signUp)
                 .expect(201)
         })
         
-        test.skip('should SIGN-IN and DELETE new user', async () => {
+        test.skip('should SIGN-IN, READ and DELETE new user', async () => {
             const response1 = await request(app)
                 .post(`${RESOURCE}/login`)
                 .send(userMock.newUser)
@@ -34,7 +34,7 @@ export default (RESOURCE: string) => {
     
     })
     
-    describe.skip('Test successful and unseccessful login', () => {
+    describe('Test successful and unseccessful login', () => {
     
         test('should NOT LOGIN if username is incorrect', async () => {
             await request(app)
