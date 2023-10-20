@@ -4,7 +4,7 @@ import type { Request, Response } from 'express'
 
 const connectionRouter = Router()
 
-const pool = createPoolConnection()
+export const pool = createPoolConnection()
 
 connectionRouter.get('/', async (_req: Request, res: Response) => {
     const connection = await pool.getConnection()
