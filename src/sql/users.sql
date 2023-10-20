@@ -7,7 +7,7 @@
     WHERE `name` = ?;
 
 -- addNew
-    INSERT INTO `users` (`name`, `password`, `email`, `phone`, `author`) 
+    INSERT INTO `users` (`name`, `password`, `email`, `author`) 
     VALUES (?, ?, ?, ?, ?);
 
 -- changeName
@@ -28,11 +28,6 @@
 -- changeEmail
     UPDATE `users` 
     SET `email` = ?
-    WHERE `id` = ?;
-
--- changePhone
-    UPDATE `users` 
-    SET `phone` = ?
     WHERE `id` = ?;
 
 -- remove

@@ -9,7 +9,6 @@ export type UserType = {
     name: z.infer<typeof userSchema.name>,
     idName: z.infer<typeof userSchema.idName>,
     idEmail: z.infer<typeof userSchema.idEmail>,
-    idPhone: z.infer<typeof userSchema.idPhone>,
     idAuthor: z.infer<typeof userSchema.idAuthor>,
     idPassword: z.infer<typeof userSchema.idPassword>,
     namePassword: z.infer<typeof userSchema.namePassword>
@@ -20,11 +19,10 @@ export interface IUser {
     getIdPassword({ name }: UserType['name']): Promise<RowDataPacket[]>
     changeName({ id, name }: UserType['idName']): Promise<RowDataPacket[]>
     changeEmail({ id, email }: UserType['idEmail']): Promise<RowDataPacket[]>
-    changePhone({ id, phone }: UserType['idPhone']): Promise<RowDataPacket[]>
     changeAuthor({ id, author }: UserType['idAuthor']): Promise<RowDataPacket[]>
     changePassword({ id, password }: UserType['idPassword']): Promise<RowDataPacket[]>
+    addNew({ name, password, email, author }: UserType['data']): Promise<number>
     remove({ id }: UserType['id']): Promise<RowDataPacket[]>
-    addNew({ name, password, email, phone, author }: UserType['data']): Promise<number>
 }
 
 export interface UserController {
@@ -32,7 +30,6 @@ export interface UserController {
     getPassword: AsyncFuntion
     changeName: AsyncFuntion
     changeEmail: AsyncFuntion
-    changePhone: AsyncFuntion
     changeAuthor: AsyncFuntion
     changePassword: AsyncFuntion
     remove: AsyncFuntion

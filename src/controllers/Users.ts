@@ -90,19 +90,6 @@ export class Users implements UserController {
         }))
     })  
 
-    changePhone = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { id, phone } = req.body
-        const validation = this.validateUser.idPhone({...req.body, ...req.userId}) 
-
-        if(!validation.success) return this.validationErr(res, validation.error)
-
-        await this.userModel.changePhone(validation.data)
-
-        return res.status(200).json(createOkResponse({
-            message: 'User phone changed successfully'
-        }))
-    })  
-
     changeAuthor = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, author } = req.body
         const validation = this.validateUser.idAuthor({...req.body, ...req.userId}) 

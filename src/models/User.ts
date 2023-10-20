@@ -58,18 +58,6 @@ class User implements IUser {
         return rows as RowDataPacket[]
     }
 
-    changePhone = async ({ id, phone }: UserType['idPhone']) => {
-        const connection = await this.pool.getConnection()
-        
-        const [rows] = await connection.execute(
-            userQueries[UserQueries.changePhone], 
-            [phone, id]
-        )
-
-        connection.release()
-        return rows as RowDataPacket[]
-    }
-
     changeAuthor = async ({ id, author }: UserType['idAuthor']) => {
         const connection = await this.pool.getConnection()
         
@@ -106,12 +94,12 @@ class User implements IUser {
         return rows as RowDataPacket[]
     }
 
-    addNew = async ({ name, password, email, phone, author }: UserType['data']) => {
+    addNew = async ({ name, password, email, author }: UserType['data']) => {
         const connection = await this.pool.getConnection()
         
         const [results] = await connection.execute(
             userQueries[UserQueries.addNew], 
-            [name, password, email, phone, author]
+            [name, password, email, author]
         ) as ResultSetHeader[]
 
         const newId = results.insertId

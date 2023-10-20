@@ -13,7 +13,6 @@ const createUserRouter = ({ userModel }: { userModel: IUser }) => {
     
     userRouter.patch('/name', userAuth, userController.changeName)
     userRouter.patch('/email', userAuth, userController.changeEmail)
-    userRouter.patch('/phone', userAuth, userController.changePhone)
     userRouter.patch('/author', userAuth, userController.changeAuthor)
     userRouter.patch('/password', userAuth, userController.changePassword)
     

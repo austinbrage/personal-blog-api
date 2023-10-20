@@ -19,7 +19,6 @@ export const userMock: UserMock = {
         name: 'Usuario2', 
         password: '5678', 
         email: 'myEmail@gmail.com',
-        phone: '1234-5678',
         author: 'Jack Smith',
     },
     newUser: { 

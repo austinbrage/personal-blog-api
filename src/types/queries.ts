@@ -6,7 +6,6 @@ export enum UserQueries {
     changePassword = 'changePassword',
     changeAuthor = 'changeAuthor',
     changeEmail = 'changeEmail',
-    changePhone = 'changePhone',
     remove = 'remove',
 }
 
