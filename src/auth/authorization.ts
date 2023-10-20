@@ -1,7 +1,6 @@
 import { verify } from 'jsonwebtoken'
 import { SECRET_KEY } from '../utils/config'
 import { CustomError } from '../helpers/customError'
-import { type UserType } from '../types/users'
 import { type JwtPayload } from '../types/custom'
 import { type RequestHandler } from 'express'
 
@@ -12,17 +11,13 @@ const createAuthorization = () => {
         if(!token) return next(new CustomError('Unauthorized, please login', 401))
         if(!SECRET_KEY) return next(new CustomError('Secret Key is not provided in the API', 500))
     
-        const verifyUser = await verify(token, SECRET_KEY) as JwtPayload
-        // const userModelData = await userModel.getAll({id: verifyUser.id})
-    
-        const userData: UserType['id'] = {
-            id: verifyUser.id,
-            // name: userModelData[0].name,
+        try {
+            const verifyUser = await verify(token, SECRET_KEY) as JwtPayload
+            req.userId = { id: verifyUser.id }
+            next()
+        } catch(err) {
+            return next(new CustomError('Invalid Token', 401))
         }
-
-        req.userId = userData
-
-        next()
     }
 
     return authMiddleware
