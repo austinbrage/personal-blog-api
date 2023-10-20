@@ -16,7 +16,7 @@
 
 -- addNew
     INSERT INTO `users` (`name`, `password`, `email`, `author`) 
-    VALUES (?, ?, ?, ?, ?);
+    VALUES (?, ?, ?, ?);
 
 -- changeName
     UPDATE `users` 
