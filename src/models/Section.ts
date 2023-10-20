@@ -1,19 +1,13 @@
-import { createPoolConnection } from "../services/database"
-import { ResultSetHeader, type RowDataPacket } from "mysql2/promise"
-import { type SectionType } from "../types/sections"
-import { type ISection } from "../types/sections"
+import type { ResultSetHeader, RowDataPacket, Pool } from "mysql2/promise"
+import type { SectionType, ISection } from "../types/sections"
 import { SectionQueries } from "../types/queries"
 import { sectionQueries } from "../utils/queries"
 
 class Section implements ISection {
     private pool
 
-    constructor() {
-        this.pool = createPoolConnection({
-            waitForConnection: true,
-            connectionLimit: 10,
-            queueLimit: 0
-        })
+    constructor({ sectionPool }: { sectionPool: Pool }) {
+        this.pool = sectionPool
     }
 
     getAll = async ({ article_id }: SectionType['articleId']) => {

@@ -1,19 +1,13 @@
-import { createPoolConnection } from '../services/database'
-import { type RowDataPacket } from 'mysql2/promise'
-import { type ArticleType } from '../types/articles'
-import { type IArticle } from '../types/articles'
+import type { RowDataPacket, Pool } from 'mysql2/promise'
+import type { ArticleType, IArticle } from '../types/articles'
 import { ArticleQueries } from '../types/queries'
 import { articleQueries } from '../utils/queries'
 
 class Article implements IArticle {
     private pool
 
-    constructor() {
-        this.pool = createPoolConnection({
-            waitForConnection: true,
-            connectionLimit: 10,
-            queueLimit: 0
-        })
+    constructor({ articlePool }: { articlePool: Pool }) {
+        this.pool = articlePool
     }
 
     getAll = async ({ user_id }: ArticleType['userId']) => {

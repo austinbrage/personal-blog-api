@@ -4,11 +4,17 @@ import StyleModel from './models/Style'
 import ArticleModel from './models/Article'
 import SectionModel from './models/Section'
 import { PORT } from './utils/config'
+import { createPoolConnection } from './services/database'
 
-const userModel = new UserModel()
-const styleModel = new StyleModel()
-const articleModel = new ArticleModel()
-const sectionModel = new SectionModel()
+const userPool = createPoolConnection()
+const stylePool = createPoolConnection()
+const articlePool = createPoolConnection()
+const sectionPool = createPoolConnection()
+
+const userModel = new UserModel({ userPool })
+const styleModel = new StyleModel({ stylePool })
+const articleModel = new ArticleModel({ articlePool })
+const sectionModel = new SectionModel({ sectionPool })
 
 const app = createApp({ userModel, articleModel, sectionModel, styleModel })
 
@@ -18,4 +24,4 @@ const server = app.listen(PORT, () => {
     }
 })
 
-export { app, server }
+export { app, server, userPool, stylePool, articlePool, sectionPool }

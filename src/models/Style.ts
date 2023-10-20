@@ -1,18 +1,13 @@
-import { createPoolConnection } from "../services/database"
-import { type RowDataPacket } from "mysql2/promise"
-import { IStyle, type StyleType } from "../types/styles"
+import type { RowDataPacket, Pool } from "mysql2/promise"
+import type { StyleType, IStyle } from "../types/styles"
 import { StyleQueries } from "../types/queries"
 import { styleQueries } from "../utils/queries"
 
 class Style implements IStyle {
     private pool 
 
-    constructor() {
-        this.pool = createPoolConnection({
-            waitForConnection: true,
-            connectionLimit: 10,
-            queueLimit: 0
-        })
+    constructor({ stylePool }: { stylePool: Pool }) {
+        this.pool = stylePool
     }
 
     changeStyles = async ({ 
