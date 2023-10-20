@@ -18,6 +18,7 @@ export const asyncErrorHandler: ErrorHandler = (func) => {
         try {
             await func(req, res, next)
         } catch (err) {
+            if(process.env.NODE_ENV !== 'production') console.error(err)
             next(err)
         }
     }
