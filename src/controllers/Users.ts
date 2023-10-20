@@ -137,7 +137,7 @@ export class Users implements UserController {
 
         const result = await this.userModel.getIdPassword(validation.data)
 
-        if(result.length === 0) {
+        if(result.length !== 0) {
             return res.status(401).json(createErrorResponse({
                 message: 'Existing user'
             }))
