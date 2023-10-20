@@ -12,10 +12,10 @@ const sectionModel = new SectionModel()
 
 const app = createApp({ userModel, articleModel, sectionModel, styleModel })
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     if(process.env.NODE_ENV !== 'production') {
         console.log(`Server running on Port: ${PORT}`)
     }
 })
 
-export default app
+export { app, server }
