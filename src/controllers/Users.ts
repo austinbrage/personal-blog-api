@@ -122,11 +122,18 @@ export class Users implements UserController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        const result = await this.userModel.getIdPassword(validation.data)
+        const name = await this.userModel.getName(validation.data)
+        const email = await this.userModel.getEmail(validation.data)
 
-        if(result.length !== 0) {
+        if(name.length !== 0) {
             return res.status(401).json(createErrorResponse({
-                message: 'Existing user'
+                message: 'Existing username'
+            }))
+        }
+
+        if(email.length !== 0) {
+            return res.status(401).json(createErrorResponse({
+                message: 'Existing email'
             }))
         }
 

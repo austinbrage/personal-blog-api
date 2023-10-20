@@ -3,8 +3,16 @@
     WHERE `id` = ?;
 
 -- getIdPassword
-    SELECT `id`, `password` FROM `users` 
+    SELECT `id`, `password` FROM `users`
     WHERE `name` = ?;
+
+-- getName
+    SELECT `name` FROM `users` 
+    WHERE `name` = ?;
+
+-- getEmail
+    SELECT `email` FROM `users` 
+    WHERE `email` = ?;
 
 -- addNew
     INSERT INTO `users` (`name`, `password`, `email`, `author`) 

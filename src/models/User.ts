@@ -22,6 +22,30 @@ class User implements IUser {
         return rows as RowDataPacket[]
     }
 
+    getName = async ({ name }: UserType['name']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.getName], 
+            [name]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
+    getEmail = async ({ email }: UserType['email']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.getEmail], 
+            [email]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
     getIdPassword = async ({ name }: UserType['name']) => {
         const connection = await this.pool.getConnection()
         
