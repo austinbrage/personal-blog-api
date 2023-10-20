@@ -11,8 +11,9 @@
     "copy-sql": "xcopy /E /I /Y src\\sql dist\\sql",
     "lint": "eslint ./src/**/*.{js,ts}",
     "ts-check": "tsc -p tsconfig.json --noEmit",
-    "test:unit": "cross-env NODE_ENV=test jest queries.unit.test.ts",
-    "test:integration": "cross-env NODE_ENV=test jest integration.test.ts --detectOpenHandles'",
+    "test:unit": "cross-env NODE_ENV=test jest queries.test.ts",
+    "test:integration": "cross-env NODE_ENV=test jest integration.test.ts'",
+    "test:integration:watch": "cross-env NODE_ENV=test jest integration.test.ts --watch'",
     "generate-key": "node -e \"console.log(require('crypto').randomBytes(256).toString('base64'));\""
   },
   "husky": {
