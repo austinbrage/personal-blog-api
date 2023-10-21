@@ -8,25 +8,32 @@ import sectionsRouteTest from './sections.test'
 const RESOURCE = '/personal-blog'
 
 describe('Integration Tests', () => {
-    
-    describe('Connection Route:', () => {
-        test('should VERIFY api and database connection', async () => {
-            const response = await request(app).get(`${RESOURCE}/ping`)
-                expect(response.status).toBe(200)
-                expect(response.text).toBe('pong')
+
+    describe('Setup test environment:', () => {
+        
+        test('should verify CONNECTION with the database', async () => {
+            await request(app)
+                .get(`${RESOURCE}/ping`)
+                .expect(200)
+        })
+        
+        test('should performe a CLEANUP on database tables', async () => {
+            await request(app)
+                .delete(`${RESOURCE}/user/cleanup`)
+                .expect(200)
         })
     })
 
-    describe('Users Route:',    () => { usersRouteTest(`${RESOURCE}/user`)    })
-    describe.skip('Articles Route:', () => { articlesRouteTest(`${RESOURCE}/article`) })
-    describe.skip('Sections Route:', () => { sectionsRouteTest(`${RESOURCE}/section`) })
+    describe('Users Route:',    () => { usersRouteTest   (`${RESOURCE}/user`)    })
+    describe('Articles Route:', () => { articlesRouteTest(`${RESOURCE}/article`) })
+    describe('Sections Route:', () => { sectionsRouteTest(`${RESOURCE}/section`) })
 
-    afterAll(done => {
-        server.close(done)
-        userPool.end()
-        stylePool.end()
-        articlePool.end()
-        sectionPool.end()
-        connectionPool.end()
+    afterAll(async () => {
+        await server.close()
+        await userPool.end()
+        await stylePool.end()
+        await articlePool.end()
+        await sectionPool.end()
+        await connectionPool.end()
     })
 })
