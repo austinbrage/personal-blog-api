@@ -1,5 +1,5 @@
 -- getAll
-    SELECT * FROM `users` 
+    SELECT `id`, `name`, `email`, `author`, `api_key` FROM `users` 
     WHERE `id` = ?;
 
 -- getIdPassword
