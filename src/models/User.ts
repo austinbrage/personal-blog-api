@@ -134,7 +134,7 @@ class User implements IUser {
 
     cleanUp = async () => {
         const connection = await this.pool.getConnection()
-        console.log(userQueries[UserQueries.cleanUp])
+
         const [rows] = await connection.execute( userQueries[UserQueries.cleanUp] )
 
         connection.release()
