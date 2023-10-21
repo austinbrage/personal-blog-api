@@ -131,6 +131,15 @@ class User implements IUser {
         connection.release()
         return newId as number
     }
+
+    cleanUp = async () => {
+        const connection = await this.pool.getConnection()
+        console.log(userQueries[UserQueries.cleanUp])
+        const [rows] = await connection.execute( userQueries[UserQueries.cleanUp] )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
 }
 
 export default User

@@ -42,3 +42,6 @@
     DELETE FROM `users` 
     WHERE `id` = ?;
     
+-- cleanUp
+    DELETE FROM `users`;
+    

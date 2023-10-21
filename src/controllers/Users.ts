@@ -152,6 +152,14 @@ export class Users implements UserController {
             message: 'User removed successfully'
         }))
     })
+
+    cleanUp = asyncErrorHandler(async (req: Request, res: Response) => {
+        await this.userModel.cleanUp()
+
+        return res.status(200).json(createOkResponse({
+            message: 'User table cleanup successfully'
+        }))
+    })
 }
 
 export default Users

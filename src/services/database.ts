@@ -1,5 +1,5 @@
 import { createPool } from "mysql2/promise"
-import { dbCofig, ENVIRONMENT } from "../utils/config"
+import { dbConfig, ENVIRONMENT } from "../utils/config"
 
 type CreatePool = {
     waitForConnection?: boolean, 
@@ -7,7 +7,7 @@ type CreatePool = {
     queueLimit?: number
 }
 
-const currentDBConfig = dbCofig[ENVIRONMENT]
+const currentDBConfig = dbConfig[ENVIRONMENT]
 
 export const createPoolConnection = ({
     waitForConnection, 

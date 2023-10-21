@@ -26,6 +26,7 @@ export interface IUser {
     changePassword({ id, password }: UserType['idPassword']): Promise<RowDataPacket[]>
     addNew({ name, password, email, author }: UserType['data']): Promise<number>
     remove({ id }: UserType['id']): Promise<RowDataPacket[]>
+    cleanUp(): Promise<RowDataPacket[]>
 }
 
 export interface UserController {
@@ -37,4 +38,5 @@ export interface UserController {
     changePassword: AsyncFuntion
     remove: AsyncFuntion
     addNew: AsyncFuntion
+    cleanUp: AsyncFuntion
 }

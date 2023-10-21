@@ -9,6 +9,7 @@ export enum UserQueries {
     changeAuthor = 'changeAuthor',
     changeEmail = 'changeEmail',
     remove = 'remove',
+    cleanUp = 'cleanUp'
 }
 
 export enum ArticleQueries {
@@ -17,17 +18,17 @@ export enum ArticleQueries {
     addNew = 'addNew',
     changeName = 'changeName',
     changePublishment = 'changePublishment',
-    remove = 'remove',
+    remove = 'remove'
 }
 
 export enum SectionQueries {
     getAll = 'getAll',
     addNew = 'addNew',
     changeContent = 'changeContent',
-    remove = 'remove',
+    remove = 'remove'
 }
 
 export enum StyleQueries {
     addNew = 'addNew',
-    changeAll = 'changeAll',
+    changeAll = 'changeAll'
 }
