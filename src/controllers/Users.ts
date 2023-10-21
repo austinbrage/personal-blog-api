@@ -10,14 +10,16 @@ import { type ZodError } from 'zod'
 export class Users implements UserController {
     private compareHash
     private registerHash
+    private overwriteHash
     private userModel: IUser
     private validateUser: IUsersValidation
 
     constructor({ userModel }: { userModel: IUser }) {
-        const { compareHash, registerHash } = createAuthentication({ userModel })
+        const { compareHash, registerHash, overwriteHash } = createAuthentication({ userModel })
         this.userModel = userModel
         this.compareHash = compareHash
         this.registerHash = registerHash
+        this.overwriteHash = overwriteHash
         this.validateUser = new UsersValidation()
     }
     
@@ -109,11 +111,7 @@ export class Users implements UserController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        await this.userModel.changePassword(validation.data)
-
-        return res.status(200).json(createOkResponse({
-            message: 'User password changed successfully'
-        }))
+        return this.overwriteHash(validation.data, res)
     })  
 
     addNew = asyncErrorHandler(async (req: Request, res: Response, next: NextFunction) => {

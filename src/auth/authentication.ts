@@ -12,6 +12,19 @@ type Data = {
 }
 
 const createAuthentication = ({ userModel }: { userModel: IUser }) => {
+
+    const overwriteHash = async (data: UserType['idPassword'], res: Response) => {
+        
+        const salt = await bcript.genSalt(10)
+        const hashPassword = await bcript.hash(data.password, salt)
+
+        await userModel.changePassword({ id: data.id, password: hashPassword })
+
+        return res.status(200).json(createOkResponse({
+            message: 'User password changed successfully'
+        }))
+    }
+
     const registerHash = async (data: UserType['data'], res: Response, next: NextFunction) => {
 
         const salt = await bcript.genSalt(10)
@@ -58,7 +71,7 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
         }))
     }
 
-    return { registerHash, compareHash }
+    return { overwriteHash, registerHash, compareHash }
 }
 
 export default createAuthentication
