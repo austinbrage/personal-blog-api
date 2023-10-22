@@ -24,7 +24,7 @@ export class Sections implements SectionController {
     }
 
     private validationErr(res: Response, validationError: ZodError<unknown>) {
-        return res.status(401).json(createErrorResponse({
+        return res.status(400).json(createErrorResponse({
             message: 'Validation data error',
             error: validationError.format()
         }))
