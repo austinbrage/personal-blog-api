@@ -24,7 +24,7 @@ export class Articles implements ArticleController {
 
     getAll = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id } = req.query
-        const validation = this.validateArticle.userId(req.userId)
+        const validation = this.validateArticle.userId({user_id: req.userId.id})
 
         if(!validation.success) return this.validationErr(res, validation.error)
         
