@@ -70,16 +70,17 @@ export class Articles implements ArticleController {
 
         const result = await this.articleModel.getId(validation.data)
         
-        if(result.length === 0) {
+        if(result.length !== 0) {
             return res.status(401).json(createErrorResponse({
                 message: 'Existing article'
             }))
-        } else {
-            await this.articleModel.addNew(validation.data)
-            return res.status(201).json(createOkResponse({
-                message: 'New article created successfully'
-            }))
         }
+
+        await this.articleModel.addNew(validation.data)
+        
+        return res.status(201).json(createOkResponse({
+            message: 'New article created successfully'
+        }))
     })
 
     remove = asyncErrorHandler(async (req: Request, res: Response) => {
