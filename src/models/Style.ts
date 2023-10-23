@@ -25,14 +25,14 @@ class Style implements IStyle {
         const [rows] = await connection.execute(
             styleQueries[StyleQueries.changeAll],
             [
-                section_id, 
                 font_size, 
                 font_weight, 
                 font_family, 
                 line_height, 
                 margin_top, 
                 text_align, 
-                text_color
+                text_color,
+                section_id 
             ]
         )
 

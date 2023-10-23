@@ -27,7 +27,7 @@ class Section implements ISection {
 
         const [rows] = await connection.execute(
             sectionQueries[SectionQueries.changeContent],
-            [id, content]
+            [content, id]
         )
 
         connection.release()
