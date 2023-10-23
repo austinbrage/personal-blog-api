@@ -79,7 +79,7 @@ export class Sections implements SectionController {
 
         await this.styleModel.addNew(addNewStyles)
 
-        return res.status(200).json(createOkResponse({
+        return res.status(201).json(createOkResponse({
             message: 'New section content and styles created successfully'
         }))
     })
