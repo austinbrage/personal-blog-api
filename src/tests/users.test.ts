@@ -5,37 +5,36 @@ import { userMock } from './mockData'
 let cookies: string
 
 export default (RESOURCE: string) => {
-    describe('Test register and delete user', () => {
+    describe('Test register new user', () => {
     
-        test.skip('should SIGN-UP new user', async () => {
+        test('should SIGN-UP new user', async () => {
             await request(app)
                 .post(`${RESOURCE}/register`)
                 .send(userMock.signUp)
                 .expect(201)
         })
         
-        test.skip('should SIGN-IN, READ and DELETE new user', async () => {
-            const response1 = await request(app)
+        test('should SIGN-IN new user', async () => {
+            const response = await request(app)
                 .post(`${RESOURCE}/login`)
-                .send(userMock.newUser)
+                .send(userMock.rightData)
                 .expect(200)
-            cookies = response1.headers['set-cookie']
-    
-            await request(app)
+            cookies = response.headers['set-cookie']
+        })
+
+        test('should READ new user', async () => {
+            const userData = await request(app)
                 .get(`${RESOURCE}/data`)
                 .set('Cookie', cookies)
                 .expect(200)
-    
-            await request(app)
-                .delete(`${RESOURCE}/data`)
-                .set('Cookie', cookies)
-                .expect(200)
+
+            expect(userData.body.result.data[0])
+                .toMatchObject(userMock.userData)
         })
-    
     })
     
     describe('Test successful and unseccessful login', () => {
-    
+
         test('should NOT LOGIN if username is incorrect', async () => {
             await request(app)
                 .post(`${RESOURCE}/login`)
@@ -65,82 +64,74 @@ export default (RESOURCE: string) => {
         })
     })
     
-    describe.skip('Test resources after a successful login', () => {
-       
-        beforeAll(async () => {
-            const response = await request(app)
-                .post(`${RESOURCE}/login`)
-                .send(userMock.rightData)
-                .expect(200)
-            cookies = response.headers['set-cookie']
-        })
-    
+    describe('Test update user data', () => {
+  
         test('should PATCH the user data', async () => {
             await request(app)
                 .patch(`${RESOURCE}/email`)
                 .set('Cookie', cookies)
-                .send({ email: 'fakeEmail@gmail.com' })
+                .send({ email: userMock.patchData.email })
                 .expect(200)
     
             await request(app)
                 .patch(`${RESOURCE}/author`)
                 .set('Cookie', cookies)
-                .send({ author: 'John Jackson' })
+                .send({ author: userMock.patchData.author })
                 .expect(200)
             
             await request(app)
                 .patch(`${RESOURCE}/name`)
                 .set('Cookie', cookies)
-                .send({ name: 'Usuario0' })
+                .send({ name: userMock.patchData.name })
                 .expect(200)
     
             await request(app)
                 .patch(`${RESOURCE}/password`)
                 .set('Cookie', cookies)
-                .send({ password: '1234' })
+                .send({ password: userMock.patchData.password })
                 .expect(200)
         })
-    })
-    
-    describe.skip('Test resources with bad requests', () => {
-       
-        beforeAll(async () => {
-            const response = await request(app)
+
+        test('should READ new data in user', async () => {
+            const userData = await request(app)
+                .get(`${RESOURCE}/data`)
+                .set('Cookie', cookies)
+                .expect(200)
+
+            expect(userData.body.result.data[0])
+                .toMatchObject(userMock.newData)
+        })
+
+        test('should SIGN-IN only with new data in user', async () => {
+            await request(app)
                 .post(`${RESOURCE}/login`)
                 .send(userMock.rightData)
+                .expect(401)
+
+            const response = await request(app)
+                .post(`${RESOURCE}/login`)
+                .send(userMock.newRightData)
                 .expect(200)
             cookies = response.headers['set-cookie']
         })
-    
-        test('should DENY bad requests', async () => {
+    })
+
+    describe('Test delete new user', () => {
+        
+        test('should DELETE new user', async () => {
             await request(app)
-                .post(`${RESOURCE}/login`)
-                .send({ name: 'Usuario0' })
-                .expect(400)
-    
-            await request(app)
-                .patch(`${RESOURCE}/email`)
+                .delete(`${RESOURCE}/data`)
                 .set('Cookie', cookies)
-                .send({ emails: 'fakeEmail@gmail.com' })
-                .expect(400)
-    
-            await request(app)
-                .patch(`${RESOURCE}/author`)
+                .expect(200)
+        })
+
+        test('should READ no data on deleted user', async () => {
+            const response = await request(app)
+                .get(`${RESOURCE}/data`)
                 .set('Cookie', cookies)
-                .send({ author: true })
-                .expect(400)
-    
-            await request(app)
-                .patch(`${RESOURCE}/name`)
-                .set('Cookie', cookies)
-                .send({ email: 'Usuario0' })
-                .expect(400)
-    
-            await request(app)
-                .patch(`${RESOURCE}/password`)
-                .set('Cookie', cookies)
-                .expect(400)
+                .expect(200)
+
+            expect(response.body.result.data).toHaveLength(0)
         })
     })
 }
-

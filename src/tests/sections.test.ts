@@ -1,9 +1,128 @@
 import request from 'supertest'
 import { app } from '../server'
-// import {  } from './mockData'
+import { userMock, artileMock, sectionMock } from './mockData'
 
+let userId: number
+let articleId: number
+let sectionId: number 
 let cookies: string
 
 export default (RESOURCE: string) => {
+    const USER_RESOURCE = RESOURCE.replace('/section', '/user')  
+    const ARTICLE_RESOURCE = RESOURCE.replace('/section', '/article')  
 
+    describe('Clean test environment', () => {
+        
+        test('should CLEANUP database tables', async () => {
+            await request(app)
+                .delete(`${USER_RESOURCE}/cleanup`)
+                .expect(200)
+        })
+    })
+
+    describe('Get access and user, article data for sections route', () => {
+        
+        test('should SIGN-UP new user', async () => {
+            await request(app)
+                .post(`${USER_RESOURCE}/register`)
+                .send(userMock.signUp)
+                .expect(201)
+        })
+
+        test('should LOGIN to users account', async () => {
+            const response = await request(app)
+                .post(`${USER_RESOURCE}/login`)
+                .send(userMock.rightData)
+                .expect(200)
+           cookies = response.headers['set-cookie']
+        })  
+        
+        test('should GET ID from users account', async () => {
+            const response = await request(app)
+                .get(`${USER_RESOURCE}/data`)
+                .set('Cookie', cookies)
+                .expect(200)
+            userId = response.body.result.data[0].id
+        })  
+
+        test('should GET ARTICLE-ID from new article user', async () => {
+            await request(app)
+                .post(ARTICLE_RESOURCE)
+                .set('Cookie', cookies)
+                .send(artileMock.newArticle(userId))
+                .expect(201)
+            
+            const response = await request(app)
+                .get(ARTICLE_RESOURCE)
+                .set('Cookie', cookies)
+                .expect(200)
+            articleId = response.body.result.data[0].id
+        })
+    })
+
+    describe('Test create new section in article post', () => {
+
+        test('should POST new section', async () => {
+            await request(app)
+                .post(RESOURCE)
+                .set('Cookie', cookies)
+                .send(sectionMock.newSectionStyles(articleId))
+                .expect(201)
+        })
+
+        test('should READ changes and GET SECTION-ID from new section', async () => {
+            const response = await request(app)
+                .get(RESOURCE)
+                .query({ article_id_query: articleId })
+                .set('Cookie', cookies)
+                .expect(200)
+            sectionId = response.body.result.data[0].id
+
+            expect(response.body.result.data[0])
+               .toMatchObject(sectionMock.newSectionStyles(articleId))
+        })
+    })
+
+    describe('Test update new section in article post', () => {
+       
+        test('should PUT data of new section', async () => {
+            await request(app)
+                .put(RESOURCE)
+                .set('Cookie', cookies)
+                .send(sectionMock.changeStyles(sectionId))
+                .expect(200)
+        })
+
+        test('should READ data from changed section', async () => {
+            const response = await request(app)
+                .get(RESOURCE)
+                .query({ article_id_query: articleId })
+                .set('Cookie', cookies)
+                .expect(200)
+
+            expect(response.body.result.data[0])
+               .toMatchObject(sectionMock.changeStyles(sectionId))
+        })
+    })
+
+    describe('Test delete new section in article post', () => {
+        
+        test('should DELETE new section', async () => {
+            await request(app)
+                .delete(RESOURCE)
+                .set('Cookie', cookies)
+                .send({ id: sectionId })
+                .expect(200)
+        })
+
+        test('should READ no data from deleted section', async () => {
+            const response = await request(app)
+                .get(RESOURCE)
+                .query({ article_id_query: articleId })
+                .set('Cookie', cookies)
+                .expect(200)
+
+            expect(response.body.result.data).toHaveLength(0)
+        })
+    })
 }
