@@ -1,4 +1,4 @@
-import { asyncErrorHandler } from '../services/errorHandler'
+import { AsyncFuntion, asyncErrorHandler } from '../services/errorHandler'
 import { ArticlesValidation, type IArticlesValidation } from '../validations/Articles'
 import { createOkResponse, createErrorResponse } from '../helpers/appResponse'
 import type { Request, Response } from 'express'
@@ -49,6 +49,19 @@ export class Articles implements ArticleController {
         }))
     })
 
+    changeDescription = asyncErrorHandler(async (req: Request, res: Response) => {
+        // const { id, description } = req.body
+        const validation = this.validateArticle.idDescription(req.body)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+        
+        await this.articleModel.changeDescription(validation.data)
+ 
+        return res.status(200).json(createOkResponse({
+            message: 'Article description changed successfully'
+        }))
+    })
+    
     changePublishState = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, is_publish } = req.body
         const validation = this.validateArticle.idPublishState(req.body)

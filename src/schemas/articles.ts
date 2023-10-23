@@ -13,6 +13,10 @@ const articleTableSchema = z.object({
         required_error: 'Article name is required',
         invalid_type_error: 'Article name must be a string'
     }),
+    description: z.string({
+        required_error: 'Article description is required',
+        invalid_type_error: 'Article description must be a string'
+    }),
     is_publish: z.boolean({
         required_error: 'Article publishment state is required',
         invalid_type_error: 'Article publishment state must be a boolean'
@@ -23,6 +27,7 @@ const id = articleTableSchema.pick({ id: true })
 const userId = articleTableSchema.pick({ user_id: true })
 const idName = articleTableSchema.pick({ id: true, name: true })
 const userIdName = articleTableSchema.pick({ user_id: true, name: true })
+const idDescription = articleTableSchema.pick({ id: true, description: true })
 const idPublishState = articleTableSchema.pick({ id: true, is_publish: true })
 
 export const articleSchema = {
@@ -30,5 +35,6 @@ export const articleSchema = {
     userId,
     idName,
     userIdName,
+    idDescription,
     idPublishState
 }

@@ -46,6 +46,18 @@ class Article implements IArticle {
         return rows as RowDataPacket[]
     }
 
+    changeDescription = async ({ id, description }: ArticleType['idDescription']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(
+            articleQueries[ArticleQueries.changeDescription],
+            [description, id]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
     changePublishState = async ({ id, is_publish }: ArticleType['idPublishState']) => {
         const connection = await this.pool.getConnection()
         

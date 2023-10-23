@@ -17,6 +17,7 @@ export enum ArticleQueries {
     getId = 'getId',
     addNew = 'addNew',
     changeName = 'changeName',
+    changeDescription = 'changeDescription',
     changePublishment = 'changePublishment',
     remove = 'remove'
 }

@@ -76,6 +76,14 @@ export default (RESOURCE: string) => {
                 .expect(200)
         })
         
+        test('should PATH DESCRIPTION of new article', async () => {
+            await request(app)
+                .patch(`${RESOURCE}/description`)
+                .set('Cookie', cookies)
+                .send(artileMock.newDescription(articleId))
+                .expect(200)
+        })
+        
         test('should PATH PUBLISH STATE of new article', async () => {
             await request(app)
                 .patch(`${RESOURCE}/publishment`)
@@ -92,6 +100,7 @@ export default (RESOURCE: string) => {
                 
             expect(response.body.result.data[0])
                .toMatchObject({
+                   ...artileMock.newDescription(userId),
                    ...artileMock.newName(userId),
                    id: articleId,
                    is_publish: 1

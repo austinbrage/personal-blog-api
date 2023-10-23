@@ -15,6 +15,11 @@
     SET `name` = ?
     WHERE `id` = ?;
 
+-- changeDescription
+    UPDATE `articles`
+    SET `description` = ?
+    WHERE `id` = ?;
+
 -- changePublishment
     UPDATE `articles`
     SET `is_publish` = ?
