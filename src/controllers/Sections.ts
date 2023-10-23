@@ -32,11 +32,19 @@ export class Sections implements SectionController {
 
     getAll = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { article_id } = req.query 
-        const validation = this.validateSection.articleId(req.query)
+        const validation = this.validateSection.articleIdQuery(req.query)
         
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        const result = await this.sectionModel.getAll(validation.data)
+        const article_id = parseInt(validation.data.article_id_query, 10)
+        
+        if(isNaN(article_id)) {
+            return res.status(400).json(createErrorResponse({
+                message: 'Article Id can not be transform into a number'
+            }))      
+        }
+
+        const result = await this.sectionModel.getAll({ article_id: article_id })
 
         return res.status(200).json(createOkResponse({
             message: 'Sections from article requested',
@@ -45,7 +53,7 @@ export class Sections implements SectionController {
     })
 
     changeAll = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { id, content, fontSize, fontWeight, fontFamily, lineHeight, marginTop, textAlign`, textColor } = req.body
+        // const { id, content, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color } = req.body
         const validation = this.validateSection.idData(req.body) 
 
         if(!validation.success) return this.validationErr(res, validation.error)
@@ -65,7 +73,7 @@ export class Sections implements SectionController {
     })
 
     addNew = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { article_id, content, fontSize, fontWeight, fontFamily, lineHeight, marginTop, textAlign`, textColor } = req.body
+        // const { article_id, content, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color } = req.body
         const validation = this.validateSection.articleIdData(req.body)
 
         if(!validation.success) return this.validationErr(res, validation.error)
