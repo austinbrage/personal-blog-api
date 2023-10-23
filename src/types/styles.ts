@@ -9,22 +9,22 @@ export type StyleType = {
 export interface IStyle {
     changeStyles({ 
         section_id, 
-        fontSize, 
-        fontWeight, 
-        fontFamily,
-        lineHeight,
-        marginTop,
-        textAlign,
-        textColor
+        font_size, 
+        font_weight, 
+        font_family,
+        line_height,
+        margin_top,
+        text_align,
+        text_color
     }: StyleType['data']): Promise<RowDataPacket[]>
     addNew({ 
         section_id, 
-        fontSize, 
-        fontWeight, 
-        fontFamily,
-        lineHeight,
-        marginTop,
-        textAlign,
-        textColor
+        font_size, 
+        font_weight, 
+        font_family,
+        line_height,
+        margin_top,
+        text_align,
+        text_color
     }: StyleType['data']): Promise<RowDataPacket[]>
 }

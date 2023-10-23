@@ -9,31 +9,31 @@ const styleTableSchema = z.object({
         required_error: 'Section id for style is required',
         invalid_type_error: 'Section id for style must be a number'
     }),
-    fontSize: z.string({
+    font_size: z.string({
         required_error: 'Font size style is required',
         invalid_type_error: 'Font size style must be a string'
     }),
-    fontWeight: z.string({
+    font_weight: z.string({
         required_error: 'Font weight style is required',
         invalid_type_error: 'Font weight style must be a string'
     }), 
-    fontFamily: z.string({
+    font_family: z.string({
         required_error: 'Font family style is required',
         invalid_type_error: 'Font family style must be a string'
     }), 
-    lineHeight: z.string({
+    line_height: z.string({
         required_error: 'Line height style is required',
         invalid_type_error: 'Line height style must be a string'
     }),
-    marginTop: z.string({
+    margin_top: z.string({
         required_error: 'Margin top style is required',
         invalid_type_error: 'Margin top style must be a string'
     }),
-    textAlign: z.string({
+    text_align: z.string({
         required_error: 'Text align style is required',
         invalid_type_error: 'Text align style must be a string'
     }), 
-    textColor: z.string({
+    text_color: z.string({
         required_error: 'Text color style is required',
         invalid_type_error: 'Text color style must be a string'
     }), 

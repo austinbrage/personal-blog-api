@@ -12,13 +12,13 @@ class Style implements IStyle {
 
     changeStyles = async ({ 
         section_id, 
-        fontSize, 
-        fontWeight, 
-        fontFamily, 
-        lineHeight, 
-        marginTop, 
-        textAlign, 
-        textColor 
+        font_size, 
+        font_weight, 
+        font_family,
+        line_height,
+        margin_top,
+        text_align,
+        text_color
     }: StyleType['data']) => {
         const connection = await this.pool.getConnection()
         
@@ -26,13 +26,13 @@ class Style implements IStyle {
             styleQueries[StyleQueries.changeAll],
             [
                 section_id, 
-                fontSize, 
-                fontWeight, 
-                fontFamily, 
-                lineHeight, 
-                marginTop, 
-                textAlign, 
-                textColor
+                font_size, 
+                font_weight, 
+                font_family, 
+                line_height, 
+                margin_top, 
+                text_align, 
+                text_color
             ]
         )
 
@@ -42,13 +42,13 @@ class Style implements IStyle {
 
     addNew = async ({ 
         section_id, 
-        fontSize, 
-        fontWeight, 
-        fontFamily, 
-        lineHeight, 
-        marginTop, 
-        textAlign, 
-        textColor 
+        font_size, 
+        font_weight, 
+        font_family, 
+        line_height, 
+        margin_top, 
+        text_align, 
+        text_color 
     }: StyleType['data']) => {
         const connection = await this.pool.getConnection()
         
@@ -56,13 +56,13 @@ class Style implements IStyle {
             styleQueries[StyleQueries.addNew],
             [
                 section_id, 
-                fontSize, 
-                fontWeight, 
-                fontFamily, 
-                lineHeight, 
-                marginTop, 
-                textAlign, 
-                textColor
+                font_size, 
+                font_weight, 
+                font_family, 
+                line_height, 
+                margin_top, 
+                text_align, 
+                text_color
             ]
         )
 
