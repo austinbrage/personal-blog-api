@@ -7,16 +7,48 @@
 
 The API will be available at `http://localhost:3000`.
 
-## API Routes
+## API Route
 
-- **GET /articles**: Get all articles.
-- **GET /articles/:id**: Get an article by its ID.
-- **POST /articles**: Create a new article.
-- **PUT /articles/:id**: Update an existing article.
-- **DELETE /articles/:id**: Delete an article by its ID.
+| Endpoint  | Description | 
+| ------ | ------ |
+| **`/personal-blog`** | API Version 1 |
 
-- **GET /users**: Get all users.
-- **GET /users/:id**: Get a user by their ID.
-- **POST /users**: Create a new user.
-- **PUT /users/:id**: Update an existing user.
-- **DELETE /users/:id**: Delete a user by their ID.
+## Connection Route
+
+| Endpoint | Queries | Description | 
+| ------ | ------ | ------ |
+| **GET ***`/ping`***** | none | Verify API and DB connection |
+
+## User Routes
+
+| Endpoint | Queries | Description | 
+| ------ | ------ | ------ |
+| **GET ***`/user/data`***** | **token** | Get all data from user |
+| **POST ***`/user/login`***** | name, password | Sign in user ***(get token)*** |
+| **POST ***`/user/register`***** | name, password, email, author | Sign up user  ***(get token)***  |
+| **PATCH ***`/user/name`***** | id, name, **token** | Change user name |
+| **PATCH ***`/user/email`***** | id, email, **token** | Change user email |
+| **PATCH ***`/user/author`***** | id, author, **token** | Change user author name |
+| **PATCH ***`/user/password`***** | id, password, **token** | Change user password |
+| **DELETE ***`/user/data`***** | id, **token** | Remove user |
+| **DELETE ***`/user/cleanup`***** | NODE_ENV=***test*** | Remove all users |
+
+## Article Routes
+
+| Endpoint | Queries | Description | 
+| ------ | ------ | ------ |
+| **GET ***`/article`***** | **token** | Get all articles from user |
+| **PATCH ***`/article/name`***** | id, name, **token** | Change article name |
+| **PATCH ***`/article/description`***** | id, description, **token** | Change article description |
+| **PATCH ***`/article/publishment`***** | id, is_publish, **token** | Change article publish state |
+| **POST ***`/article`***** | name, **token** |  Add new article |
+| **DELETE ***`/article`***** | id, **token** |  Remove article |
+
+## Section Routes
+
+| Endpoint | Queries | Description | 
+| ------ | ------ | ------ |
+| **GET ***`/section`***** | article_id, **token** | Get all sections from article |
+| **PUT ***`/section`***** | id, content, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, **token** | Change section |
+| **POST ***`/section`***** | article_id, content, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, **token** | Add new section |
+| **DELETE ***`/section`***** | id, **token** | Remove section |
