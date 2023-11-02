@@ -26,11 +26,11 @@ The API will be available at `http://localhost:3000`.
 | **GET ***`/user/data`***** | **token** | Get all data from user |
 | **POST ***`/user/login`***** | name, password | Sign in user ***(get token)*** |
 | **POST ***`/user/register`***** | name, password, email, author | Sign up user  ***(get token)***  |
-| **PATCH ***`/user/name`***** | id, name, **token** | Change user name |
-| **PATCH ***`/user/email`***** | id, email, **token** | Change user email |
-| **PATCH ***`/user/author`***** | id, author, **token** | Change user author name |
-| **PATCH ***`/user/password`***** | id, password, **token** | Change user password |
-| **DELETE ***`/user/data`***** | id, **token** | Remove user |
+| **PATCH ***`/user/name`***** | name, **token** | Change user name |
+| **PATCH ***`/user/email`***** | email, **token** | Change user email |
+| **PATCH ***`/user/author`***** | author, **token** | Change user author name |
+| **PATCH ***`/user/password`***** | password, **token** | Change user password |
+| **DELETE ***`/user/data`***** | **token** | Remove user |
 | **DELETE ***`/user/cleanup`***** | NODE_ENV=***test*** | Remove all users |
 
 ## Article Routes
