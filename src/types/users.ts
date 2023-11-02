@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { userSchema } from '../schemas/users'
 import { type RowDataPacket } from 'mysql2'
-import { type AsyncFuntion } from '../services/errorHandler'
+import { type AsyncFunction } from '../services/errorHandler'
 
 export type UserType = {
     id: z.infer<typeof userSchema.id>,
@@ -30,13 +30,13 @@ export interface IUser {
 }
 
 export interface UserController {
-    getAll: AsyncFuntion
-    getPassword: AsyncFuntion
-    changeName: AsyncFuntion
-    changeEmail: AsyncFuntion
-    changeAuthor: AsyncFuntion
-    changePassword: AsyncFuntion
-    remove: AsyncFuntion
-    addNew: AsyncFuntion
-    cleanUp: AsyncFuntion
+    getAll: AsyncFunction
+    getPassword: AsyncFunction
+    changeName: AsyncFunction
+    changeEmail: AsyncFunction
+    changeAuthor: AsyncFunction
+    changePassword: AsyncFunction
+    remove: AsyncFunction
+    addNew: AsyncFunction
+    cleanUp: AsyncFunction
 }

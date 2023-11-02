@@ -1,4 +1,4 @@
-import { AsyncFuntion, asyncErrorHandler } from '../services/errorHandler'
+import { asyncErrorHandler } from '../services/errorHandler'
 import { ArticlesValidation, type IArticlesValidation } from '../validations/Articles'
 import { createOkResponse, createErrorResponse } from '../helpers/appResponse'
 import type { Request, Response } from 'express'

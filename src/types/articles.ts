@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { articleSchema } from '../schemas/articles'
 import { type RowDataPacket } from 'mysql2'
-import { type AsyncFuntion } from '../services/errorHandler'
+import { type AsyncFunction } from '../services/errorHandler'
 
 export type ArticleType = {
     id: z.infer<typeof articleSchema.id>
@@ -23,10 +23,10 @@ export interface IArticle {
 }
 
 export interface ArticleController {
-    getAll: AsyncFuntion
-    changeName: AsyncFuntion
-    changeDescription: AsyncFuntion
-    changePublishState: AsyncFuntion
-    addNew: AsyncFuntion
-    remove: AsyncFuntion
+    getAll: AsyncFunction
+    changeName: AsyncFunction
+    changeDescription: AsyncFunction
+    changePublishState: AsyncFunction
+    addNew: AsyncFunction
+    remove: AsyncFunction
 }

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { sectionSchema } from '../schemas/sections'
 import { type RowDataPacket } from 'mysql2'
-import { type AsyncFuntion } from '../services/errorHandler'
+import { type AsyncFunction } from '../services/errorHandler'
 
 export type SectionType = {
     id: z.infer<typeof sectionSchema.id>
@@ -21,8 +21,8 @@ export interface ISection {
 }
 
 export interface SectionController {
-    getAll: AsyncFuntion
-    changeAll: AsyncFuntion
-    addNew: AsyncFuntion
-    remove: AsyncFuntion
+    getAll: AsyncFunction
+    changeAll: AsyncFunction
+    addNew: AsyncFunction
+    remove: AsyncFunction
 }
