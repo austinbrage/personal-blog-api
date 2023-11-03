@@ -116,6 +116,37 @@ export default (RESOURCE: string) => {
         })
     })
 
+    describe('Test successful logout', () => {
+        
+        test('should SIGN-OUT new user', async () => {
+            const response = await request(app)
+                .post(`${RESOURCE}/logout`)
+                .set('Cookie', cookies)
+                .expect(200)
+
+            expect(response.headers['set-cookie'])
+                .toEqual(['token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT'])
+
+            cookies = response.headers['set-cookie']
+        })
+
+        test('should NOT READ data after signout', async () => {
+            await request(app)
+                .get(`${RESOURCE}/data`)
+                .set('Cookie', cookies)
+                .expect(401)
+        })
+
+        test('should SIGN-IN new user again', async () => {
+            const response = await request(app)
+                .post(`${RESOURCE}/login`)
+                .send(userMock.newRightData)
+                .expect(200)
+                
+            cookies = response.headers['set-cookie']
+        })
+    })
+
     describe('Test delete new user', () => {
         
         test('should DELETE new user', async () => {
