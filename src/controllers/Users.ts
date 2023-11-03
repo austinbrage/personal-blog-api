@@ -158,6 +158,12 @@ export class Users implements UserController {
             message: 'User table cleanup successfully'
         }))
     })
+
+    endSession = (req: Request, res: Response) => {
+        res.status(200).clearCookie("token").json(createOkResponse({
+            message: 'User logout successfully'
+        }))
+    }
 }
 
 export default Users

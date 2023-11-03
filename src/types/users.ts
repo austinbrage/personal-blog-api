@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { userSchema } from '../schemas/users'
 import { type RowDataPacket } from 'mysql2'
 import { type AsyncFunction } from '../services/errorHandler'
+import type { Request, Response } from 'express'
 
 export type UserType = {
     id: z.infer<typeof userSchema.id>,
@@ -39,4 +40,5 @@ export interface UserController {
     remove: AsyncFunction
     addNew: AsyncFunction
     cleanUp: AsyncFunction
+    endSession: (req: Request, res: Response) => void
 }
