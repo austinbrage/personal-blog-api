@@ -8,7 +8,7 @@
     "dev": "cross-env NODE_ENV=development ts-node-dev src/server.ts",
     "build": "tsc && npm run copy-sql",
     "clean": "cross-env NODE_ENV=development rimraf dist",
-    "copy-sql": "xcopy /E /I /Y src\\sql dist\\sql",
+    "copy-sql": "cp -r src/sql dist/sql",
     "lint": "eslint ./src/**/*.{js,ts}",
     "ts-check": "tsc -p tsconfig.json --noEmit",
     "test:unit": "cross-env NODE_ENV=test jest queries.test.ts",
