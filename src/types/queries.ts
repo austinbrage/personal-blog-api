@@ -16,10 +16,9 @@ export enum ArticleQueries {
     getAll = 'getAll',
     getId = 'getId',
     addNew = 'addNew',
-    changeName = 'changeName',
-    changeDescription = 'changeDescription',
+    changeData = 'changeData',
     changePublishment = 'changePublishment',
-    remove = 'remove'
+    remove = 'remove',
 }
 
 export enum SectionQueries {

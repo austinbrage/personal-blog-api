@@ -13,6 +13,14 @@ const articleTableSchema = z.object({
         required_error: 'Article name is required',
         invalid_type_error: 'Article name must be a string'
     }),
+    title: z.string({
+        required_error: 'Article title is required',
+        invalid_type_error: 'Article title must be a string'
+    }),
+    keywords: z.string({
+        required_error: 'Article keywords is required',
+        invalid_type_error: 'Article keywords must be a string'
+    }),
     description: z.string({
         required_error: 'Article description is required',
         invalid_type_error: 'Article description must be a string'
@@ -25,16 +33,14 @@ const articleTableSchema = z.object({
 
 const id = articleTableSchema.pick({ id: true })
 const userId = articleTableSchema.pick({ user_id: true })
-const idName = articleTableSchema.pick({ id: true, name: true })
 const userIdName = articleTableSchema.pick({ user_id: true, name: true })
-const idDescription = articleTableSchema.pick({ id: true, description: true })
+const idData = articleTableSchema.omit({ user_id: true, is_publish: true })
 const idPublishState = articleTableSchema.pick({ id: true, is_publish: true })
 
 export const articleSchema = {
     id,
     userId,
-    idName,
+    idData,
     userIdName,
-    idDescription,
-    idPublishState
+    idPublishState,
 }

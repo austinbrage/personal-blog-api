@@ -9,8 +9,7 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
 
     articleRouter.get('/', articleController.getAll)
 
-    articleRouter.patch('/name', articleController.changeName)
-    articleRouter.patch('/description', articleController.changeDescription)
+    articleRouter.patch('/data', articleController.changeData)
     articleRouter.patch('/publishment', articleController.changePublishState)
 
     articleRouter.post('/', articleController.addNew)

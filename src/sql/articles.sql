@@ -10,14 +10,12 @@
     INSERT INTO `articles` (`user_id`, `name`)
     VALUES (?, ?);
 
--- changeName
+-- changeData
     UPDATE `articles`
-    SET `name` = ?
-    WHERE `id` = ?;
-
--- changeDescription
-    UPDATE `articles`
-    SET `description` = ?
+    SET `name` = ?,
+        `title` = ?,
+        `keywords` = ?,
+        `description` = ?
     WHERE `id` = ?;
 
 -- changePublishment

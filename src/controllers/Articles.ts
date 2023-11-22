@@ -36,29 +36,16 @@ export class Articles implements ArticleController {
         }))
     })
 
-    changeName = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { id, name } = req.body
-        const validation = this.validateArticle.idName(req.body)
+    changeData = asyncErrorHandler(async (req: Request, res: Response) => {
+        // const { id, name, title, keywords, description } = req.body
+        const validation = this.validateArticle.idData(req.body)
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        await this.articleModel.changeName(validation.data)
+        await this.articleModel.changeData(validation.data)
 
         return res.status(200).json(createOkResponse({
-            message: 'Article name changed successfully'
-        }))
-    })
-
-    changeDescription = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { id, description } = req.body
-        const validation = this.validateArticle.idDescription(req.body)
-
-        if(!validation.success) return this.validationErr(res, validation.error)
-        
-        await this.articleModel.changeDescription(validation.data)
- 
-        return res.status(200).json(createOkResponse({
-            message: 'Article description changed successfully'
+            message: 'Article info changed successfully'
         }))
     })
     
@@ -85,7 +72,7 @@ export class Articles implements ArticleController {
         
         if(result.length !== 0) {
             return res.status(401).json(createErrorResponse({
-                message: 'Existing article'
+                message: 'Existing article name'
             }))
         }
 

@@ -33,26 +33,14 @@ class Article implements IArticle {
         connection.release()
         return rows as RowDataPacket[]
     }
-    
-    changeName = async ({ id, name }: ArticleType['idName']) => {
+
+    changeData = async ({ id, name, title, keywords, description }: ArticleType['idData']) => {
         const connection = await this.pool.getConnection()
         
         const [rows] = await connection.execute(
-            articleQueries[ArticleQueries.changeName],
-            [name, id]
-        )
-
-        connection.release()
-        return rows as RowDataPacket[]
-    }
-
-    changeDescription = async ({ id, description }: ArticleType['idDescription']) => {
-        const connection = await this.pool.getConnection()
-        
-        const [rows] = await connection.execute(
-            articleQueries[ArticleQueries.changeDescription],
-            [description, id]
-        )
+            articleQueries[ArticleQueries.changeData],
+            [name, title, keywords, description, id]
+        )   
 
         connection.release()
         return rows as RowDataPacket[]
