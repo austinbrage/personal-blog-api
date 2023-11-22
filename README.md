@@ -38,10 +38,9 @@ The API will be available at `http://localhost:3000`.
 | Endpoint | Queries | Description | 
 | ------ | ------ | ------ |
 | **GET ***`/article`***** | **token** | Get all articles from user |
-| **PATCH ***`/article/name`***** | id, name, **token** | Change article name |
-| **PATCH ***`/article/description`***** | id, description, **token** | Change article description |
+| **PATCH ***`/article/data`***** | id, name, title, keywords, description **token** | Change article data info |
 | **PATCH ***`/article/publishment`***** | id, is_publish, **token** | Change article publish state |
-| **POST ***`/article`***** | name, **token** |  Add new article |
+| **POST ***`/article`***** | name, title, keywords, description, **token** |  Add new article |
 | **DELETE ***`/article`***** | id, **token** |  Remove article |
 
 ## Section Routes
