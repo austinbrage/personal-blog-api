@@ -58,12 +58,12 @@ class Article implements IArticle {
         return rows as RowDataPacket[]
     }
 
-    addNew = async ({ user_id, name }: ArticleType['userIdName']) => {
+    addNew = async ({ user_id, name, title, keywords, description }: ArticleType['userIdData']) => {
         const connection = await this.pool.getConnection()
         
         const [rows] = await connection.execute(
             articleQueries[ArticleQueries.addNew],
-            [user_id, name]
+            [user_id, name, title, keywords, description]
         )
 
         connection.release()

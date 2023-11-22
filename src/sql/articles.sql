@@ -7,8 +7,8 @@
     WHERE `user_id` = ? AND `name` = ?
 
 -- addNew
-    INSERT INTO `articles` (`user_id`, `name`)
-    VALUES (?, ?);
+    INSERT INTO `articles` (`user_id`, `name`, `title`, `keywords`, `description`)
+    VALUES (?, ? ,?, ?, ?);
 
 -- changeData
     UPDATE `articles`
