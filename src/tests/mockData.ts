@@ -1,6 +1,7 @@
 import { type UserType } from "../types/users"
 import { type ArticleType } from "../types/articles"
 import { type SectionType } from "../types/sections"
+import { isString } from "util"
 
 type UserMock = {
     signUp: UserType['data']
@@ -15,9 +16,8 @@ type UserMock = {
 }
 
 type ArticleMock = {
+    newData: (articleId: number) => ArticleType['idData']
     newArticle: (userId: number) => ArticleType['userIdName']
-    newName: (articleId: number) => ArticleType['idName']
-    newDescription: (articleId: number) => ArticleType['idDescription']
     newPublishState: (articleId: number) => ArticleType['idPublishState']
 }
 
@@ -78,16 +78,13 @@ export const artileMock: ArticleMock = {
             name: 'New Article Test'
         }
     },
-    newName: (articleId) => {
+    newData: (articleId) => {
         return {
             id: articleId,
-            name: 'New Name in Article Test'
-        }
-    },
-    newDescription: (articleId) => {
-        return {
-            id: articleId,
-            description: 'New Description in Article Test'
+            name: 'New Article Name',
+            title: 'New Article Title',
+            keywords: 'New Article Keywords',
+            description: 'New Article Description'
         }
     },
     newPublishState: (articleId) => {

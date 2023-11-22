@@ -68,22 +68,14 @@ export default (RESOURCE: string) => {
 
     describe('Test update new article post', () => {
         
-        test('should PATH NAME of new article', async () => {
+        test('should PATCH INFO of new article', async () => {
             await request(app)
-                .patch(`${RESOURCE}/name`)
+                .patch(`${RESOURCE}/data`)
                 .set('Cookie', cookies)
-                .send(artileMock.newName(articleId))
+                .send(artileMock.newData(articleId))
                 .expect(200)
         })
-        
-        test('should PATH DESCRIPTION of new article', async () => {
-            await request(app)
-                .patch(`${RESOURCE}/description`)
-                .set('Cookie', cookies)
-                .send(artileMock.newDescription(articleId))
-                .expect(200)
-        })
-        
+
         test('should PATH PUBLISH STATE of new article', async () => {
             await request(app)
                 .patch(`${RESOURCE}/publishment`)
@@ -92,7 +84,7 @@ export default (RESOURCE: string) => {
                 .expect(200)
         })
 
-        test('should READ data from changed article', async () => {
+        test('should READ changed data from changed article', async () => {
             const response = await request(app)
                 .get(RESOURCE)
                 .set('Cookie', cookies)
@@ -100,10 +92,9 @@ export default (RESOURCE: string) => {
                 
             expect(response.body.result.data[0])
                .toMatchObject({
-                   ...artileMock.newDescription(userId),
-                   ...artileMock.newName(userId),
-                   id: articleId,
-                   is_publish: 1
+                    ...artileMock.newData(articleId),
+                    id: articleId,
+                    is_publish: 1
                 })
         })
     })
