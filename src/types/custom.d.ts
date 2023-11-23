@@ -18,7 +18,7 @@ export interface JwtPayload {
 export type ErrorResponse = {
     success: false
     error: {
-        status: 'fail' | 'error',
+        status: 'fail' | 'error'
         message: string
         validationError: ZodFormattedError<unknown> | null
     }
@@ -27,7 +27,8 @@ export type ErrorResponse = {
 export type OkResponse = {
     success: true
     result: {
-        message: string,
+        message: string
+        token: string | null
         data: RowDataPacket[] | null
     }
 }

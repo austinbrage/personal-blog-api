@@ -4,9 +4,10 @@ import { ZodFormattedError } from "zod"
 
 export const createOkResponse = ({
     message, 
+    token,
     data
 }: {
-    message: string, 
+    message: string 
     token?: string
     data?: RowDataPacket[]
 }
@@ -16,7 +17,8 @@ export const createOkResponse = ({
         success: true,
         result: {
             message: message,
-            data: data ? data : null
+            data: data ? data : null,
+            token: token ? token : null
         }
     }
 }
@@ -25,7 +27,7 @@ export const createErrorResponse = ({
     message,
     error
 }: {
-    message: string, 
+    message: string 
     error?: ZodFormattedError<unknown>
 }
 ): ErrorResponse => {
