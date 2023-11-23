@@ -9,7 +9,7 @@ The API will be available at `http://localhost:3000`.
 
 ## Authentication
 
-The API relies on cookies for user authentication / authorization, sending and receiving the signed token inside a cookie in the response headers, which will then be automatically stored in the browser's cookies.
+The API relies on headers, sending the signed token within the response body and receiving the same token within the authorization header, which must be stored manually in the client application.
 
 - _This version will require both client and server applications to be secure (https)_
 - **_Not recommended for localhost development environments_**
