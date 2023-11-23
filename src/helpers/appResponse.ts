@@ -7,6 +7,7 @@ export const createOkResponse = ({
     data
 }: {
     message: string, 
+    token?: string
     data?: RowDataPacket[]
 }
 ): OkResponse => {

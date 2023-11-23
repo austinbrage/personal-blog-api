@@ -42,10 +42,9 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
             expiresIn: JWT_EXPIRE
         })
 
-        res.cookie("token", token, { maxAge: 259200000, sameSite: 'none', httpOnly: true, secure: true })
-
         return res.status(201).json(createOkResponse({
-            message: 'User registered successfully'
+            message: 'User registered successfully',
+            token: token
         }))
     }
 
@@ -68,10 +67,9 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
             expiresIn: JWT_EXPIRE
         })
 
-        res.cookie("token", token, { maxAge: 259200000, sameSite: 'none', httpOnly: true, secure: true })
-
         return res.status(200).json(createOkResponse({
-            message: 'User validated successfully'
+            message: 'User validated successfully',
+            token: token
         }))
     }
 
@@ -79,7 +77,3 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
 }
 
 export default createAuthentication
-
-
-
-
