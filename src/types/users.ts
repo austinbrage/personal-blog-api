@@ -40,5 +40,4 @@ export interface UserController {
     remove: AsyncFunction
     addNew: AsyncFunction
     cleanUp: AsyncFunction
-    endSession: (req: Request, res: Response) => void
 }

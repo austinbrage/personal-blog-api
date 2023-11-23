@@ -19,7 +19,6 @@ const createUserRouter = ({ userModel }: { userModel: IUser }) => {
     
     userRouter.post('/register', userController.addNew)
     userRouter.post('/login', userController.getPassword)
-    userRouter.post('/logout', userAuth, userController.endSession)
 
     userRouter.delete('/data', userAuth, userController.remove)
     userRouter.delete('/cleanup', envAuth, userController.cleanUp)
