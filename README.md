@@ -1,11 +1,18 @@
 # Personal Blog Site API
 ![Node](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) ![Express](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge) ![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![Jest](https://img.shields.io/badge/Jest-323330?style=for-the-badge&logo=Jest&logoColor=white) 
 
-##### **The Personal Blog Site API controls resgister and log in of users, and the management of the articles stored by the users.**
+#### **The API controls resgister and log in of users, and the management of the articles stored by the users.**
 
 ## Using the API
 
 The API will be available at `http://localhost:3000`.
+
+## Authentication
+
+The API relies on cookies for user authentication / authorization, sending and receiving the signed token inside a cookie in the response headers, which will then be automatically stored in the browser's cookies.
+
+- _This version will require both client and server applications to be secure (https)_
+- **_Not recommended for localhost development environments_**
 
 ## API Route
 
