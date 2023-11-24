@@ -64,7 +64,7 @@ export class Articles implements ArticleController {
 
     addNew = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { user_id, name, title, keywords, description } = req.body
-        const validation = this.validateArticle.userIdData({...req.body, ...req.userId})
+        const validation = this.validateArticle.userIdData({...req.body, user_id: req.userId.id})
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
