@@ -11,9 +11,6 @@ The API will be available at `http://localhost:3000`.
 
 The API relies on headers, sending the signed token within the response body and receiving the same token within the authorization header, which must be stored manually in the client application.
 
-- _This version will require both client and server applications to be secure (https)_
-- **_Not recommended for localhost development environments_**
-
 ## API Route
 
 | Endpoint  | Description | 
