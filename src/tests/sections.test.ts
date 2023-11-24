@@ -5,7 +5,7 @@ import { userMock, artileMock, sectionMock } from './mockData'
 let userId: number
 let articleId: number
 let sectionId: number 
-let cookies: string
+let token: string
 
 export default (RESOURCE: string) => {
     const USER_RESOURCE = RESOURCE.replace('/section', '/user')  
@@ -34,13 +34,13 @@ export default (RESOURCE: string) => {
                 .post(`${USER_RESOURCE}/login`)
                 .send(userMock.rightData)
                 .expect(200)
-           cookies = response.headers['set-cookie']
+            token = response.body.result.token
         })  
         
         test('should GET ID from users account', async () => {
             const response = await request(app)
                 .get(`${USER_RESOURCE}/data`)
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
             userId = response.body.result.data[0].id
         })  
@@ -48,13 +48,13 @@ export default (RESOURCE: string) => {
         test('should GET ARTICLE-ID from new article user', async () => {
             await request(app)
                 .post(ARTICLE_RESOURCE)
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newArticle(userId))
                 .expect(201)
             
             const response = await request(app)
                 .get(ARTICLE_RESOURCE)
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
             articleId = response.body.result.data[0].id
         })
@@ -65,7 +65,7 @@ export default (RESOURCE: string) => {
         test('should POST new section', async () => {
             await request(app)
                 .post(RESOURCE)
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .send(sectionMock.newSectionStyles(articleId))
                 .expect(201)
         })
@@ -74,7 +74,7 @@ export default (RESOURCE: string) => {
             const response = await request(app)
                 .get(RESOURCE)
                 .query({ article_id_query: articleId })
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
             sectionId = response.body.result.data[0].id
 
@@ -88,7 +88,7 @@ export default (RESOURCE: string) => {
         test('should PUT data of new section', async () => {
             await request(app)
                 .put(RESOURCE)
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .send(sectionMock.changeStyles(sectionId))
                 .expect(200)
         })
@@ -97,7 +97,7 @@ export default (RESOURCE: string) => {
             const response = await request(app)
                 .get(RESOURCE)
                 .query({ article_id_query: articleId })
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
 
             expect(response.body.result.data[0])
@@ -110,7 +110,7 @@ export default (RESOURCE: string) => {
         test('should DELETE new section', async () => {
             await request(app)
                 .delete(RESOURCE)
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .send({ id: sectionId })
                 .expect(200)
         })
@@ -119,7 +119,7 @@ export default (RESOURCE: string) => {
             const response = await request(app)
                 .get(RESOURCE)
                 .query({ article_id_query: articleId })
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
 
             expect(response.body.result.data).toHaveLength(0)

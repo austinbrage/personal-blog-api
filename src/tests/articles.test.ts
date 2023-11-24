@@ -4,7 +4,7 @@ import { userMock, artileMock } from './mockData'
 
 let userId: number
 let articleId: number
-let cookies: string
+let token: string
 
 export default (RESOURCE: string) => {
     const USER_RESOURCE = RESOURCE.replace('/article', '/user')
@@ -32,13 +32,13 @@ export default (RESOURCE: string) => {
                 .post(`${USER_RESOURCE}/login`)
                 .send(userMock.rightData)
                 .expect(200)
-           cookies = response.headers['set-cookie']
+            token = response.body.result.token
         })  
         
         test('should GET USER-ID from users account', async () => {
             const response = await request(app)
                 .get(`${USER_RESOURCE}/data`)
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
             userId = response.body.result.data[0].id
         })  
@@ -49,7 +49,7 @@ export default (RESOURCE: string) => {
         test('should POST new article', async () => {
             await request(app)
                 .post(RESOURCE)
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newArticle(userId))
                 .expect(201)
         })
@@ -57,7 +57,7 @@ export default (RESOURCE: string) => {
         test('should READ and GET ID from new article', async () => {
             const response = await request(app)
                 .get(RESOURCE)
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
             articleId = response.body.result.data[0].id
                 
@@ -71,7 +71,7 @@ export default (RESOURCE: string) => {
         test('should PATCH INFO of new article', async () => {
             await request(app)
                 .patch(`${RESOURCE}/data`)
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newData(articleId))
                 .expect(200)
         })
@@ -79,7 +79,7 @@ export default (RESOURCE: string) => {
         test('should PATH PUBLISH STATE of new article', async () => {
             await request(app)
                 .patch(`${RESOURCE}/publishment`)
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newPublishState(articleId))
                 .expect(200)
         })
@@ -87,7 +87,7 @@ export default (RESOURCE: string) => {
         test('should READ changed data from changed article', async () => {
             const response = await request(app)
                 .get(RESOURCE)
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
                 
             expect(response.body.result.data[0])
@@ -104,7 +104,7 @@ export default (RESOURCE: string) => {
         test('should DELETE new article', async () => {
             await request(app)
                 .delete(RESOURCE)
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .send({ id: articleId })
                 .expect(200)
         })
@@ -112,7 +112,7 @@ export default (RESOURCE: string) => {
         test('should READ no data from deleted article', async () => {
             const response = await request(app)
                 .get(RESOURCE)
-                .set('Cookie', cookies)
+                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
 
             expect(response.body.result.data).toHaveLength(0)
