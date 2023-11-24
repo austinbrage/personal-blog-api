@@ -49,7 +49,7 @@ export default (RESOURCE: string) => {
             await request(app)
                 .post(ARTICLE_RESOURCE)
                 .set('Authorization', `Bearer ${token}`)
-                .send(artileMock.newArticle(userId))
+                .send(artileMock.newArticle)
                 .expect(201)
             
             const response = await request(app)

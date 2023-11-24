@@ -17,7 +17,7 @@ type UserMock = {
 
 type ArticleMock = {
     newData: (articleId: number) => ArticleType['idData']
-    newArticle: (userId: number) => ArticleType['userIdData']
+    newArticle: Omit<ArticleType['idData'], "id">
     newPublishState: (articleId: number) => ArticleType['idPublishState']
 }
 
@@ -72,14 +72,11 @@ export const userMock: UserMock = {
 }
 
 export const artileMock: ArticleMock = {
-    newArticle: (userId) => {
-        return {
-            user_id: userId,
-            name: 'My Article Test',
-            title: 'My Title',
-            keywords: 'My Keywords',
-            description: 'My Description'
-        }
+    newArticle: {
+        name: 'My Article Test',
+        title: 'My Title',
+        keywords: 'My Keywords',
+        description: 'My Description'
     },
     newData: (articleId) => {
         return {

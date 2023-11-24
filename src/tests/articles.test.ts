@@ -50,7 +50,7 @@ export default (RESOURCE: string) => {
             await request(app)
                 .post(RESOURCE)
                 .set('Authorization', `Bearer ${token}`)
-                .send(artileMock.newArticle(userId))
+                .send(artileMock.newArticle)
                 .expect(201)
         })
         
@@ -62,7 +62,7 @@ export default (RESOURCE: string) => {
             articleId = response.body.result.data[0].id
                 
             expect(response.body.result.data[0])
-               .toMatchObject(artileMock.newArticle(userId))
+               .toMatchObject(artileMock.newArticle)
         })
     })
 
