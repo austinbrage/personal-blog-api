@@ -1,5 +1,4 @@
 import express, { json } from 'express'
-import cookieParser from 'cookie-parser'
 import createAuthorization from './auth/authorization'
 import createUserRouter from './routes/users'
 import createArticleRouter from './routes/articles'
@@ -25,7 +24,6 @@ const createApp = ({ userModel, articleModel, sectionModel, styleModel }: Models
     const userAuth = createAuthorization()
 
     app.use(json())
-    app.use(cookieParser()) 
     app.use(corsMiddleware())
     app.disable('x-powered-by')
     
