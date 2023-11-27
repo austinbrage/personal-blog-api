@@ -72,6 +72,14 @@ export class Users implements UserController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
+        const name = await this.userModel.getName(validation.data)
+
+        if(name.length !== 0) {
+            return res.status(401).json(createErrorResponse({
+                message: 'Existing username'
+            }))
+        }
+
         await this.userModel.changeName(validation.data)
 
         return res.status(200).json(createOkResponse({
@@ -84,6 +92,14 @@ export class Users implements UserController {
         const validation = this.validateUser.idEmail({...req.body, ...req.userId}) 
 
         if(!validation.success) return this.validationErr(res, validation.error)
+
+        const email = await this.userModel.getEmail(validation.data)
+
+        if(email.length !== 0) {
+            return res.status(401).json(createErrorResponse({
+                message: 'Existing email'
+            }))
+        }
 
         await this.userModel.changeEmail(validation.data)
 
