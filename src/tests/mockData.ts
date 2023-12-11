@@ -100,6 +100,7 @@ export const sectionMock: SectionMock = {
         return {
            article_id: articleId,
            content: 'New Article Section',
+           content_type: 'paragraph',
            font_family: 'a',
            font_size: 'b',
            font_weight: 'c',
@@ -113,6 +114,7 @@ export const sectionMock: SectionMock = {
         return {
            id: sectionId,
            content: 'Changed Article Section',
+           content_type: 'subtitle',
            font_family: 'aa',
            font_size: 'bb',
            font_weight: 'cc',
