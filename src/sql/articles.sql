@@ -7,13 +7,14 @@
     WHERE `user_id` = ? AND `name` = ?
 
 -- addNew
-    INSERT INTO `articles` (`user_id`, `name`, `title`, `keywords`, `description`)
-    VALUES (?, ? ,?, ?, ?);
+    INSERT INTO `articles` (`user_id`, `name`, `title`, `image`, `keywords`, `description`)
+    VALUES (?, ? ,?, ?, ?, ?);
 
 -- changeData
     UPDATE `articles`
     SET `name` = ?,
         `title` = ?,
+        `image` = ?,
         `keywords` = ?,
         `description` = ?
     WHERE `id` = ?;
