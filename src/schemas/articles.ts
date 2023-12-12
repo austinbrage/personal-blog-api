@@ -18,13 +18,8 @@ const articleTableSchema = z.object({
         invalid_type_error: 'Article title must be a string'
     }),
     image: z.string({
-        required_error: 'Article url image is required',
-        invalid_type_error: 'Article url image must be a string'
-    }).startsWith(
-        "https://", { 
-        message: "Must provide secure URL" 
-    }).url({ 
-        message: "Invalid url",
+        required_error: 'Article image URL is required',
+        invalid_type_error: 'Article image URL must be a string'
     }),
     keywords: z.string({
         required_error: 'Article keywords is required',
