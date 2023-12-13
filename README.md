@@ -52,6 +52,6 @@ The API relies on headers, sending the signed token within the response body and
 | Endpoint | Queries | Description | 
 | ------ | ------ | ------ |
 | **GET ***`/section`***** | article_id, **token** | Get all sections from article |
-| **PUT ***`/section`***** | id, content, content_type, image_url, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, **token** | Change section |
-| **POST ***`/section`***** | article_id, content, content_type, image_url, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, **token** | Add new section |
+| **PUT ***`/section`***** | id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius **token** | Change section |
+| **POST ***`/section`***** | article_id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius **token** | Add new section |
 | **DELETE ***`/section`***** | id, **token** | Remove section |
