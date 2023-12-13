@@ -4,13 +4,14 @@
     WHERE `sections`.`article_id` = ?;
 
 -- addNew
-    INSERT INTO `sections` (`article_id`, `content`, `content_type`)
-    VALUES (?, ?, ?);
+    INSERT INTO `sections` (`article_id`, `content`, `content_type`, `image_url`)
+    VALUES (?, ?, ?, ?);
 
 -- changeContent
     UPDATE `sections`
     SET `content` = ?,
-        `content_type` = ?
+        `content_type` = ?,
+        `image_url` = ?
     WHERE `id` = ?;
 
 -- remove

@@ -100,6 +100,7 @@ export const sectionMock: SectionMock = {
            article_id: articleId,
            content: 'New Article Section',
            content_type: 'paragraph',
+           image_url: null,
            font_family: 'a',
            font_size: 'b',
            font_weight: 'c',
@@ -112,8 +113,9 @@ export const sectionMock: SectionMock = {
     changeStyles: (sectionId: number) => {
         return {
            id: sectionId,
-           content: 'Changed Article Section',
-           content_type: 'subtitle',
+           content: 'Image alt text',
+           content_type: 'image',
+           image_url: 'https://th.bing.com/th/id/OIP.QI29d315w9fABt0BQCsIwwHaE8?rs=1&pid=ImgDetMain',
            font_family: 'aa',
            font_size: 'bb',
            font_weight: 'cc',

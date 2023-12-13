@@ -22,24 +22,24 @@ class Section implements ISection {
         return rows as RowDataPacket[]
     }
 
-    changeContent = async ({ id, content, content_type }: SectionType['idContent']) => {
+    changeContent = async ({ id, content, content_type, image_url }: SectionType['idContent']) => {
         const connection = await this.pool.getConnection()
 
         const [rows] = await connection.execute(
             sectionQueries[SectionQueries.changeContent],
-            [content, content_type, id]
+            [content, content_type, image_url, id]
         )
 
         connection.release()
         return rows as RowDataPacket[]
     }
 
-    addNew = async ({ article_id, content, content_type }: SectionType['articleIdContent']) => {
+    addNew = async ({ article_id, content, content_type, image_url }: SectionType['articleIdContent']) => {
         const connection = await this.pool.getConnection()
 
         const [results] = await connection.execute(
             sectionQueries[SectionQueries.addNew],
-            [article_id, content, content_type]
+            [article_id, content, content_type, image_url]
         ) as ResultSetHeader[]
 
         const newId = results.insertId
