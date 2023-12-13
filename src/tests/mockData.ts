@@ -101,13 +101,16 @@ export const sectionMock: SectionMock = {
            content: 'New Article Section',
            content_type: 'paragraph',
            image_url: null,
-           font_family: 'a',
-           font_size: 'b',
-           font_weight: 'c',
-           line_height: 'd',
-           margin_top: 'e',
-           text_align: 'f',
-           text_color: 'g'
+           width: '90%',
+           height: 'auto',
+           font_family: 'Verdana',
+           font_size: '1.5rem',
+           font_weight: 'bold',
+           line_height: '1rem',
+           margin_top: '0.25rem',
+           text_align: 'right',
+           text_color: 'white',
+           border_radius: '0rem',
         }
     },
     changeStyles: (sectionId: number) => {
@@ -116,13 +119,16 @@ export const sectionMock: SectionMock = {
            content: 'Image alt text',
            content_type: 'image',
            image_url: 'https://th.bing.com/th/id/OIP.QI29d315w9fABt0BQCsIwwHaE8?rs=1&pid=ImgDetMain',
-           font_family: 'aa',
-           font_size: 'bb',
-           font_weight: 'cc',
-           line_height: 'dd',
-           margin_top: 'ee',
-           text_align: 'ff',
-           text_color: 'gg'
+           width: '80%',
+           height: '95%',
+           font_family: 'Monospace',
+           font_size: '1.25rem',
+           font_weight: 'normal',
+           line_height: '1.25rem',
+           margin_top: '0.5rem',
+           text_align: 'center',
+           text_color: 'gray',
+           border_radius: '0.25rem'
         }
     },
 }

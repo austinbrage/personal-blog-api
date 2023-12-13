@@ -9,6 +9,14 @@ const styleTableSchema = z.object({
         required_error: 'Section id for style is required',
         invalid_type_error: 'Section id for style must be a number'
     }),
+    width: z.string({
+        required_error: 'Width style is required',
+        invalid_type_error: 'Width style must be a string'
+    }),
+    height: z.string({
+        required_error: 'Height style is required',
+        invalid_type_error: 'Height style must be a string'
+    }),
     font_size: z.string({
         required_error: 'Font size style is required',
         invalid_type_error: 'Font size style must be a string'
@@ -37,6 +45,10 @@ const styleTableSchema = z.object({
         required_error: 'Text color style is required',
         invalid_type_error: 'Text color style must be a string'
     }), 
+    border_radius: z.string({
+        required_error: 'Border radius style is required',
+        invalid_type_error: 'Border radius style must be a string'
+    })
 })
 
 const data = styleTableSchema.omit({ id: true })

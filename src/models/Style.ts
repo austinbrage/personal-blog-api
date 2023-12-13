@@ -11,20 +11,25 @@ class Style implements IStyle {
     }
 
     changeStyles = async ({ 
-        section_id, 
+        section_id,
+        width,
+        height, 
         font_size, 
         font_weight, 
         font_family,
         line_height,
         margin_top,
         text_align,
-        text_color
+        text_color,
+        border_radius
     }: StyleType['data']) => {
         const connection = await this.pool.getConnection()
         
         const [rows] = await connection.execute(
             styleQueries[StyleQueries.changeAll],
             [
+                width,
+                height, 
                 font_size, 
                 font_weight, 
                 font_family, 
@@ -32,6 +37,7 @@ class Style implements IStyle {
                 margin_top, 
                 text_align, 
                 text_color,
+                border_radius,
                 section_id 
             ]
         )
@@ -42,27 +48,33 @@ class Style implements IStyle {
 
     addNew = async ({ 
         section_id, 
+        width,
+        height,
         font_size, 
         font_weight, 
         font_family, 
         line_height, 
         margin_top, 
         text_align, 
-        text_color 
+        text_color,
+        border_radius 
     }: StyleType['data']) => {
         const connection = await this.pool.getConnection()
         
         const [rows] = await connection.execute(
             styleQueries[StyleQueries.addNew],
             [
-                section_id, 
+                section_id,
+                width,
+                height, 
                 font_size, 
                 font_weight, 
                 font_family, 
                 line_height, 
                 margin_top, 
                 text_align, 
-                text_color
+                text_color,
+                border_radius
             ]
         )
 
