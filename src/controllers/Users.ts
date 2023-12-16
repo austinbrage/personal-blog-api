@@ -11,15 +11,17 @@ export class Users implements UserController {
     private compareHash
     private registerHash
     private overwriteHash
+    private signWithoutHash
     private userModel: IUser
     private validateUser: IUsersValidation
 
     constructor({ userModel }: { userModel: IUser }) {
-        const { compareHash, registerHash, overwriteHash } = createAuthentication({ userModel })
+        const { compareHash, registerHash, overwriteHash, signWithoutHash } = createAuthentication({ userModel })
         this.userModel = userModel
         this.compareHash = compareHash
         this.registerHash = registerHash
         this.overwriteHash = overwriteHash
+        this.signWithoutHash = signWithoutHash
         this.validateUser = new UsersValidation()
     }
     
@@ -42,6 +44,23 @@ export class Users implements UserController {
             message: 'User data requested',
             data: result
         }))
+    })
+
+    getId = asyncErrorHandler(async (req: Request, res: Response, next: NextFunction) => {
+        // const { api_key } = req.body
+        const validation = this.validateUser.apiKey(req.body)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        const result = await this.userModel.getId(validation.data)
+
+        if(result.length === 0) {
+            return res.status(401).json(createErrorResponse({
+                message: 'Incorrect api key'
+            }))
+        }
+
+        this.signWithoutHash(result[0].id, res, next)
     })
     
     getPassword = asyncErrorHandler(async (req: Request, res: Response, next: NextFunction) => {

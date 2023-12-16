@@ -73,7 +73,21 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
         }))
     }
 
-    return { overwriteHash, registerHash, compareHash }
+    const signWithoutHash = async (userId: UserType['id'], res: Response, next: NextFunction) => {
+
+        if(!SECRET_KEY) return next(new CustomError('Secret key is not provided in the API', 500))
+
+        const token = sign({id: userId}, SECRET_KEY, {
+            expiresIn: JWT_EXPIRE
+        })
+
+        return res.status(200).json(createOkResponse({
+            message: 'User validated and data requested',
+            token: token
+        }))
+    }
+    
+    return { overwriteHash, registerHash, compareHash, signWithoutHash }
 }
 
 export default createAuthentication

@@ -9,6 +9,18 @@ class User implements IUser {
     constructor({ userPool }: { userPool: Pool }) {
         this.pool = userPool
     }
+    
+    getId = async ({ api_key }: UserType['apiKey']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.getId], 
+            [api_key]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
 
     getAll = async ({ id }: UserType['id']) => {
         const connection = await this.pool.getConnection()

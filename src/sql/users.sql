@@ -1,3 +1,7 @@
+-- getId
+    SELECT `id` FROM `users` 
+    WHERE `api_key` = ?;
+
 -- getAll
     SELECT `id`, `name`, `email`, `author`, `api_key` FROM `users` 
     WHERE `id` = ?;

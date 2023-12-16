@@ -20,14 +20,19 @@ const userTableSchema = z.object({
     email: z.string({
         required_error: 'User email address is required',
         invalid_type_error: 'User email address must be a string'
+    }),
+    api_key: z.string({
+        required_error: 'User api key is required',
+        invalid_type_error: 'User api key must be a string'
     })
 })
 
 const id = userTableSchema.pick({ id: true })
-const data = userTableSchema.omit({ id: true })
 const name = userTableSchema.pick({ name: true })
 const email = userTableSchema.pick({ email: true })
+const apiKey = userTableSchema.pick({ api_key: true })
 const idName = userTableSchema.pick({ id: true, name: true })
+const data = userTableSchema.omit({ id: true, api_key: true })
 const idEmail = userTableSchema.pick({ id: true, email: true })
 const idAuthor = userTableSchema.pick({ id: true, author: true })
 const idPassword = userTableSchema.pick({ id: true, password: true })
@@ -38,6 +43,7 @@ export const userSchema = {
     data,
     name,
     email,
+    apiKey,
     idName,
     idEmail,
     idAuthor,

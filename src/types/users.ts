@@ -9,6 +9,7 @@ export type UserType = {
     data: z.infer<typeof userSchema.data>,
     name: z.infer<typeof userSchema.name>,
     email: z.infer<typeof userSchema.email>,
+    apiKey: z.infer<typeof userSchema.apiKey>,
     idName: z.infer<typeof userSchema.idName>,
     idEmail: z.infer<typeof userSchema.idEmail>,
     idAuthor: z.infer<typeof userSchema.idAuthor>,
@@ -19,6 +20,7 @@ export type UserType = {
 export interface IUser {
     getAll({ id }: UserType['id']): Promise<RowDataPacket[]>
     getName({ name }: UserType['name']): Promise<RowDataPacket[]>
+    getId({ api_key }: UserType['apiKey']): Promise<RowDataPacket[]>
     getEmail({ email }: UserType['email']): Promise<RowDataPacket[]>
     getIdPassword({ name }: UserType['name']): Promise<RowDataPacket[]>
     changeName({ id, name }: UserType['idName']): Promise<RowDataPacket[]>
@@ -31,6 +33,7 @@ export interface IUser {
 }
 
 export interface UserController {
+    getId: AsyncFunction
     getAll: AsyncFunction
     getPassword: AsyncFunction
     changeName: AsyncFunction
