@@ -3,6 +3,7 @@ import { app } from '../server'
 import { userMock } from './mockData'
 
 let token: string
+let apiKey: string
 
 export default (RESOURCE: string) => {
     describe('Test register new user', () => {
@@ -30,6 +31,16 @@ export default (RESOURCE: string) => {
 
             expect(userData.body.result.data[0])
                 .toMatchObject(userMock.userData)
+
+            apiKey = userData.body.result.data[0].api_key
+        })
+
+        test('should SIGN-IN new user by api_key', async () => {
+            const response = await request(app)
+                .post(`${RESOURCE}/key`)
+                .send({ api_key: apiKey })
+                .expect(200)
+            token = response.body.result.token
         })
     })
     
