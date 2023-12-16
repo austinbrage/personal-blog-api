@@ -28,6 +28,7 @@ The API relies on headers, sending the signed token within the response body and
 | Endpoint | Queries | Description | 
 | ------ | ------ | ------ |
 | **GET ***`/user/data`***** | **token** | Get all data from user |
+| **POST ***`/user/key`***** | api_key | Sign in user ***(get token)*** |
 | **POST ***`/user/login`***** | name, password | Sign in user ***(get token)*** |
 | **POST ***`/user/register`***** | name, password, email, author | Sign up user  ***(get token)***  |
 | **PATCH ***`/user/name`***** | name, **token** | Change user name |
