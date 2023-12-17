@@ -82,7 +82,7 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
         })
 
         return res.status(200).json(createOkResponse({
-            message: 'User validated and data requested',
+            message: 'User validated successfully',
             token: token
         }))
     }
