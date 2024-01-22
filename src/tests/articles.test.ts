@@ -39,7 +39,7 @@ export default (RESOURCE: string) => {
         
         test('should READ article keywords', async () => {
             await request(app)
-                .post(`${RESOURCE}/keywords`)
+                .get(`${RESOURCE}/keywords`)
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
         })
