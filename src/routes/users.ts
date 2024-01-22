@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import { Users as UserController } from '../controllers/Users'
-import envAuth from '../middlewares/env'
 import createAuthorization from '../auth/authorization'
 import { type IUser } from '../types/users'
 
@@ -22,7 +21,6 @@ const createUserRouter = ({ userModel }: { userModel: IUser }) => {
     userRouter.post('/key',       userController.getId)
 
     userRouter.delete('/data',    userAuth, userController.remove)
-    userRouter.delete('/cleanup', envAuth,  userController.cleanUp)
 
     return userRouter
 }

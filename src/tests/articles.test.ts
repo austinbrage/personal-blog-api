@@ -8,15 +8,6 @@ let token: string
 
 export default (RESOURCE: string) => {
     const USER_RESOURCE = RESOURCE.replace('/article', '/user')
-    
-    describe('Clean test environment', () => {
-        
-        test('should CLEANUP database tables', async () => {
-            await request(app)
-                .delete(`${USER_RESOURCE}/cleanup`)
-                .expect(200)
-        })
-    })
 
     describe('Get access and user data for articles route', () => {
         
@@ -124,5 +115,15 @@ export default (RESOURCE: string) => {
 
             expect(response.body.result.data).toHaveLength(0)
         })        
+    })
+
+    describe('Delete new user for next tests', () => {
+
+        test('should DELETE new user', async () => {
+            await request(app)
+                .delete(`${USER_RESOURCE}/data`)
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+        })
     })
 }

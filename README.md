@@ -36,7 +36,6 @@ The API relies on headers, sending the signed token within the response body and
 | **PATCH ***`/user/author`***** | author, **token** | Change user author name |
 | **PATCH ***`/user/password`***** | password, **token** | Change user password |
 | **DELETE ***`/user/data`***** | **token** | Remove user |
-| **DELETE ***`/user/cleanup`***** | NODE_ENV=***test*** | Remove all users |
 
 ## Article Routes
 

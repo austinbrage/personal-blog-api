@@ -10,7 +10,6 @@ export enum UserQueries {
     changeAuthor = 'changeAuthor',
     changeEmail = 'changeEmail',
     remove = 'remove',
-    cleanUp = 'cleanUp'
 }
 
 export enum ArticleQueries {

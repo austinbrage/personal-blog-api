@@ -11,15 +11,6 @@ export default (RESOURCE: string) => {
     const USER_RESOURCE = RESOURCE.replace('/section', '/user')  
     const ARTICLE_RESOURCE = RESOURCE.replace('/section', '/article')  
 
-    describe('Clean test environment', () => {
-        
-        test('should CLEANUP database tables', async () => {
-            await request(app)
-                .delete(`${USER_RESOURCE}/cleanup`)
-                .expect(200)
-        })
-    })
-
     describe('Get access and user, article data for sections route', () => {
         
         test('should SIGN-UP new user', async () => {
@@ -123,6 +114,16 @@ export default (RESOURCE: string) => {
                 .expect(200)
 
             expect(response.body.result.data).toHaveLength(0)
+        })
+    })
+
+    describe('Delete new user for next tests', () => {
+
+        test('should DELETE new user', async () => {
+            await request(app)
+                .delete(`${USER_RESOURCE}/data`)
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
         })
     })
 }

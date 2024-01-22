@@ -2,7 +2,6 @@ import { z } from 'zod'
 import { userSchema } from '../schemas/users'
 import { type RowDataPacket } from 'mysql2'
 import { type AsyncFunction } from '../services/errorHandler'
-import type { Request, Response } from 'express'
 
 export type UserType = {
     id: z.infer<typeof userSchema.id>,
@@ -29,7 +28,6 @@ export interface IUser {
     changePassword({ id, password }: UserType['idPassword']): Promise<RowDataPacket[]>
     addNew({ name, password, email, author }: UserType['data']): Promise<number>
     remove({ id }: UserType['id']): Promise<RowDataPacket[]>
-    cleanUp(): Promise<RowDataPacket[]>
 }
 
 export interface UserController {
@@ -42,5 +40,4 @@ export interface UserController {
     changePassword: AsyncFunction
     remove: AsyncFunction
     addNew: AsyncFunction
-    cleanUp: AsyncFunction
 }

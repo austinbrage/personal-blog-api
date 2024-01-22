@@ -16,12 +16,7 @@ describe('Integration Tests', () => {
                 .get(`${RESOURCE}/ping`)
                 .expect(200)
         })
-        
-        test('should performe a CLEANUP on database tables', async () => {
-            await request(app)
-                .delete(`${RESOURCE}/user/cleanup`)
-                .expect(200)
-        })
+    
     })
 
     describe('Users Route:',    () => { usersRouteTest   (`${RESOURCE}/user`)    })
