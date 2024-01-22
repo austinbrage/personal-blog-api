@@ -18,6 +18,10 @@
     SELECT `email` FROM `users` 
     WHERE `email` = ?;
 
+-- getAuthor
+    SELECT `author` FROM `users`
+    WHERE `author` = ?;
+
 -- addNew
     INSERT INTO `users` (`name`, `password`, `email`, `author`) 
     VALUES (?, ?, ?, ?);
