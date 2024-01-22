@@ -8,6 +8,7 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
     const articleController = new ArticleController({ articleModel })
 
     articleRouter.get('/', articleController.getAll)
+    articleRouter.get('/keywords', articleController.getKeywords)
 
     articleRouter.patch('/data', articleController.changeData)
     articleRouter.patch('/publishment', articleController.changePublishState)

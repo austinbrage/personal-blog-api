@@ -10,6 +10,17 @@ class Article implements IArticle {
         this.pool = articlePool
     }
 
+    getKeywords = async () => {
+        const connection = await this.pool.getConnection()
+
+        const [rows] = await connection.execute(
+            articleQueries[ArticleQueries.getKeywords]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
     getAll = async ({ user_id }: ArticleType['userId']) => {
         const connection = await this.pool.getConnection()
 

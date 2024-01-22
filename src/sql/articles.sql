@@ -1,10 +1,14 @@
+-- getKeywords
+    SELECT * FROM `article_keywords` 
+    ORDER BY `id`;
+
 -- getAll
     SELECT * FROM `articles`
     WHERE `user_id` = ?;
 
 -- getId
     SELECT `id` FROM `articles`
-    WHERE `user_id` = ? AND `name` = ?
+    WHERE `user_id` = ? AND `name` = ?;
 
 -- addNew
     INSERT INTO `articles` (`user_id`, `name`, `title`, `image`, `keywords`, `description`)

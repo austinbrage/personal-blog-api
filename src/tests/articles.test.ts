@@ -46,6 +46,13 @@ export default (RESOURCE: string) => {
 
     describe('Test create and read new article post', () => {
         
+        test('should READ article keywords', async () => {
+            await request(app)
+                .post(`${RESOURCE}/keywords`)
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+        })
+
         test('should POST new article', async () => {
             await request(app)
                 .post(RESOURCE)

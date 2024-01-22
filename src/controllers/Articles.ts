@@ -1,4 +1,4 @@
-import { asyncErrorHandler } from '../services/errorHandler'
+import { AsyncFunction, asyncErrorHandler } from '../services/errorHandler'
 import { ArticlesValidation, type IArticlesValidation } from '../validations/Articles'
 import { createOkResponse, createErrorResponse } from '../helpers/appResponse'
 import type { Request, Response } from 'express'
@@ -21,6 +21,15 @@ export class Articles implements ArticleController {
             error: validationError.format()
         }))
     }
+
+    getKeywords = asyncErrorHandler(async (_req, res: Response) => {
+        const result = await this.articleModel.getKeywords()
+
+        return res.status(200).json(createOkResponse({
+            message: 'Articles keywords requested',
+            data: result
+        }))
+    })
 
     getAll = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id } = req.query
