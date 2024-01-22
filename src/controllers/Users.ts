@@ -133,6 +133,14 @@ export class Users implements UserController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
+        const author = await this.userModel.getAuthor(validation.data)
+
+        if(author.length !== 0) {
+            return res.status(401).json(createErrorResponse({
+                message: 'Existing author'
+            }))
+        }
+
         await this.userModel.changeAuthor(validation.data)
 
         return res.status(200).json(createOkResponse({
@@ -157,6 +165,7 @@ export class Users implements UserController {
 
         const name = await this.userModel.getName(validation.data)
         const email = await this.userModel.getEmail(validation.data)
+        const author = await this.userModel.getAuthor(validation.data)
 
         if(name.length !== 0) {
             return res.status(401).json(createErrorResponse({
@@ -167,6 +176,12 @@ export class Users implements UserController {
         if(email.length !== 0) {
             return res.status(401).json(createErrorResponse({
                 message: 'Existing email'
+            }))
+        }
+
+        if(author.length !== 0) {
+            return res.status(401).json(createErrorResponse({
+                message: 'Existing author'
             }))
         }
 

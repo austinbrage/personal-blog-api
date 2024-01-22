@@ -58,6 +58,18 @@ class User implements IUser {
         return rows as RowDataPacket[]
     }
 
+    getAuthor = async ({ author }: UserType['author']) => {
+        const connection = await this.pool.getConnection()
+
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.getAuthor],
+            [author]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
     getIdPassword = async ({ name }: UserType['name']) => {
         const connection = await this.pool.getConnection()
         
