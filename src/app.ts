@@ -1,5 +1,4 @@
 import express, { json } from 'express'
-import createAuthorization from './auth/authorization'
 import createUserRouter from './routes/users'
 import createArticleRouter from './routes/articles'
 import createSectionRouter from './routes/sections'
@@ -21,16 +20,15 @@ type ModelsType = {
 
 const createApp = ({ userModel, articleModel, sectionModel, styleModel }: ModelsType) => {
     const app = express()
-    const userAuth = createAuthorization()
 
     app.use(json())
     app.use(corsMiddleware())
     app.disable('x-powered-by')
     
-    app.use('/personal-blog/ping', connectionRouter)
-    app.use('/personal-blog/user', createUserRouter({ userModel }))
-    app.use('/personal-blog/article', userAuth, createArticleRouter({ articleModel }))
-    app.use('/personal-blog/section', userAuth, createSectionRouter({ sectionModel, styleModel }))
+    app.use('/personal-blog/ping',    connectionRouter)
+    app.use('/personal-blog/user',    createUserRouter({ userModel }))
+    app.use('/personal-blog/article', createArticleRouter({ articleModel }))
+    app.use('/personal-blog/section', createSectionRouter({ sectionModel, styleModel }))
     
     app.all('*', notFoundHandler)
     app.use(errorMiddleware)
