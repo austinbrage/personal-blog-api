@@ -117,12 +117,100 @@ export default (RESOURCE: string) => {
         })        
     })
 
+    describe('Test READ paginated articles', () => {
+        
+        test('should POST new article set', async () => {
+            await request(app)
+                .post(RESOURCE)
+                .set('Authorization', `Bearer ${token}`)
+                .send(artileMock.newArticleSet1[0])
+                .expect(201)
+
+            await request(app)
+                .post(RESOURCE)
+                .set('Authorization', `Bearer ${token}`)
+                .send(artileMock.newArticleSet1[1])
+                .expect(201)
+        })
+
+        test('should SIGN-UP and LOG-IN new user', async () => {
+            await request(app)
+                .post(`${USER_RESOURCE}/register`)
+                .send(userMock.patchData)
+                .expect(201)
+
+            const response = await request(app)
+                .post(`${USER_RESOURCE}/login`)
+                .send(userMock.newRightData)
+                .expect(200)
+            token = response.body.result.token
+        })
+        
+        test('should POST new article set in new user', async () => {
+            await request(app)
+                .post(RESOURCE)
+                .set('Authorization', `Bearer ${token}`)
+                .send(artileMock.newArticleSet2[0])
+                .expect(201)
+            
+            await request(app)
+                .post(RESOURCE)
+                .set('Authorization', `Bearer ${token}`)
+                .send(artileMock.newArticleSet2[1])
+                .expect(201)
+        })
+
+        test('should READ paginated articles from new user', async () => {
+            const response = await request(app)
+                .get(`${RESOURCE}/data/user/keywords`)
+                .set('Authorization', `Bearer ${token}`)
+                .send(artileMock.newArticleKeywords1)
+                .expect(200)
+
+            expect(response.body.result.data).toHaveLength(1)
+
+            expect(response.body.result.data[0]).toEqual(
+                expect.objectContaining(artileMock.newArticleSet2[0])
+            )                  
+        })
+
+        test('should READ paginated articles from all users', async () => {
+            const response = await request(app)
+                .get(`${RESOURCE}/data/keywords`)
+                .set('Authorization', `Bearer ${token}`)
+                .send(artileMock.newArticleKeywords2)
+                .expect(200)
+
+            expect(response.body.result.data).toHaveLength(3)
+
+            expect(response.body.result.data[0]).toEqual(
+                expect.objectContaining(artileMock.newArticleSet1[1])
+            )
+            expect(response.body.result.data[1]).toEqual(
+                expect.objectContaining(artileMock.newArticleSet2[0])
+            )
+            expect(response.body.result.data[2]).toEqual(
+                expect.objectContaining(artileMock.newArticleSet2[1])
+            )
+        })
+    })
+
     describe('Delete new user for next tests', () => {
 
-        test('should DELETE new user', async () => {
+        test('should DELETE both users', async () => {
             await request(app)
                 .delete(`${USER_RESOURCE}/data`)
                 .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+
+            const response = await request(app)
+                .post(`${USER_RESOURCE}/login`)
+                .send(userMock.rightData)
+                .expect(200)
+
+            await request(app)
+                .delete(`${USER_RESOURCE}/data`)
+                .set('Authorization', `Bearer ${response.body.result.token}`)
                 .expect(200)
         })
     })

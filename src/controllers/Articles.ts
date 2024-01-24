@@ -31,6 +31,34 @@ export class Articles implements ArticleController {
         }))
     })
 
+    getByKeywords = asyncErrorHandler(async (req: Request, res: Response) => {
+        // const { keywords, limit, offset, user_id } = req.body
+        const validation = this.validateArticle.allDataPagination({ ...req.body, user_id: req.userId?.id })
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        const result = await this.articleModel.getByKeyword(validation.data)
+
+        return res.status(200).json(createOkResponse({
+            message: 'Articles from user requested in pages',
+            data: result
+        }))
+    })
+
+    getAllByKeywords = asyncErrorHandler(async (req: Request, res: Response) => {
+        // const { keywords, limit, offset } = req.body
+        const validation = this.validateArticle.noUserIdPagination(req.body)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        const result = await this.articleModel.getAllByKeyword(validation.data)
+
+        return res.status(200).json(createOkResponse({
+            message: 'All articles stored requested in pages',
+            data: result
+        }))
+    })
+
     getAll = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id } = req.query
         const validation = this.validateArticle.userId({ user_id: req.userId?.id })

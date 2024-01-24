@@ -16,6 +16,8 @@ export enum ArticleQueries {
     getAll = 'getAll',
     getId = 'getId',
     getKeywords = 'getKeywords',
+    getByKeyword = 'getByKeyword',
+    getAllByKeyword = 'getAllByKeyword',
     addNew = 'addNew',
     changeData = 'changeData',
     changePublishment = 'changePublishment',

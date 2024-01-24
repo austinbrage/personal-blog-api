@@ -9,8 +9,10 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
     const userAuth = createAuthorization()
     const articleController = new ArticleController({ articleModel })
 
-    articleRouter.get('/keywords',      articleController.getKeywords)
-    articleRouter.get('/',              userAuth, articleController.getAll)
+    articleRouter.get('/keywords',           articleController.getKeywords)
+    articleRouter.get('/data/keywords',      articleController.getAllByKeywords)
+    articleRouter.get('/data/user/keywords', userAuth, articleController.getByKeywords)
+    articleRouter.get('/',                   userAuth, articleController.getAll)
 
     articleRouter.patch('/data',        userAuth, articleController.changeData)
     articleRouter.patch('/publishment', userAuth, articleController.changePublishState)

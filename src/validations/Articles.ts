@@ -1,4 +1,4 @@
-import { articleSchema } from '../schemas/articles'
+import { articleSchema, articlePaginationSchema } from '../schemas/articles'
 import { type ArticleType } from '../types/articles'
 import { type SafeParseReturnType } from 'zod'
 
@@ -9,13 +9,17 @@ export interface IArticlesValidation {
     userIdName(data: unknown): SafeParseReturnType<unknown, ArticleType['userIdName']>
     userIdData(data: unknown): SafeParseReturnType<unknown, ArticleType['userIdData']>
     idPublishState(data: unknown): SafeParseReturnType<unknown, ArticleType['idPublishState']>
+    allDataPagination(data: unknown): SafeParseReturnType<unknown, ArticleType['allDataPage']>
+    noUserIdPagination(data: unknown): SafeParseReturnType<unknown, ArticleType['noUserIdPage']>
 }
 
 export class ArticlesValidation implements IArticlesValidation {
     private articleSchema: typeof articleSchema
+    private articlePaginationSchema: typeof articlePaginationSchema
 
     constructor() {
         this.articleSchema = articleSchema
+        this.articlePaginationSchema = articlePaginationSchema
     }
 
     id = (data: unknown) => this.articleSchema.id.safeParse(data)
@@ -24,4 +28,6 @@ export class ArticlesValidation implements IArticlesValidation {
     userIdName = (data: unknown) => this.articleSchema.userIdName.safeParse(data)
     userIdData = (data: unknown) => this.articleSchema.userIdData.safeParse(data)
     idPublishState = (data: unknown) => this.articleSchema.idPublishState.safeParse(data)
+    allDataPagination = (data: unknown) => this.articlePaginationSchema.allData.safeParse(data)
+    noUserIdPagination = (data: unknown) => this.articlePaginationSchema.noUserId.safeParse(data)
 }

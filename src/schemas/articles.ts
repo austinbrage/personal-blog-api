@@ -50,3 +50,30 @@ export const articleSchema = {
     userIdData,
     idPublishState,
 }
+
+const articleTablePaginationSchema = z.object({
+    user_id: z.number({
+        required_error: 'User id for article is required',
+        invalid_type_error: 'User id for article must be a number'
+    }),
+    keywords: z.string({
+        required_error: 'Article keywords array is required',
+        invalid_type_error: 'Article keywords array must be include strings'
+    }).array(),
+    limit: z.number({
+        required_error: 'Limit pagination is required',
+        invalid_type_error: 'Limit pagination must be a number'
+    }),
+    offset: z.number({
+        required_error: 'Offset pagination is required',
+        invalid_type_error: 'Offset pagination must be a number'
+    }),
+})
+
+const allData = articleTablePaginationSchema
+const noUserId = articleTablePaginationSchema.omit({ user_id: true })
+
+export const articlePaginationSchema = {
+    noUserId,
+    allData
+}

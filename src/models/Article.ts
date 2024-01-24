@@ -45,6 +45,44 @@ class Article implements IArticle {
         return rows as RowDataPacket[]
     }
 
+    getByKeyword = async ({ keywords, limit, offset, user_id }: ArticleType['allDataPage']) => {
+        const connection = await this.pool.getConnection()
+
+        const processedQuery = articleQueries[ArticleQueries.getByKeyword].replace(
+            'placeholder',
+            keywords.map(() => 'keywords LIKE ?').join(' OR ')
+        )
+
+        const processedKeywords = keywords.map(keyword => `%${keyword}%`)
+
+        const [rows] = await connection.execute(
+            processedQuery,
+            [user_id, ...processedKeywords, limit, offset]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
+    getAllByKeyword = async ({ keywords, limit, offset }: ArticleType['noUserIdPage']) => {
+        const connection = await this.pool.getConnection()
+
+        const processedQuery = articleQueries[ArticleQueries.getAllByKeyword].replace(
+            'placeholder',
+            keywords.map(() => 'keywords LIKE ?').join(' OR ')
+        )
+
+        const processedKeywords = keywords.map(keyword => `%${keyword}%`)
+
+        const [rows] = await connection.execute(
+            processedQuery,
+            [...processedKeywords, limit, offset]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
     changeData = async ({ id, name, title, image, keywords, description }: ArticleType['idData']) => {
         const connection = await this.pool.getConnection()
         
