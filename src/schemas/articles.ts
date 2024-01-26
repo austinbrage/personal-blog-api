@@ -68,12 +68,24 @@ const articleTablePaginationSchema = z.object({
         required_error: 'Offset pagination is required',
         invalid_type_error: 'Offset pagination must be a number'
     }),
+    limit_query: z.string({
+        required_error: 'Limit pagination is required',
+        invalid_type_error: 'Limit pagination must be a string'
+    }),
+    offset_query: z.string({
+        required_error: 'Offset pagination is required',
+        invalid_type_error: 'Offset pagination must be a string'
+    })
 })
 
-const allData = articleTablePaginationSchema
-const noUserId = articleTablePaginationSchema.omit({ user_id: true })
+const allData = articleTablePaginationSchema.omit({ limit_query: true, offset_query: true })
+const noUserId = articleTablePaginationSchema.omit({ limit_query: true, offset_query: true, user_id: true })
+const allDataQuery = articleTablePaginationSchema.omit({ limit: true, offset: true})
+const noUserIdQuery = articleTablePaginationSchema.omit({ limit: true, offset: true, user_id: true })
 
 export const articlePaginationSchema = {
     noUserId,
-    allData
+    allData,
+    allDataQuery,
+    noUserIdQuery
 }

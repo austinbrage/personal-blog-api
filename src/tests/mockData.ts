@@ -19,8 +19,8 @@ type ArticleMock = {
     newArticle: Omit<ArticleType['idData'], "id">
     newArticleSet1: Omit<ArticleType['idData'], "id">[]
     newArticleSet2: Omit<ArticleType['idData'], "id">[]
-    newArticleKeywords1: Omit<ArticleType['allDataPage'], "user_id">
-    newArticleKeywords2: ArticleType['noUserIdPage']
+    newArticleKeywords1: Omit<ArticleType['allDataPageQuery'], "user_id">
+    newArticleKeywords2: ArticleType['noUserIdPageQuery']
     newPublishState: (articleId: number) => ArticleType['idPublishState']
 }
 
@@ -101,14 +101,14 @@ export const artileMock: ArticleMock = {
             name: 'Article 1',
             image: 'https://th.bing.com/th/id/OIP.jaWRCdx3lBfjZuK_dJ_jiwHaEK?rs=1&pid=ImgDetMain',
             title: 'My Title',
-            keywords: 'keyword 1',
+            keywords: 'keyword1',
             description: 'My Description'
         },
         {
             name: 'Article 2',
             image: 'https://th.bing.com/th/id/OIP.jaWRCdx3lBfjZuK_dJ_jiwHaEK?rs=1&pid=ImgDetMain',
             title: 'My Title',
-            keywords: 'keyword 2',
+            keywords: 'keyword2',
             description: 'My Description'
         }
     ],
@@ -117,26 +117,26 @@ export const artileMock: ArticleMock = {
             name: 'Article 3',
             image: 'https://th.bing.com/th/id/OIP.jaWRCdx3lBfjZuK_dJ_jiwHaEK?rs=1&pid=ImgDetMain',
             title: 'My Title',
-            keywords: 'keyword 1, keyword 2',
+            keywords: 'keyword1, keyword2',
             description: 'My Description'
         },
         {
             name: 'Article 4',
             image: 'https://th.bing.com/th/id/OIP.jaWRCdx3lBfjZuK_dJ_jiwHaEK?rs=1&pid=ImgDetMain',
             title: 'My Title',
-            keywords: 'keyword 2, keyword 3',
+            keywords: 'keyword2, keyword3',
             description: 'My Description'
         }
     ],
     newArticleKeywords1: {
-        limit: 10,
-        offset: 0,
-        keywords: ['keyword 1']
+        limit_query: '10',
+        offset_query: '0',
+        keywords: ['keyword1']
     },
     newArticleKeywords2: {
-        limit: 10,
-        offset: 0,
-        keywords: ['keyword 2', 'keyword 3']
+        limit_query: '10',
+        offset_query: '0',
+        keywords: ['keyword2', 'keyword3']
     }
 }
 

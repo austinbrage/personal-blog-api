@@ -12,6 +12,8 @@ export type ArticleType = {
     idPublishState: z.infer<typeof articleSchema.idPublishState>
     allDataPage: z.infer<typeof articlePaginationSchema.allData>
     noUserIdPage: z.infer<typeof articlePaginationSchema.noUserId>
+    allDataPageQuery: z.infer<typeof articlePaginationSchema.allDataQuery>
+    noUserIdPageQuery: z.infer<typeof articlePaginationSchema.noUserIdQuery>
 }
 
 export interface IArticle {

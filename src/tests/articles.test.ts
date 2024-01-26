@@ -164,7 +164,7 @@ export default (RESOURCE: string) => {
             const response = await request(app)
                 .get(`${RESOURCE}/data/user/keywords`)
                 .set('Authorization', `Bearer ${token}`)
-                .send(artileMock.newArticleKeywords1)
+                .query(artileMock.newArticleKeywords1)
                 .expect(200)
 
             expect(response.body.result.data).toHaveLength(1)
@@ -178,7 +178,7 @@ export default (RESOURCE: string) => {
             const response = await request(app)
                 .get(`${RESOURCE}/data/keywords`)
                 .set('Authorization', `Bearer ${token}`)
-                .send(artileMock.newArticleKeywords2)
+                .query(artileMock.newArticleKeywords2)
                 .expect(200)
 
             expect(response.body.result.data).toHaveLength(3)

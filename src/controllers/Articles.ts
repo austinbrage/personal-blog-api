@@ -32,12 +32,28 @@ export class Articles implements ArticleController {
     })
 
     getByKeywords = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { keywords, limit, offset, user_id } = req.body
-        const validation = this.validateArticle.allDataPagination({ ...req.body, user_id: req.userId?.id })
+        // const { keywords, limit, offset, user_id } = req.query
+        if(typeof req.query?.keywords === 'string') req.query.keywords = [req.query.keywords]
+
+        const validation = this.validateArticle.allDataPagination({ ...req.query, user_id: req.userId?.id })
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        const result = await this.articleModel.getByKeyword(validation.data)
+        const limit = parseInt(validation.data.limit_query, 10)
+        const offset = parseInt(validation.data.offset_query, 10)
+        
+        if(isNaN(limit)) {
+            return res.status(400).json(createErrorResponse({
+                message: 'Limit can not be transform into a number'
+            }))      
+        }
+        if(isNaN(offset)) {
+            return res.status(400).json(createErrorResponse({
+                message: 'Offset can not be transform into a number'
+            }))      
+        }
+
+        const result = await this.articleModel.getByKeyword({...validation.data, limit, offset})
 
         return res.status(200).json(createOkResponse({
             message: 'Articles from user requested in pages',
@@ -46,12 +62,28 @@ export class Articles implements ArticleController {
     })
 
     getAllByKeywords = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { keywords, limit, offset } = req.body
-        const validation = this.validateArticle.noUserIdPagination(req.body)
+        // const { keywords, limit, offset } = req.query
+        if(typeof req.query?.keywords === 'string') req.query.keywords = [req.query.keywords]
+
+        const validation = this.validateArticle.noUserIdPagination(req.query)
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        const result = await this.articleModel.getAllByKeyword(validation.data)
+        const limit = parseInt(validation.data.limit_query, 10)
+        const offset = parseInt(validation.data.offset_query, 10)
+        
+        if(isNaN(limit)) {
+            return res.status(400).json(createErrorResponse({
+                message: 'Limit can not be transform into a number'
+            }))      
+        }
+        if(isNaN(offset)) {
+            return res.status(400).json(createErrorResponse({
+                message: 'Offset can not be transform into a number'
+            }))      
+        }
+
+        const result = await this.articleModel.getAllByKeyword({...validation.data, limit, offset})
 
         return res.status(200).json(createOkResponse({
             message: 'All articles stored requested in pages',

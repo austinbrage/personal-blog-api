@@ -9,8 +9,8 @@ export interface IArticlesValidation {
     userIdName(data: unknown): SafeParseReturnType<unknown, ArticleType['userIdName']>
     userIdData(data: unknown): SafeParseReturnType<unknown, ArticleType['userIdData']>
     idPublishState(data: unknown): SafeParseReturnType<unknown, ArticleType['idPublishState']>
-    allDataPagination(data: unknown): SafeParseReturnType<unknown, ArticleType['allDataPage']>
-    noUserIdPagination(data: unknown): SafeParseReturnType<unknown, ArticleType['noUserIdPage']>
+    allDataPagination(data: unknown): SafeParseReturnType<unknown, ArticleType['allDataPageQuery']>
+    noUserIdPagination(data: unknown): SafeParseReturnType<unknown, ArticleType['noUserIdPageQuery']>
 }
 
 export class ArticlesValidation implements IArticlesValidation {
@@ -28,6 +28,6 @@ export class ArticlesValidation implements IArticlesValidation {
     userIdName = (data: unknown) => this.articleSchema.userIdName.safeParse(data)
     userIdData = (data: unknown) => this.articleSchema.userIdData.safeParse(data)
     idPublishState = (data: unknown) => this.articleSchema.idPublishState.safeParse(data)
-    allDataPagination = (data: unknown) => this.articlePaginationSchema.allData.safeParse(data)
-    noUserIdPagination = (data: unknown) => this.articlePaginationSchema.noUserId.safeParse(data)
+    allDataPagination = (data: unknown) => this.articlePaginationSchema.allDataQuery.safeParse(data)
+    noUserIdPagination = (data: unknown) => this.articlePaginationSchema.noUserIdQuery.safeParse(data)
 }
