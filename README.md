@@ -43,8 +43,8 @@ The API relies on headers, sending the signed token within the response body and
 | ------ | ------ | ------ |
 | **GET ***`/article`***** | **token** | Get all articles from user |
 | **GET ***`/article/keywords`***** | Get all article keywords |
-| **GET ***`/article/data/keywords`***** | limit, offset, keywords | Get all articles in pages filtered by keywords |
-| **GET ***`/article/data/user/keywords`***** | limit, offset, keywords, **token** | Get user articles in pages filtered by keywords |
+| **GET ***`/article/data/keywords`***** | limit_query, offset_query, keywords | Get all articles in pages filtered by keywords |
+| **GET ***`/article/data/user/keywords`***** | limit_query, offset_query, keywords, **token** | Get user articles in pages filtered by keywords |
 | **PATCH ***`/article/data`***** | id, name, title, image, keywords, description **token** | Change article data info |
 | **PATCH ***`/article/publishment`***** | id, is_publish, **token** | Change article publish state |
 | **POST ***`/article`***** | name, title, image, keywords, description, **token** |  Add new article |
@@ -54,7 +54,7 @@ The API relies on headers, sending the signed token within the response body and
 
 | Endpoint | Queries | Description | 
 | ------ | ------ | ------ |
-| **GET ***`/section`***** | article_id, **token** | Get all sections from article |
+| **GET ***`/section`***** | article_id_query, **token** | Get all sections from article |
 | **PUT ***`/section`***** | id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius **token** | Change section |
 | **POST ***`/section`***** | article_id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius **token** | Add new section |
 | **DELETE ***`/section`***** | id, **token** | Remove section |
