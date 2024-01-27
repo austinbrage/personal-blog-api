@@ -21,6 +21,18 @@ class Article implements IArticle {
         return rows as RowDataPacket[]
     }
 
+    getEverything = async ({ limit, offset }: ArticleType['limitOffsetPage']) => {
+        const connection = await this.pool.getConnection()
+
+        const [rows] = await connection.execute(
+            articleQueries[ArticleQueries.getEverything],
+            [limit, offset]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
     getAll = async ({ user_id }: ArticleType['userId']) => {
         const connection = await this.pool.getConnection()
 

@@ -43,6 +43,7 @@ The API relies on headers, sending the signed token within the response body and
 | ------ | ------ | ------ |
 | **GET ***`/article`***** | **token** | Get all articles from user |
 | **GET ***`/article/keywords`***** | Get all article keywords |
+| **GET ***`/article/data/all`***** | limit_query, offset_query | Get all articles in pages |
 | **GET ***`/article/data/keywords`***** | limit_query, offset_query, keywords | Get all articles in pages filtered by keywords |
 | **GET ***`/article/data/user/keywords`***** | limit_query, offset_query, keywords, **token** | Get user articles in pages filtered by keywords |
 | **PATCH ***`/article/data`***** | id, name, title, image, keywords, description **token** | Change article data info |

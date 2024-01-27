@@ -1,6 +1,6 @@
 import { articleSchema, articlePaginationSchema } from '../schemas/articles'
 import { type ArticleType } from '../types/articles'
-import { type SafeParseReturnType } from 'zod'
+import { SafeParseSuccess, type SafeParseReturnType } from 'zod'
 
 export interface IArticlesValidation {
     id(data: unknown): SafeParseReturnType<unknown, ArticleType['id']>
@@ -11,6 +11,7 @@ export interface IArticlesValidation {
     idPublishState(data: unknown): SafeParseReturnType<unknown, ArticleType['idPublishState']>
     allDataPagination(data: unknown): SafeParseReturnType<unknown, ArticleType['allDataPageQuery']>
     noUserIdPagination(data: unknown): SafeParseReturnType<unknown, ArticleType['noUserIdPageQuery']>
+    limitOffsetPagination(data: unknown): SafeParseReturnType<unknown, ArticleType['limitOffsetPageQuery']>
 }
 
 export class ArticlesValidation implements IArticlesValidation {
@@ -30,4 +31,5 @@ export class ArticlesValidation implements IArticlesValidation {
     idPublishState = (data: unknown) => this.articleSchema.idPublishState.safeParse(data)
     allDataPagination = (data: unknown) => this.articlePaginationSchema.allDataQuery.safeParse(data)
     noUserIdPagination = (data: unknown) => this.articlePaginationSchema.noUserIdQuery.safeParse(data)
+    limitOffsetPagination = (data: unknown) => this.articlePaginationSchema.limitOffsetQuery.safeParse(data)
 }

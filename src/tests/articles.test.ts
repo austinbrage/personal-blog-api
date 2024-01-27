@@ -193,6 +193,17 @@ export default (RESOURCE: string) => {
                 expect.objectContaining(artileMock.newArticleSet2[1])
             )
         })
+
+        test('should READ all paginated articles from all users', async () => {
+            const response = await request(app)
+                .get(`${RESOURCE}/data/all`)
+                .set('Authorization', `Bearer ${token}`)
+                .query(artileMock.allArticles)
+                .expect(200)
+
+            expect(response.body.result.data).toHaveLength(4)
+        })
+
     })
 
     describe('Delete new user for next tests', () => {

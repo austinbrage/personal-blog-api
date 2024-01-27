@@ -91,6 +91,34 @@ export class Articles implements ArticleController {
         }))
     })
 
+    getEverything = asyncErrorHandler(async (req, res: Response) => {
+        // const { limit, offset } = req.query
+        const validation = this.validateArticle.limitOffsetPagination(req.query)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        const limit = parseInt(validation.data.limit_query, 10)
+        const offset = parseInt(validation.data.offset_query, 10)
+        
+        if(isNaN(limit)) {
+            return res.status(400).json(createErrorResponse({
+                message: 'Limit can not be transform into a number'
+            }))      
+        }
+        if(isNaN(offset)) {
+            return res.status(400).json(createErrorResponse({
+                message: 'Offset can not be transform into a number'
+            }))      
+        }
+
+        const result = await this.articleModel.getEverything({ limit, offset })
+
+        return res.status(200).json(createOkResponse({
+            message: 'All articles stored requested',
+            data: result
+        }))
+    })
+
     getAll = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id } = req.query
         const validation = this.validateArticle.userId({ user_id: req.userId?.id })

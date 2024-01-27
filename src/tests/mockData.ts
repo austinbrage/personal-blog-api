@@ -21,6 +21,7 @@ type ArticleMock = {
     newArticleSet2: Omit<ArticleType['idData'], "id">[]
     newArticleKeywords1: Omit<ArticleType['allDataPageQuery'], "user_id">
     newArticleKeywords2: ArticleType['noUserIdPageQuery']
+    allArticles: ArticleType['limitOffsetPageQuery']
     newPublishState: (articleId: number) => ArticleType['idPublishState']
 }
 
@@ -137,6 +138,10 @@ export const artileMock: ArticleMock = {
         limit_query: '10',
         offset_query: '0',
         keywords: ['keyword2', 'keyword3']
+    },
+    allArticles: {
+        limit_query: '10',
+        offset_query: '0'
     }
 }
 

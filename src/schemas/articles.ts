@@ -80,12 +80,16 @@ const articleTablePaginationSchema = z.object({
 
 const allData = articleTablePaginationSchema.omit({ limit_query: true, offset_query: true })
 const noUserId = articleTablePaginationSchema.omit({ limit_query: true, offset_query: true, user_id: true })
+const limitOffset = articleTablePaginationSchema.pick({ limit: true, offset: true })
 const allDataQuery = articleTablePaginationSchema.omit({ limit: true, offset: true})
 const noUserIdQuery = articleTablePaginationSchema.omit({ limit: true, offset: true, user_id: true })
+const limitOffsetQuery = articleTablePaginationSchema.pick({ limit_query: true, offset_query: true })
 
 export const articlePaginationSchema = {
-    noUserId,
     allData,
+    noUserId,
+    limitOffset,
     allDataQuery,
-    noUserIdQuery
+    noUserIdQuery,
+    limitOffsetQuery
 }

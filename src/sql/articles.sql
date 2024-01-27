@@ -20,6 +20,10 @@
     WHERE placeholder
     ORDER BY `id` ASC LIMIT ? OFFSET ?;
 
+-- getEverything
+    SELECT * FROM `articles`
+    ORDER BY `id` DESC LIMIT ? OFFSET ?;
+
 -- addNew
     INSERT INTO `articles` (`user_id`, `name`, `title`, `image`, `keywords`, `description`)
     VALUES (?, ? ,?, ?, ?, ?);
