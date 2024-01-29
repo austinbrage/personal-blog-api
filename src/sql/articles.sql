@@ -4,7 +4,8 @@
 
 -- getAll
     SELECT * FROM `articles`
-    WHERE `user_id` = ?;
+    WHERE `user_id` = ?
+    ORDER BY `id` DESC;
 
 -- getId
     SELECT `id` FROM `articles`
@@ -13,12 +14,12 @@
 -- getByKeyword
     SELECT * FROM `articles`
     WHERE `user_id` = ? AND placeholder
-    ORDER BY `id` ASC LIMIT ? OFFSET ?;
+    ORDER BY `id` DESC LIMIT ? OFFSET ?;
 
 -- getAllByKeyword
     SELECT * FROM `articles`
     WHERE placeholder
-    ORDER BY `id` ASC LIMIT ? OFFSET ?;
+    ORDER BY `id` DESC LIMIT ? OFFSET ?;
 
 -- getEverything
     SELECT * FROM `articles`
