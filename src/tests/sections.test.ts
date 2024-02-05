@@ -4,7 +4,9 @@ import { userMock, artileMock, sectionMock } from './mockData'
 
 let userId: number
 let articleId: number
-let sectionId: number 
+let sectionId1: number
+let sectionId2: number
+let sectionId3: number
 let token: string
 
 export default (RESOURCE: string) => {
@@ -67,7 +69,7 @@ export default (RESOURCE: string) => {
                 .query({ article_id_query: articleId })
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
-            sectionId = response.body.result.data[0].id
+            sectionId1 = response.body.result.data[0].id
 
             expect(response.body.result.data[0])
                .toMatchObject(sectionMock.newSectionStyles(articleId))
@@ -80,7 +82,7 @@ export default (RESOURCE: string) => {
             await request(app)
                 .put(RESOURCE)
                 .set('Authorization', `Bearer ${token}`)
-                .send(sectionMock.changeStyles(sectionId))
+                .send(sectionMock.changeStyles(sectionId1))
                 .expect(200)
         })
 
@@ -92,7 +94,7 @@ export default (RESOURCE: string) => {
                 .expect(200)
 
             expect(response.body.result.data[0])
-               .toMatchObject(sectionMock.changeStyles(sectionId))
+               .toMatchObject(sectionMock.changeStyles(sectionId1))
         })
     })
 
@@ -102,7 +104,7 @@ export default (RESOURCE: string) => {
             await request(app)
                 .delete(RESOURCE)
                 .set('Authorization', `Bearer ${token}`)
-                .send({ id: sectionId })
+                .send({ id: sectionId1 })
                 .expect(200)
         })
 
@@ -117,7 +119,44 @@ export default (RESOURCE: string) => {
         })
     })
 
-    describe('Delete new user for next tests', () => {
+    describe('Test new section template in article post', () => {
+        
+        test('should POST new template', async () => {
+            await request(app)
+                .post(`${RESOURCE}/template`)
+                .set('Authorization', `Bearer ${token}`)
+                .send(sectionMock.newTemplate(articleId, 10))
+                .expect(201)
+        })
+
+        test('should READ new sections added', async () => {
+            const response = await request(app)
+                .get(RESOURCE)
+                .query({ article_id_query: articleId })
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+
+            expect(response.body.result.data).toHaveLength(10)
+            expect(response.body.result.data[0]).toBeDefined()
+            expect(response.body.result.data[1]).toBeDefined()
+
+            expect(response.body.result.data[0])
+               .toMatchObject(sectionMock.newTemplate(articleId, 2)[0])
+
+            expect(response.body.result.data[1])
+               .toMatchObject(sectionMock.newTemplate(articleId, 2)[1])
+        })
+    })
+
+    describe('Delete new article and user for next tests', () => {
+
+        test('should DELETE new article', async () => {
+            await request(app)
+                .delete(ARTICLE_RESOURCE)
+                .set('Authorization', `Bearer ${token}`)
+                .send({ id: articleId })
+                .expect(200)
+        })
 
         test('should DELETE new user', async () => {
             await request(app)

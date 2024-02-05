@@ -20,6 +20,8 @@ const createSectionRouter = ({ styleModel, sectionModel }: ModelsType) => {
     sectionRouter.post('/',   userAuth, sectionController.addNew)
     sectionRouter.delete('/', userAuth, sectionController.remove)
 
+    sectionRouter.post('/template', userAuth, sectionController.addTemplate)
+
     return sectionRouter
 }
 

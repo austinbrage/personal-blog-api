@@ -2,7 +2,7 @@ import { asyncErrorHandler } from "../services/errorHandler"
 import { SectionValidation, type ISectionsValidation } from "../validations/Sections"
 import { createOkResponse, createErrorResponse } from "../helpers/appResponse"
 import type { Request, Response } from 'express'
-import { type SectionController } from "../types/sections"
+import { SectionType, type SectionController } from "../types/sections"
 import { type ISection } from "../types/sections"
 import { type IStyle } from "../types/styles"
 import { type ZodError } from "zod"
@@ -89,6 +89,29 @@ export class Sections implements SectionController {
 
         return res.status(201).json(createOkResponse({
             message: 'New section content and styles created successfully'
+        }))
+    })
+
+    addTemplate = asyncErrorHandler(async (req: Request, res: Response) => {
+        // const { article_id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
+        const validation = this.validateSection.templateData(req.body)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        const insertData = async (item: SectionType['articleIdData']) => {
+            const newIdSection = await this.sectionModel.addNew(item)
+            await this.styleModel.addNew({
+                ...item,
+                section_id: newIdSection
+            })
+        }
+
+        await validation.data.reduce((acc, curr) => acc.then(() => {
+            return insertData(curr)
+        }), Promise.resolve())
+
+        return res.status(201).json(createOkResponse({
+            message: 'New template of sections created successfully'
         }))
     })
 

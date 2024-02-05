@@ -24,5 +24,6 @@ export interface SectionController {
     getAll: AsyncFunction
     changeAll: AsyncFunction
     addNew: AsyncFunction
+    addTemplate: AsyncFunction
     remove: AsyncFunction
 }
