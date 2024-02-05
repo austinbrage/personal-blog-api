@@ -6,11 +6,13 @@ import { type AsyncFunction } from '../services/errorHandler'
 export type SectionType = {
     id: z.infer<typeof sectionSchema.id>
     idData: z.infer<typeof sectionSchema.idData>
+    noIdData: z.infer<typeof sectionSchema.noIdData>
     articleId: z.infer<typeof sectionSchema.articleId>
     idContent: z.infer<typeof sectionSchema.idContent>
     articleIdData: z.infer<typeof sectionSchema.articleIdData>
     articleIdQuery: z.infer<typeof sectionSchema.articleIdQuery>
     articleIdContent: z.infer<typeof sectionSchema.articleIdContent>
+    templateData: z.infer<typeof sectionSchema.templateData>
 }
 
 export interface ISection {

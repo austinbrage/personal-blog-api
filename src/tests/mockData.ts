@@ -28,7 +28,6 @@ type ArticleMock = {
 type SectionMock = {
     newSectionStyles: (articleId: number) => SectionType['articleIdData']
     changeStyles: (sectionId: number) => SectionType['idData']
-    newTemplate: (articleId: number, size: number) => SectionType['articleIdData'][]
 }
 
 export const userMock: UserMock = {
@@ -182,25 +181,5 @@ export const sectionMock: SectionMock = {
            text_color: 'gray',
            border_radius: '0.25rem'
         }
-    },
-    newTemplate: (articleId: number, size: number) => {
-        return Array.from({ length: size }, (_, index) => {
-            return {
-                article_id: articleId,
-                content: `New Section ${index}`,
-                content_type: 'paragraph',
-                image_url: null,
-                width: '90%',
-                height: 'auto',
-                font_family: 'Verdana',
-                font_size: '1.5rem',
-                font_weight: 'bold',
-                line_height: '1rem',
-                margin_top: '0.25rem',
-                text_align: 'right',
-                text_color: 'white',
-                border_radius: '0rem',
-            }
-        })
-    },
+    }
 }

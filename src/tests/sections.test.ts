@@ -1,12 +1,12 @@
 import request from 'supertest'
 import { app } from '../server'
+import { loadJSON } from '../utils/templates'
 import { userMock, artileMock, sectionMock } from './mockData'
+import { type SectionType } from '../types/sections'
 
 let userId: number
 let articleId: number
-let sectionId1: number
-let sectionId2: number
-let sectionId3: number
+let sectionId: number
 let token: string
 
 export default (RESOURCE: string) => {
@@ -69,7 +69,7 @@ export default (RESOURCE: string) => {
                 .query({ article_id_query: articleId })
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
-            sectionId1 = response.body.result.data[0].id
+            sectionId = response.body.result.data[0].id
 
             expect(response.body.result.data[0])
                .toMatchObject(sectionMock.newSectionStyles(articleId))
@@ -82,7 +82,7 @@ export default (RESOURCE: string) => {
             await request(app)
                 .put(RESOURCE)
                 .set('Authorization', `Bearer ${token}`)
-                .send(sectionMock.changeStyles(sectionId1))
+                .send(sectionMock.changeStyles(sectionId))
                 .expect(200)
         })
 
@@ -94,7 +94,7 @@ export default (RESOURCE: string) => {
                 .expect(200)
 
             expect(response.body.result.data[0])
-               .toMatchObject(sectionMock.changeStyles(sectionId1))
+               .toMatchObject(sectionMock.changeStyles(sectionId))
         })
     })
 
@@ -104,7 +104,7 @@ export default (RESOURCE: string) => {
             await request(app)
                 .delete(RESOURCE)
                 .set('Authorization', `Bearer ${token}`)
-                .send({ id: sectionId1 })
+                .send({ id: sectionId })
                 .expect(200)
         })
 
@@ -121,11 +121,13 @@ export default (RESOURCE: string) => {
 
     describe('Test new section template in article post', () => {
         
+        const templateName = 'test'
+
         test('should POST new template', async () => {
             await request(app)
                 .post(`${RESOURCE}/template`)
                 .set('Authorization', `Bearer ${token}`)
-                .send(sectionMock.newTemplate(articleId, 10))
+                .send({ article_id: articleId, template_option: templateName })
                 .expect(201)
         })
 
@@ -136,15 +138,14 @@ export default (RESOURCE: string) => {
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
 
-            expect(response.body.result.data).toHaveLength(10)
-            expect(response.body.result.data[0]).toBeDefined()
-            expect(response.body.result.data[1]).toBeDefined()
+            const templateTest = await loadJSON(templateName) as SectionType['noIdData']
 
-            expect(response.body.result.data[0])
-               .toMatchObject(sectionMock.newTemplate(articleId, 2)[0])
+            expect(response.body.result.data).toHaveLength(templateTest.length)
 
-            expect(response.body.result.data[1])
-               .toMatchObject(sectionMock.newTemplate(articleId, 2)[1])
+            templateTest.forEach((elem, index) => {
+                expect(response.body.result.data[index])
+                    .toMatchObject({ article_id: articleId, ...elem })
+            })
         })
     })
 

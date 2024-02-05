@@ -35,17 +35,28 @@ const sectionTableSchema = z.object({
 const id = sectionTableSchema.pick({ id: true })
 const articleId = sectionTableSchema.pick({ article_id: true })
 const articleIdQuery = sectionTableSchema.pick({ article_id_query: true })
+const data = sectionTableSchema.pick({ content: true, content_type: true, image_url: true })
 const idContent = sectionTableSchema.pick({ id: true, content: true, content_type: true, image_url: true })
 const articleIdContent = sectionTableSchema.pick({ article_id: true, content: true, content_type: true, image_url: true })
 
-const templateData = articleIdContent.merge(styleSchema.partialData).array()
 const articleIdData = articleIdContent.merge(styleSchema.partialData)
+const noIdData = data.merge(styleSchema.partialData).array()
 const idData = idContent.merge(styleSchema.partialData)
 
+
+const options: [string, ...string[]] = ['basic', 'test']
+
+const templateData = articleId.merge(z.object({ 
+    template_option: z.enum(options, {
+        required_error: 'Template option is required',
+        invalid_type_error: `Template option must be one of ${options.join(' ')}`
+    }) 
+}))
 
 export const sectionSchema = {
     id,
     idData,
+    noIdData,
     articleId,
     idContent,
     templateData,

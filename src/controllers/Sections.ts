@@ -1,3 +1,4 @@
+import { loadJSON } from "../utils/templates"
 import { asyncErrorHandler } from "../services/errorHandler"
 import { SectionValidation, type ISectionsValidation } from "../validations/Sections"
 import { createOkResponse, createErrorResponse } from "../helpers/appResponse"
@@ -13,11 +14,13 @@ type ModelsType = {
 }
 
 export class Sections implements SectionController {
+    private loadJSON
     private styleModel: IStyle
     private sectionModel: ISection
     private validateSection: ISectionsValidation
 
     constructor({ sectionModel, styleModel }: ModelsType) {
+        this.loadJSON = loadJSON
         this.styleModel = styleModel
         this.sectionModel = sectionModel
         this.validateSection = new SectionValidation()
@@ -93,20 +96,29 @@ export class Sections implements SectionController {
     })
 
     addTemplate = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { article_id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
+        // const { article_id, template_option } = req.body
         const validation = this.validateSection.templateData(req.body)
 
         if(!validation.success) return this.validationErr(res, validation.error)
+        
+        const insertData = async (item: Omit<SectionType['articleIdData'], "article_id">) => {
+            const newIdSection = await this.sectionModel.addNew({
+                ...item,
+                article_id: validation.data.article_id,
+            })
 
-        const insertData = async (item: SectionType['articleIdData']) => {
-            const newIdSection = await this.sectionModel.addNew(item)
             await this.styleModel.addNew({
                 ...item,
                 section_id: newIdSection
             })
         }
 
-        await validation.data.reduce((acc, curr) => acc.then(() => {
+        const templateJSON = await this.loadJSON(validation.data.template_option)
+        const validationJSON = this.validateSection.noIdData(templateJSON)
+
+        if(!validationJSON.success) return this.validationErr(res, validationJSON.error)
+ 
+        await validationJSON.data.reduce((acc, curr) => acc.then(() => {
             return insertData(curr)
         }), Promise.resolve())
 

@@ -5,10 +5,11 @@ import { type SafeParseReturnType } from "zod"
 export interface ISectionsValidation {
     id(data: unknown): SafeParseReturnType<unknown, SectionType['id']>
     idData(data: unknown): SafeParseReturnType<unknown, SectionType['idData']>
+    noIdData(data: unknown): SafeParseReturnType<unknown, SectionType['noIdData']>
     articleId(data: unknown): SafeParseReturnType<unknown, SectionType['articleId']>
     articleIdData(data: unknown): SafeParseReturnType<unknown, SectionType['articleIdData']>
     articleIdQuery(data: unknown): SafeParseReturnType<unknown, SectionType['articleIdQuery']>
-    templateData(data: unknown): SafeParseReturnType<unknown, SectionType['articleIdData'][]>
+    templateData(data: unknown): SafeParseReturnType<unknown, SectionType['templateData']>
 }
 
 export class SectionValidation implements ISectionsValidation {
@@ -20,6 +21,7 @@ export class SectionValidation implements ISectionsValidation {
 
     id = (data: unknown) => this.sectionSchema.id.safeParse(data)
     idData = (data: unknown) => this.sectionSchema.idData.safeParse(data)
+    noIdData = (data: unknown) => this.sectionSchema.noIdData.safeParse(data)
     articleId = (data: unknown) => this.sectionSchema.articleId.safeParse(data)
     articleIdData = (data: unknown) => this.sectionSchema.articleIdData.safeParse(data)
     articleIdQuery = (data: unknown) => this.sectionSchema.articleIdQuery.safeParse(data)

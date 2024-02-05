@@ -58,5 +58,5 @@ The API relies on headers, sending the signed token within the response body and
 | **GET ***`/section`***** | article_id_query, **token** | Get all sections from article |
 | **PUT ***`/section`***** | id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius **token** | Change section |
 | **POST ***`/section`***** | article_id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius **token** | Add new section |
-| **POST ***`/section/template`***** | Array of: article_id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius **token** | Add new section template |
+| **POST ***`/section/template`***** | article_id, template_option **token** | Add new section template |
 | **DELETE ***`/section`***** | id, **token** | Remove section |

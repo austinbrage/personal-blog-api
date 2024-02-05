@@ -1,0 +1,32 @@
+[
+    {
+        "content":       "Basic Template",
+        "content_type":  "title",
+        "image_url":      null,
+        "width":         "90%",
+        "height":        "auto",
+        "font_family":   "Verdana",
+        "font_size":     "1.5rem",
+        "font_weight":   "bold",
+        "line_height":   "1rem",
+        "margin_top":    "0.25rem",
+        "text_align":    "right",
+        "text_color":    "white",
+        "border_radius": "0rem"
+    },
+    {
+        "content":       "Subtitle",
+        "content_type":  "subtitle",
+        "image_url":      null,
+        "width":         "90%",
+        "height":        "auto",
+        "font_family":   "Verdana",
+        "font_size":     "1.5rem",
+        "font_weight":   "bold",
+        "line_height":   "1rem",
+        "margin_top":    "0.25rem",
+        "text_align":    "right",
+        "text_color":    "white",
+        "border_radius": "0rem"
+    }
+]
