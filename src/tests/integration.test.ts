@@ -19,8 +19,8 @@ describe('Integration Tests', () => {
     
     })
 
-    describe.skip('Users Route:',    () => { usersRouteTest   (`${RESOURCE}/user`)    })
-    describe.skip('Articles Route:', () => { articlesRouteTest(`${RESOURCE}/article`) })
+    describe('Users Route:',    () => { usersRouteTest   (`${RESOURCE}/user`)    })
+    describe('Articles Route:', () => { articlesRouteTest(`${RESOURCE}/article`) })
     describe('Sections Route:', () => { sectionsRouteTest(`${RESOURCE}/section`) })
 
     afterAll(async () => {
