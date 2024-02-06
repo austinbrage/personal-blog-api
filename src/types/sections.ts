@@ -10,6 +10,7 @@ export type SectionType = {
     articleId: z.infer<typeof sectionSchema.articleId>
     idContent: z.infer<typeof sectionSchema.idContent>
     articleIdData: z.infer<typeof sectionSchema.articleIdData>
+    articleIdDatas: z.infer<typeof sectionSchema.articleIdDatas>
     articleIdQuery: z.infer<typeof sectionSchema.articleIdQuery>
     articleIdContent: z.infer<typeof sectionSchema.articleIdContent>
     templateData: z.infer<typeof sectionSchema.templateData>
@@ -26,6 +27,7 @@ export interface SectionController {
     getAll: AsyncFunction
     changeAll: AsyncFunction
     addNew: AsyncFunction
+    addMultiple: AsyncFunction
     addTemplate: AsyncFunction
     remove: AsyncFunction
 }

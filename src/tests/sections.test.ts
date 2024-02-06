@@ -149,6 +149,58 @@ export default (RESOURCE: string) => {
         })
     })
 
+    describe('Test setup new fresh article for the next test', () => {
+        
+        test('should DELETE new article', async () => {
+            await request(app)
+                .delete(ARTICLE_RESOURCE)
+                .set('Authorization', `Bearer ${token}`)
+                .send({ id: articleId })
+                .expect(200)
+        })
+
+        test('should GET ARTICLE-ID from new article user', async () => {
+            await request(app)
+                .post(ARTICLE_RESOURCE)
+                .set('Authorization', `Bearer ${token}`)
+                .send(artileMock.newArticle)
+                .expect(201)
+            
+            const response = await request(app)
+                .get(ARTICLE_RESOURCE)
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+            articleId = response.body.result.data[0].id
+        })
+    })
+    
+    describe('Test new multiple sections in article post', () => {
+        
+        test('should POST new multiple sections', async () => {
+            await request(app)
+                .post(`${RESOURCE}/multiple`)
+                .set('Authorization', `Bearer ${token}`)
+                .send(sectionMock.newMultpleSections(articleId))
+                .expect(201)
+        })
+
+        test('should READ new sections added', async () => {
+            const response = await request(app)
+                .get(RESOURCE)
+                .query({ article_id_query: articleId })
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+
+            const newSections = sectionMock.newMultpleSections(articleId)
+
+            expect(response.body.result.data).toHaveLength(newSections.length)
+
+            newSections.forEach((elem, index) => {
+                expect(response.body.result.data[index]).toMatchObject(elem)
+            })
+        })
+    })
+    
     describe('Delete new article and user for next tests', () => {
 
         test('should DELETE new article', async () => {

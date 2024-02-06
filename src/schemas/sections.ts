@@ -39,6 +39,7 @@ const data = sectionTableSchema.pick({ content: true, content_type: true, image_
 const idContent = sectionTableSchema.pick({ id: true, content: true, content_type: true, image_url: true })
 const articleIdContent = sectionTableSchema.pick({ article_id: true, content: true, content_type: true, image_url: true })
 
+const articleIdDatas = articleIdContent.merge(styleSchema.partialData).array()
 const articleIdData = articleIdContent.merge(styleSchema.partialData)
 const noIdData = data.merge(styleSchema.partialData).array()
 const idData = idContent.merge(styleSchema.partialData)
@@ -61,6 +62,7 @@ export const sectionSchema = {
     idContent,
     templateData,
     articleIdData,
+    articleIdDatas,
     articleIdQuery,
     articleIdContent,
 }

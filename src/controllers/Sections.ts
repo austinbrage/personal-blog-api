@@ -95,6 +95,37 @@ export class Sections implements SectionController {
         }))
     })
 
+    addMultiple = asyncErrorHandler(async (req: Request, res: Response) => {
+        // const [{ article_id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius }] = req.body
+        const validation = this.validateSection.articleIdDatas(req.body)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        if(validation.data.length > 5) return res.status(400).json(createErrorResponse({
+            message: 'Not allowed to add more than 5 sections at once'
+        }))      
+
+        const insertData = async (item: Omit<SectionType['articleIdData'], "article_id">) => {
+            const newIdSection = await this.sectionModel.addNew({
+                ...item,
+                article_id: validation.data[0].article_id,
+            })
+
+            await this.styleModel.addNew({
+                ...item,
+                section_id: newIdSection
+            })
+        }       
+        
+        await validation.data.reduce((acc, curr) => acc.then(() => {
+            return insertData(curr)
+        }), Promise.resolve())
+
+        return res.status(201).json(createOkResponse({
+            message: 'New multiple sections created successfully'
+        }))
+    })
+    
     addTemplate = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { article_id, template_option } = req.body
         const validation = this.validateSection.templateData(req.body)
