@@ -1,7 +1,7 @@
 import { type Response } from "express"
 import { type UserType } from "./users"
-import { type RowDataPacket } from "mysql2"
 import { type ZodFormattedError } from "zod"
+import { type RowDataPacket, ResultSetHeader } from "mysql2"
 
 declare global{
     namespace Express {
@@ -29,7 +29,7 @@ export type OkResponse = {
     result: {
         message: string
         token: string | null
-        data: RowDataPacket[] | null
+        data: RowDataPacket[] | ResultSetHeader[] | null
     }
 }
 

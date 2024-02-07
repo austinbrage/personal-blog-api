@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { articleSchema, articlePaginationSchema } from '../schemas/articles'
-import { type RowDataPacket } from 'mysql2'
 import { type AsyncFunction } from '../services/errorHandler'
+import { type RowDataPacket, ResultSetHeader } from 'mysql2'
 
 export type ArticleType = {
     id: z.infer<typeof articleSchema.id>
@@ -28,7 +28,7 @@ export interface IArticle {
     getEverything({ limit, offset }: ArticleType['limitOffsetPage']): Promise<RowDataPacket[]>
     changePublishState({ id, is_publish }: ArticleType['idPublishState']): Promise<RowDataPacket[]>
     changeData({ id, name, title, image, keywords, description }: ArticleType['idData']): Promise<RowDataPacket[]>
-    addNew({ user_id, name, title, image, keywords, description }: ArticleType['userIdData']): Promise<RowDataPacket[]>
+    addNew({ user_id, name, title, image, keywords, description }: ArticleType['userIdData']): Promise<ResultSetHeader[]>
     remove({ id }: ArticleType['id']): Promise<RowDataPacket[]>
 }
 

@@ -1,4 +1,4 @@
-import type { RowDataPacket, Pool } from 'mysql2/promise'
+import type { RowDataPacket, ResultSetHeader, Pool } from 'mysql2/promise'
 import type { ArticleType, IArticle } from '../types/articles'
 import { ArticleQueries } from '../types/queries'
 import { articleQueries } from '../utils/queries'
@@ -125,10 +125,10 @@ class Article implements IArticle {
         const [rows] = await connection.execute(
             articleQueries[ArticleQueries.addNew],
             [user_id, name, title, image, keywords, description]
-        )
+        ) as ResultSetHeader[]
 
         connection.release()
-        return rows as RowDataPacket[]   
+        return [rows] as ResultSetHeader[] 
     }
 
     remove = async ({ id }: ArticleType['id']) => {

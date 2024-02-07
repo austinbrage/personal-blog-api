@@ -173,10 +173,11 @@ export class Articles implements ArticleController {
             }))
         }
 
-        await this.articleModel.addNew(validation.data)
+        const newArticleInfo = await this.articleModel.addNew(validation.data)
         
         return res.status(201).json(createOkResponse({
-            message: 'New article created successfully'
+            message: 'New article created successfully',
+            data: newArticleInfo
         }))
     })
 

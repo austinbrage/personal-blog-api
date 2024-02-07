@@ -1,4 +1,4 @@
-import { RowDataPacket } from "mysql2"
+import { RowDataPacket, ResultSetHeader } from "mysql2"
 import type { OkResponse, ErrorResponse } from "../types/custom"
 import { ZodFormattedError } from "zod"
 
@@ -9,7 +9,7 @@ export const createOkResponse = ({
 }: {
     message: string 
     token?: string
-    data?: RowDataPacket[]
+    data?: RowDataPacket[] | ResultSetHeader[]
 }
 ): OkResponse => {
 
