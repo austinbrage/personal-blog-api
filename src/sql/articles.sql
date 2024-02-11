@@ -13,16 +13,17 @@
 
 -- getByKeyword
     SELECT * FROM `articles`
-    WHERE `user_id` = ? AND placeholder
+    WHERE `user_id` = ? AND `is_publish` = true AND placeholder
     ORDER BY `id` DESC LIMIT ? OFFSET ?;
 
 -- getAllByKeyword
     SELECT * FROM `articles`
-    WHERE placeholder
+    WHERE `is_publish` = true AND placeholder
     ORDER BY `id` DESC LIMIT ? OFFSET ?;
 
 -- getEverything
     SELECT * FROM `articles`
+    WHERE `is_publish` = true
     ORDER BY `id` DESC LIMIT ? OFFSET ?;
 
 -- addNew

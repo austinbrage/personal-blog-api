@@ -133,6 +133,25 @@ export default (RESOURCE: string) => {
                 .expect(201)
         })
 
+        test('Test update articles pusblish state', async () => {
+            const response = await request(app)
+                .get(RESOURCE)
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+            
+            await request(app)
+                .patch(`${RESOURCE}/publishment`)
+                .set('Authorization', `Bearer ${token}`)
+                .send(artileMock.newPublishState(response.body.result.data[0].id))
+                .expect(200)
+            
+            await request(app)
+                .patch(`${RESOURCE}/publishment`)
+                .set('Authorization', `Bearer ${token}`)
+                .send(artileMock.newPublishState(response.body.result.data[1].id))
+                .expect(200)
+        })
+
         test('should SIGN-UP and LOG-IN new user', async () => {
             await request(app)
                 .post(`${USER_RESOURCE}/register`)
@@ -158,6 +177,25 @@ export default (RESOURCE: string) => {
                 .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newArticleSet2[1])
                 .expect(201)
+        })
+
+        test('Test update articles pusblish state', async () => {
+            const response = await request(app)
+                .get(RESOURCE)
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+            
+            await request(app)
+                .patch(`${RESOURCE}/publishment`)
+                .set('Authorization', `Bearer ${token}`)
+                .send(artileMock.newPublishState(response.body.result.data[0].id))
+                .expect(200)
+            
+            await request(app)
+                .patch(`${RESOURCE}/publishment`)
+                .set('Authorization', `Bearer ${token}`)
+                .send(artileMock.newPublishState(response.body.result.data[1].id))
+                .expect(200)
         })
 
         test('should READ paginated articles from new user', async () => {
