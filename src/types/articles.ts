@@ -12,11 +12,11 @@ export type ArticleType = {
     idPublishState: z.infer<typeof articleSchema.idPublishState>
 
     allDataPage: z.infer<typeof articlePaginationSchema.allData>
+    pageValues: z.infer<typeof articlePaginationSchema.pageValues>
     noUserIdPage: z.infer<typeof articlePaginationSchema.noUserId>
     limitOffsetPage: z.infer<typeof articlePaginationSchema.limitOffset>
     allDataPageQuery: z.infer<typeof articlePaginationSchema.allDataQuery>
     noUserIdPageQuery: z.infer<typeof articlePaginationSchema.noUserIdQuery>
-    limitOffsetPageQuery: z.infer<typeof articlePaginationSchema.limitOffsetQuery>
 }
 
 export interface IArticle {

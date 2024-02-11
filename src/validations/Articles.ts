@@ -11,7 +11,7 @@ export interface IArticlesValidation {
     idPublishState(data: unknown): SafeParseReturnType<unknown, ArticleType['idPublishState']>
     allDataPagination(data: unknown): SafeParseReturnType<unknown, ArticleType['allDataPageQuery']>
     noUserIdPagination(data: unknown): SafeParseReturnType<unknown, ArticleType['noUserIdPageQuery']>
-    limitOffsetPagination(data: unknown): SafeParseReturnType<unknown, ArticleType['limitOffsetPageQuery']>
+    paginationValues(data: unknown): SafeParseReturnType<unknown, ArticleType['pageValues']>
 }
 
 export class ArticlesValidation implements IArticlesValidation {
@@ -29,7 +29,7 @@ export class ArticlesValidation implements IArticlesValidation {
     userIdName = (data: unknown) => this.articleSchema.userIdName.safeParse(data)
     userIdData = (data: unknown) => this.articleSchema.userIdData.safeParse(data)
     idPublishState = (data: unknown) => this.articleSchema.idPublishState.safeParse(data)
+    paginationValues = (data: unknown) => this.articlePaginationSchema.pageValues.safeParse(data)
     allDataPagination = (data: unknown) => this.articlePaginationSchema.allDataQuery.safeParse(data)
     noUserIdPagination = (data: unknown) => this.articlePaginationSchema.noUserIdQuery.safeParse(data)
-    limitOffsetPagination = (data: unknown) => this.articlePaginationSchema.limitOffsetQuery.safeParse(data)
 }

@@ -32,28 +32,32 @@ export class Articles implements ArticleController {
     })
 
     getByKeywords = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { keywords, limit, offset, user_id } = req.query
+        // const { keywords, perPage, currentPage, user_id } = req.query
         if(typeof req.query?.keywords === 'string') req.query.keywords = [req.query.keywords]
 
         const validation = this.validateArticle.allDataPagination({ ...req.query, user_id: req.userId?.id })
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        const limit = parseInt(validation.data.limit_query, 10)
-        const offset = parseInt(validation.data.offset_query, 10)
+        const perPage = parseInt(validation.data.perPage, 10)
+        const currentPage = parseInt(validation.data.currentPage, 10)
         
-        if(isNaN(limit)) {
+        if(isNaN(perPage)) {
             return res.status(400).json(createErrorResponse({
-                message: 'Limit can not be transform into a number'
+                message: 'Items per page can not be transform into a number'
             }))      
         }
-        if(isNaN(offset)) {
+        if(isNaN(currentPage)) {
             return res.status(400).json(createErrorResponse({
-                message: 'Offset can not be transform into a number'
+                message: 'Current page can not be transform into a number'
             }))      
         }
 
-        const result = await this.articleModel.getByKeyword({...validation.data, limit, offset})
+        const result = await this.articleModel.getByKeyword({
+            ...validation.data, 
+            limit:  perPage, 
+            offset: perPage * (currentPage - 1) 
+        })
 
         return res.status(200).json(createOkResponse({
             message: 'Articles from user requested in pages',
@@ -62,28 +66,32 @@ export class Articles implements ArticleController {
     })
 
     getAllByKeywords = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { keywords, limit, offset } = req.query
+        // const { keywords, perPage, currentPage } = req.query
         if(typeof req.query?.keywords === 'string') req.query.keywords = [req.query.keywords]
 
         const validation = this.validateArticle.noUserIdPagination(req.query)
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        const limit = parseInt(validation.data.limit_query, 10)
-        const offset = parseInt(validation.data.offset_query, 10)
+        const perPage = parseInt(validation.data.perPage, 10)
+        const currentPage = parseInt(validation.data.currentPage, 10)
         
-        if(isNaN(limit)) {
+        if(isNaN(perPage)) {
             return res.status(400).json(createErrorResponse({
-                message: 'Limit can not be transform into a number'
+                message: 'Items per page can not be transform into a number'
             }))      
         }
-        if(isNaN(offset)) {
+        if(isNaN(currentPage)) {
             return res.status(400).json(createErrorResponse({
-                message: 'Offset can not be transform into a number'
+                message: 'Current page can not be transform into a number'
             }))      
         }
 
-        const result = await this.articleModel.getAllByKeyword({...validation.data, limit, offset})
+        const result = await this.articleModel.getAllByKeyword({
+            ...validation.data, 
+            limit:  perPage, 
+            offset: perPage * (currentPage - 1) 
+        })
 
         return res.status(200).json(createOkResponse({
             message: 'All articles stored requested in pages',
@@ -92,26 +100,29 @@ export class Articles implements ArticleController {
     })
 
     getEverything = asyncErrorHandler(async (req, res: Response) => {
-        // const { limit, offset } = req.query
-        const validation = this.validateArticle.limitOffsetPagination(req.query)
+        // const { perPage, currentPage } = req.query
+        const validation = this.validateArticle.paginationValues(req.query)
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        const limit = parseInt(validation.data.limit_query, 10)
-        const offset = parseInt(validation.data.offset_query, 10)
+        const perPage = parseInt(validation.data.perPage, 10)
+        const currentPage = parseInt(validation.data.currentPage, 10)
         
-        if(isNaN(limit)) {
+        if(isNaN(perPage)) {
             return res.status(400).json(createErrorResponse({
-                message: 'Limit can not be transform into a number'
+                message: 'Items per page can not be transform into a number'
             }))      
         }
-        if(isNaN(offset)) {
+        if(isNaN(currentPage)) {
             return res.status(400).json(createErrorResponse({
-                message: 'Offset can not be transform into a number'
+                message: 'Current page can not be transform into a number'
             }))      
         }
 
-        const result = await this.articleModel.getEverything({ limit, offset })
+        const result = await this.articleModel.getEverything({ 
+            limit:  perPage, 
+            offset: perPage * (currentPage - 1) 
+        })
 
         return res.status(200).json(createOkResponse({
             message: 'All articles stored requested',

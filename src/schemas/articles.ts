@@ -68,28 +68,28 @@ const articleTablePaginationSchema = z.object({
         required_error: 'Offset pagination is required',
         invalid_type_error: 'Offset pagination must be a number'
     }),
-    limit_query: z.string({
-        required_error: 'Limit pagination is required',
-        invalid_type_error: 'Limit pagination must be a string'
+    perPage: z.string({
+        required_error: 'Items per page is required',
+        invalid_type_error: 'Items per page must be a string'
     }),
-    offset_query: z.string({
-        required_error: 'Offset pagination is required',
-        invalid_type_error: 'Offset pagination must be a string'
+    currentPage: z.string({
+        required_error: 'Current page is required',
+        invalid_type_error: 'Current page must be a string'
     })
 })
 
-const allData = articleTablePaginationSchema.omit({ limit_query: true, offset_query: true })
-const noUserId = articleTablePaginationSchema.omit({ limit_query: true, offset_query: true, user_id: true })
+const allData = articleTablePaginationSchema.omit({ perPage: true, currentPage: true })
+const noUserId = articleTablePaginationSchema.omit({ perPage: true, currentPage: true, user_id: true })
+const pageValues = articleTablePaginationSchema.pick({ perPage: true, currentPage: true })
 const limitOffset = articleTablePaginationSchema.pick({ limit: true, offset: true })
 const allDataQuery = articleTablePaginationSchema.omit({ limit: true, offset: true})
 const noUserIdQuery = articleTablePaginationSchema.omit({ limit: true, offset: true, user_id: true })
-const limitOffsetQuery = articleTablePaginationSchema.pick({ limit_query: true, offset_query: true })
 
 export const articlePaginationSchema = {
     allData,
     noUserId,
+    pageValues,
     limitOffset,
     allDataQuery,
-    noUserIdQuery,
-    limitOffsetQuery
+    noUserIdQuery
 }
