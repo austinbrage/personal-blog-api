@@ -94,7 +94,7 @@ export class Articles implements ArticleController {
         })
 
         return res.status(200).json(createOkResponse({
-            message: 'All articles stored requested in pages',
+            message: 'Filtered articles requested',
             data: result
         }))
     })
