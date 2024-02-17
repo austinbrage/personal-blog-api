@@ -1,6 +1,6 @@
 {
   "name": "personal-blog-api",
-  "version": "0.11.6",
+  "version": "0.12.6",
   "description": "RESTful API for management of users and blog articles",
   "main": "server.js",
   "scripts": {
