@@ -82,6 +82,18 @@ class User implements IUser {
         return rows as RowDataPacket[]
     }
     
+    getByExternalID = async ({ auth_provider, external_id }: UserType['authData']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.getByExternalId], 
+            [auth_provider, external_id]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+    
     changeName = async ({ id, name }: UserType['idName']) => {
         const connection = await this.pool.getConnection()
         
@@ -142,12 +154,12 @@ class User implements IUser {
         return rows as RowDataPacket[]
     }
 
-    addNew = async ({ name, password, email, author }: UserType['data']) => {
+    addNew = async ({ name, password, email, author, auth_provider, external_id }: UserType['fullData']) => {
         const connection = await this.pool.getConnection()
         
         const [results] = await connection.execute(
             userQueries[UserQueries.addNew], 
-            [name, password, email, author]
+            [name, password, email, author, auth_provider, external_id]
         ) as ResultSetHeader[]
 
         const newId = results.insertId

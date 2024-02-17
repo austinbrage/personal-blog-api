@@ -3,6 +3,8 @@ import { sign } from 'jsonwebtoken'
 import { CustomError } from '../helpers/customError'
 import type { IUser, UserType } from '../types/users'
 import type { Response, NextFunction } from 'express'
+import { OAuth2Client } from 'google-auth-library'
+import { CLIENT_ID, CLIENT_SECRET, ENVIRONMENT } from '../utils/config'
 import { JWT_EXPIRE, SECRET_KEY } from '../utils/config'
 import { createOkResponse, createErrorResponse } from '../helpers/appResponse'
 
@@ -12,6 +14,30 @@ type Data = {
 }
 
 const createAuthentication = ({ userModel }: { userModel: IUser }) => {
+    
+    const googleClient = new OAuth2Client(CLIENT_ID, CLIENT_SECRET)
+
+    const fakeSignOAuth = async (data: UserType['authInfoData'], res: Response, next: NextFunction) => {
+       
+        const userData = {
+            id:        data.code,
+            author:   'Fake email author name', 
+            email:    'Fake email address', 
+            name:     'Fake email name', 
+            password:  Math.random().toString(36).substring(7),
+            auth_provider: data.auth_provider,
+            external_id: data.code
+        }
+
+        const result = await userModel.getByExternalID({
+            auth_provider: data.auth_provider,
+            external_id: userData.id
+        })
+
+        if(result.length > 0) return signWithoutHash(result[0].id, res, next)
+
+        return registerHash(userData, res, next)     
+    }
 
     const overwriteHash = async (data: UserType['idPassword'], res: Response) => {
         
@@ -25,12 +51,12 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
         }))
     }
 
-    const registerHash = async (data: UserType['data'], res: Response, next: NextFunction) => {
+    const registerHash = async (data: UserType['fullData'], res: Response, next: NextFunction) => {
 
         const salt = await bcript.genSalt(10)
         const hashPassword = await bcript.hash(data.password, salt)
        
-        const newData: UserType['data'] = {
+        const newData: UserType['fullData'] = {
             ...data,
             password: hashPassword
         }
@@ -86,8 +112,60 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
             token: token
         }))
     }
+
+    const signWithGoogleID = async (data: UserType['authInfoData'], res: Response, next: NextFunction) => {
+       
+        if(ENVIRONMENT === 'test') return fakeSignOAuth(data, res, next)
+
+        const { tokens } = await googleClient.getToken({ 
+            code: data.code,
+            redirect_uri: 'http://localhost:3001'
+        })
     
-    return { overwriteHash, registerHash, compareHash, signWithoutHash }
+        if(!tokens.id_token) return next(new CustomError('Could not get Google ID Token', 500))
+
+        const ticket = await googleClient.verifyIdToken({
+            idToken: tokens.id_token,
+            audience: CLIENT_ID,
+        })
+
+        const payload = ticket.getPayload()
+        
+        if(!payload) return next(new CustomError('Could not get Google Data Payload', 500))
+        if(!payload.name) return next(new CustomError('Could not get Google Email Name', 500))
+        if(!payload.email) return next(new CustomError('Could not get Google Email Address', 500))
+
+        const userData = {
+            id:       payload.sub,
+            email:    payload.email, 
+            author:   payload.name.replace(/\s/g, "-") + '_' + Math.random().toString(36).substring(2, 10), 
+            name:     payload.name.replace(/\s/g, "-") + '_' + Math.random().toString(36).substring(2, 10), 
+            password: Math.random().toString(36).substring(7),
+            auth_provider: data.auth_provider,
+            external_id: payload.sub
+        }
+
+        const result = await userModel.getByExternalID({
+            auth_provider: data.auth_provider,
+            external_id: userData.id
+        })
+
+        if(result.length > 0) {
+            return signWithoutHash(result[0].id, res, next)
+        }
+
+        const email = await userModel.getEmail({ email: userData.email })
+
+        if(email.length !== 0) {
+            return res.status(401).json(createErrorResponse({
+                message: 'Existing email, sign in with your password'
+            }))
+        }
+
+        return registerHash(userData, res, next)
+    }
+    
+    return { overwriteHash, registerHash, compareHash, signWithoutHash, signWithGoogleID }
 }
 
 export default createAuthentication

@@ -1,4 +1,4 @@
-import { userSchema } from '../schemas/users'
+import { userSchema, authSchema } from '../schemas/users'
 import { type UserType } from '../types/users'
 import { type SafeParseReturnType } from 'zod'
 
@@ -11,13 +11,16 @@ export interface IUsersValidation {
     idAuthor(data: unknown): SafeParseReturnType<unknown, UserType['idAuthor']>
     idPassword(data: unknown): SafeParseReturnType<unknown, UserType['idPassword']>
     namePassword(data: unknown): SafeParseReturnType<unknown, UserType['namePassword']>
+    authInfoData(data: unknown): SafeParseReturnType<unknown, UserType['authInfoData']>
 }
 
 export class UsersValidation implements IUsersValidation {
     private userSchema: typeof userSchema
+    private authSchema: typeof authSchema
 
     constructor() {
         this.userSchema = userSchema
+        this.authSchema = authSchema
     }
 
     id = (data: unknown) => this.userSchema.id.safeParse(data)
@@ -28,4 +31,5 @@ export class UsersValidation implements IUsersValidation {
     idAuthor = (data: unknown) => this.userSchema.idAuthor.safeParse(data)
     idPassword = (data: unknown) => this.userSchema.idPassword.safeParse(data)
     namePassword = (data: unknown) => this.userSchema.namePassword.safeParse(data)
+    authInfoData = (data: unknown) => this.authSchema.authInfoData.safeParse(data)
 }

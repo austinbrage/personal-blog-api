@@ -18,6 +18,7 @@ const createUserRouter = ({ userModel }: { userModel: IUser }) => {
     
     userRouter.post('/register',  userController.addNew)
     userRouter.post('/login',     userController.getPassword)
+    userRouter.post('/oauth',     userController.openAuth)
     userRouter.post('/key',       userController.getId)
 
     userRouter.delete('/data',    userAuth, userController.remove)

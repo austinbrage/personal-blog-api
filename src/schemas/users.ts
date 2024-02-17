@@ -24,7 +24,15 @@ const userTableSchema = z.object({
     api_key: z.string({
         required_error: 'User api key is required',
         invalid_type_error: 'User api key must be a string'
-    })
+    }),
+    auth_provider: z.string({
+        required_error: 'Auth Provider is required',
+        invalid_type_error: 'Auth Provider must be a string'
+    }).nullable(),
+    external_id: z.string({
+        required_error: 'External ID is required',
+        invalid_type_error: 'External ID must be a string'
+    }).nullable(),
 })
 
 const id = userTableSchema.pick({ id: true })
@@ -33,11 +41,13 @@ const email = userTableSchema.pick({ email: true })
 const author = userTableSchema.pick({ author: true })
 const apiKey = userTableSchema.pick({ api_key: true })
 const idName = userTableSchema.pick({ id: true, name: true })
-const data = userTableSchema.omit({ id: true, api_key: true })
 const idEmail = userTableSchema.pick({ id: true, email: true })
 const idAuthor = userTableSchema.pick({ id: true, author: true })
 const idPassword = userTableSchema.pick({ id: true, password: true })
 const namePassword = userTableSchema.pick({ name: true, password: true })
+const authData = userTableSchema.pick({ auth_provider: true, external_id: true })
+const data = userTableSchema.omit({ id: true, api_key: true, auth_provider: true, external_id: true })
+const fullData = userTableSchema.omit({ id: true, api_key: true })
 
 export const userSchema = {
     id,
@@ -46,9 +56,26 @@ export const userSchema = {
     email,
     author,
     apiKey,
+    authData,
+    fullData,
     idName,
     idEmail,
     idAuthor,
     idPassword,
     namePassword
+}
+
+const authInfoSchema = z.object({
+    auth_provider: z.string({
+        required_error: 'Auth provider name is required',
+        invalid_type_error: 'Auth provider name must be a string'
+    }),
+    code: z.string({
+        required_error: 'Auth gooogle code key is required',
+        invalid_type_error: 'Auth gooogle code must be a string'
+    })  
+})
+
+export const authSchema = {
+    authInfoData: authInfoSchema,
 }

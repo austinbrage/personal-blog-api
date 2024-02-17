@@ -30,6 +30,7 @@ The API relies on headers, sending the signed token within the response body and
 | **GET ***`/user/data`***** | **token** | Get all data from user |
 | **POST ***`/user/key`***** | api_key | Sign in user ***(get token)*** |
 | **POST ***`/user/login`***** | name, password | Sign in user ***(get token)*** |
+| **POST ***`/user/oauth`***** | auth_provider, code | Open Auth User ***(get token)*** |
 | **POST ***`/user/register`***** | name, password, email, author | Sign up user  ***(get token)***  |
 | **PATCH ***`/user/name`***** | name, **token** | Change user name |
 | **PATCH ***`/user/email`***** | email, **token** | Change user email |

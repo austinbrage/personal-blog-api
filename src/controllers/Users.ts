@@ -11,17 +11,26 @@ export class Users implements UserController {
     private compareHash
     private registerHash
     private overwriteHash
-    private signWithoutHash
+    private signWithoutHash 
+    private signWithGoogleID 
     private userModel: IUser
     private validateUser: IUsersValidation
 
     constructor({ userModel }: { userModel: IUser }) {
-        const { compareHash, registerHash, overwriteHash, signWithoutHash } = createAuthentication({ userModel })
+        const { 
+            compareHash, 
+            registerHash, 
+            overwriteHash, 
+            signWithoutHash,
+            signWithGoogleID 
+        } = createAuthentication({ userModel })
+
         this.userModel = userModel
         this.compareHash = compareHash
         this.registerHash = registerHash
         this.overwriteHash = overwriteHash
         this.signWithoutHash = signWithoutHash
+        this.signWithGoogleID = signWithGoogleID
         this.validateUser = new UsersValidation()
     }
     
@@ -185,9 +194,30 @@ export class Users implements UserController {
             }))
         }
 
-        return this.registerHash(validation.data, res, next)
+        const completeData = {
+            ...validation.data,
+            auth_provider: null,
+            external_id: null
+        }
+        
+        return this.registerHash(completeData, res, next)
     })  
 
+    openAuth = asyncErrorHandler(async (req: Request, res: Response, next: NextFunction) => {
+        // const { provider, code } = req.body
+        const validation = this.validateUser.authInfoData(req.body) 
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        if(validation.data.auth_provider !== 'google') {
+            return res.status(401).json(createErrorResponse({
+                message: 'OAuth Provider not handled by the API'
+            }))
+        }
+
+        return this.signWithGoogleID(validation.data, res, next)
+    })
+    
     remove = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id } = req.body
         const validation = this.validateUser.id(req.userId)
