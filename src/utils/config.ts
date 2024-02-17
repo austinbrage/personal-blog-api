@@ -14,6 +14,9 @@ export const ENVIRONMENT = process.env.NODE_ENV ?? 'production'
 export const JWT_EXPIRE = process.env.JWT_EXPIRE
 export const SECRET_KEY = process.env.SECRET_KEY
 
+export const CLIENT_ID = process.env.GOOGLE_CLIENT_ID
+export const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
+
 export const PORT: {[env: string]: string | number} = {
     development: process.env.DEV_PORT ?? 3000,
     production: process.env.PROD_PORT ?? 3001,
