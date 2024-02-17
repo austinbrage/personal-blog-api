@@ -171,4 +171,50 @@ export default (RESOURCE: string) => {
             expect(response.body.result.data).toHaveLength(0)
         })
     })
+
+    describe('Test open authentication and authorization', () => {
+        
+        test('should SIGN-UP new user', async () => {
+            const response = await request(app)
+                .post(`${RESOURCE}/oauth`)
+                .send(userMock.fakeOAuth)
+                .expect(201)
+            token = response.body.result.token
+        })
+
+        test('should READ new user after sign up', async () => {
+            const response = await request(app)
+                .get(`${RESOURCE}/data`)
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+
+            expect(response.body.result.data[0].name)
+                .toBe('Fake email name')
+        })
+
+        test('should SIGN-IN same new user', async () => {
+            const response = await request(app)
+                .post(`${RESOURCE}/oauth`)
+                .send(userMock.fakeOAuth)
+                .expect(200)
+            token = response.body.result.token
+        })
+
+        test('should READ new user after sign in', async () => {
+            const response = await request(app)
+                .get(`${RESOURCE}/data`)
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+
+            expect(response.body.result.data[0].name)
+                .toBe('Fake email name')
+        })
+
+        test('should DELETE new user', async () => {
+            await request(app)
+                .delete(`${RESOURCE}/data`)
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+        })
+    })
 }

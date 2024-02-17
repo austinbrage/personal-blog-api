@@ -12,6 +12,7 @@ type UserMock = {
     newRightData: UserType['namePassword']
     newData: Omit<UserType['data'], "password">
     userData: Omit<UserType['data'], "password">
+    fakeOAuth: UserType['authInfoData']
 }
 
 type ArticleMock = {
@@ -73,6 +74,10 @@ export const userMock: UserMock = {
     rightData: { 
         name: 'Usuario0', 
         password: '1234' 
+    },
+    fakeOAuth: {
+        auth_provider: 'google',
+        code: 'c6e3b631-267f-4fc4-9768-46542eb4b096'
     }
 }
 
