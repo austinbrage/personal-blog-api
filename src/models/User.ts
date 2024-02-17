@@ -82,12 +82,36 @@ class User implements IUser {
         return rows as RowDataPacket[]
     }
     
+    getByEmail = async ({ email }: UserType['email']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.getByEmail], 
+            [email]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+    
     getByExternalID = async ({ auth_provider, external_id }: UserType['authData']) => {
         const connection = await this.pool.getConnection()
         
         const [rows] = await connection.execute(
             userQueries[UserQueries.getByExternalId], 
             [auth_provider, external_id]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+    
+    changeExternalID = async ({ auth_provider, external_id, email }: UserType['authEmail']) => {
+        const connection = await this.pool.getConnection()
+        
+        const [rows] = await connection.execute(
+            userQueries[UserQueries.changeExternalId], 
+            [auth_provider, external_id, email]
         )
 
         connection.release()

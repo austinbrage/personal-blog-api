@@ -1,6 +1,7 @@
 export enum UserQueries {
     getId = 'getId',
     getAll = 'getAll',
+    getByEmail = 'getByEmail',
     getIdPassword = 'getIdPassword',
     getByExternalId = 'getByExternalId',
     getName = 'getName',
@@ -9,6 +10,7 @@ export enum UserQueries {
     addNew = 'addNew',
     changeName = 'changeName',
     changePassword = 'changePassword',
+    changeExternalId = 'changeExternalId',
     changeAuthor = 'changeAuthor',
     changeEmail = 'changeEmail',
     remove = 'remove',

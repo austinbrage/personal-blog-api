@@ -2,6 +2,10 @@
     SELECT `id` FROM `users` 
     WHERE `api_key` = ?;
 
+-- getByEmail
+    SELECT `id` FROM `users` 
+    WHERE `email` = ?;
+
 -- getByExternalId
     SELECT `id` FROM `users` 
     WHERE `auth_provider` = ? AND `external_id` = ?;
@@ -29,6 +33,12 @@
 -- addNew
     INSERT INTO `users` (`name`, `password`, `email`, `author`, `auth_provider`, `external_id`) 
     VALUES (?, ?, ?, ?, ?, ?);
+
+-- changeExternalId
+    UPDATE `users` 
+    SET `auth_provider` = ?,
+        `external_id` = ?
+    WHERE `email` = ?;
 
 -- changeName
     UPDATE `users` 

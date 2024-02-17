@@ -154,12 +154,11 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
             return signWithoutHash(result[0].id, res, next)
         }
 
-        const email = await userModel.getEmail({ email: userData.email })
+        const emailResult = await userModel.getByEmail({ email: userData.email })
 
-        if(email.length !== 0) {
-            return res.status(401).json(createErrorResponse({
-                message: 'Existing email, sign in with your password'
-            }))
+        if(emailResult.length > 0) {
+            await userModel.changeExternalID(userData)
+            return signWithoutHash(emailResult[0].id, res, next)
         }
 
         return registerHash(userData, res, next)

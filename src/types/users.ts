@@ -16,6 +16,7 @@ export type UserType = {
     idPassword: z.infer<typeof userSchema.idPassword>
     namePassword: z.infer<typeof userSchema.namePassword>
     authInfoData: z.infer<typeof authSchema.authInfoData>
+    authEmail: z.infer<typeof userSchema.authEmail> 
     authData: z.infer<typeof userSchema.authData> 
     fullData: z.infer<typeof userSchema.fullData>
 }
@@ -26,12 +27,14 @@ export interface IUser {
     getEmail({ email }: UserType['email']): Promise<RowDataPacket[]>
     getAuthor({ author }: UserType['author']): Promise<RowDataPacket[]>
     getId({ api_key }: UserType['apiKey']): Promise<RowDataPacket[]>
+    getByEmail({ email }: UserType['email']): Promise<RowDataPacket[]>
     getIdPassword({ name }: UserType['name']): Promise<RowDataPacket[]>
     getByExternalID({ auth_provider, external_id }: UserType['authData']): Promise<RowDataPacket[]>
     changeName({ id, name }: UserType['idName']): Promise<RowDataPacket[]>
     changeEmail({ id, email }: UserType['idEmail']): Promise<RowDataPacket[]>
     changeAuthor({ id, author }: UserType['idAuthor']): Promise<RowDataPacket[]>
     changePassword({ id, password }: UserType['idPassword']): Promise<RowDataPacket[]>
+    changeExternalID({ auth_provider, external_id, email }: UserType['authEmail']): Promise<RowDataPacket[]>
     addNew({ name, password, email, author, auth_provider, external_id }: UserType['fullData']): Promise<number>
     remove({ id }: UserType['id']): Promise<RowDataPacket[]>
 }

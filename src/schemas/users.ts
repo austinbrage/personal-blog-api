@@ -46,6 +46,7 @@ const idAuthor = userTableSchema.pick({ id: true, author: true })
 const idPassword = userTableSchema.pick({ id: true, password: true })
 const namePassword = userTableSchema.pick({ name: true, password: true })
 const authData = userTableSchema.pick({ auth_provider: true, external_id: true })
+const authEmail = userTableSchema.pick({ auth_provider: true, external_id: true, email: true })
 const data = userTableSchema.omit({ id: true, api_key: true, auth_provider: true, external_id: true })
 const fullData = userTableSchema.omit({ id: true, api_key: true })
 
@@ -57,6 +58,7 @@ export const userSchema = {
     author,
     apiKey,
     authData,
+    authEmail,
     fullData,
     idName,
     idEmail,
