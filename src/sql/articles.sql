@@ -14,17 +14,17 @@
 -- getByKeyword
     SELECT * FROM `articles`
     WHERE `user_id` = ? AND `is_publish` = true AND (placeholder)
-    ORDER BY `id` DESC LIMIT ? OFFSET ?;
+    ORDER BY `updated_at` DESC LIMIT ? OFFSET ?;
 
 -- getAllByKeyword
     SELECT * FROM `articles`
     WHERE `is_publish` = true AND (placeholder)
-    ORDER BY `id` DESC LIMIT ? OFFSET ?;
+    ORDER BY `updated_at` DESC LIMIT ? OFFSET ?;
 
 -- getEverything
     SELECT * FROM `articles`
     WHERE `is_publish` = true
-    ORDER BY `id` DESC LIMIT ? OFFSET ?;
+    ORDER BY `updated_at` DESC LIMIT ? OFFSET ?;
 
 -- addNew
     INSERT INTO `articles` (`user_id`, `name`, `title`, `image`, `keywords`, `description`)

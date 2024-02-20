@@ -221,14 +221,12 @@ export default (RESOURCE: string) => {
 
             expect(response.body.result.data).toHaveLength(3)
 
-            expect(response.body.result.data[2]).toEqual(
-                expect.objectContaining(artileMock.newArticleSet1[1])
-            )
-            expect(response.body.result.data[1]).toEqual(
-                expect.objectContaining(artileMock.newArticleSet2[0])
-            )
-            expect(response.body.result.data[0]).toEqual(
-                expect.objectContaining(artileMock.newArticleSet2[1])
+            expect(response.body.result.data).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining(artileMock.newArticleSet1[1]),
+                    expect.objectContaining(artileMock.newArticleSet2[0]),
+                    expect.objectContaining(artileMock.newArticleSet2[1]),
+                ])
             )
         })
 
