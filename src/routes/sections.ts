@@ -15,7 +15,7 @@ const createSectionRouter = ({ styleModel, sectionModel }: ModelsType) => {
     const userAuth = createAuthorization()
     const sectionController = new SectionController({ styleModel, sectionModel })
 
-    sectionRouter.get('/',    userAuth, sectionController.getAll)
+    sectionRouter.get('/',    sectionController.getAll)
     sectionRouter.put('/',    userAuth, sectionController.changeAll)
     sectionRouter.post('/',   userAuth, sectionController.addNew)
     sectionRouter.delete('/', userAuth, sectionController.remove)

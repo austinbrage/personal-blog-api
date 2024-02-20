@@ -67,7 +67,6 @@ export default (RESOURCE: string) => {
             const response = await request(app)
                 .get(RESOURCE)
                 .query({ article_id_query: articleId })
-                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
             sectionId = response.body.result.data[0].id
 
@@ -90,7 +89,6 @@ export default (RESOURCE: string) => {
             const response = await request(app)
                 .get(RESOURCE)
                 .query({ article_id_query: articleId })
-                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
 
             expect(response.body.result.data[0])
@@ -112,7 +110,6 @@ export default (RESOURCE: string) => {
             const response = await request(app)
                 .get(RESOURCE)
                 .query({ article_id_query: articleId })
-                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
 
             expect(response.body.result.data).toHaveLength(0)
@@ -135,7 +132,6 @@ export default (RESOURCE: string) => {
             const response = await request(app)
                 .get(RESOURCE)
                 .query({ article_id_query: articleId })
-                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
 
             const templateTest = await loadJSON(templateName) as SectionType['noIdData']
@@ -188,7 +184,6 @@ export default (RESOURCE: string) => {
             const response = await request(app)
                 .get(RESOURCE)
                 .query({ article_id_query: articleId })
-                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
 
             const newSections = sectionMock.newMultpleSections(articleId)
