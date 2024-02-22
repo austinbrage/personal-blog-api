@@ -1,0 +1,27 @@
+name: Personal-Blog-API PROD Build
+
+on:
+  workflow_run:
+    workflows: ['Personal-Blog-API PROD Test']
+    types:     ['completed']
+
+jobs:
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout source
+        uses: actions/checkout@v3
+      
+      - name: Login to dockerhub
+        run: |
+              docker login 
+                -u ${{ secrets.DOCKER_USERNAME }}
+                -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build docker image
+        run:  docker build -t austinbrage/personal-blog-api
+
+      - name: Publish image to dockerhub
+        run:  docker push austinbrage/personal-blog-api:latest

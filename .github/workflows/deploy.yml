@@ -1,0 +1,30 @@
+name: Personal-Blog-API PROD Deploy
+
+on:
+  workflow_run:
+    workflows: ['Personal-Blog-API PROD Build']
+    types:     ['completed']
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Pull image from dockerhub
+        run:  docker pull austinbrage/personal-blog-api:latest
+
+      - name: Delete old container
+        run:  docker rm -f personal-blog-api-container || true
+
+      - name: Create environment file
+        run: |
+              touch .env
+              echo "${{ secrets.PROD_ENV_FILE }}" > .env
+
+      - name: Run docker container
+        run: |
+              docker run 
+                --port 3000:3000
+                --env-file .env
+                --name personal-blog-api-container  
+                  austinbrage/personal-blog-api:latest
