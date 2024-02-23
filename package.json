@@ -69,10 +69,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/agusb19/personal-blog-api"
+    "url": "https://github.com/austinbrage/personal-blog-api"
   },
   "bugs": {
-    "url": "https://github.com/agusb19/personal-blog-api/issues"
+    "url": "https://github.com/austinbrage/personal-blog-api/issues"
   },
-  "homepage": "https://github.com/agusb19/personal-blog-api/blob/main/README.md"
+  "homepage": "https://github.com/austinbrage/personal-blog-api/blob/main/README.md"
 }
