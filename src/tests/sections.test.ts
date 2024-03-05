@@ -195,15 +195,7 @@ export default () => {
         })
     })
     
-    describe('Delete new article and user for next tests', () => {
-
-        test('should DELETE new article', async () => {
-            await request(app)
-                .delete(ARTICLE(A.EMPTY))
-                .set('Authorization', `Bearer ${token}`)
-                .send({ id: articleId })
-                .expect(200)
-        })
+    describe('Delete new user for next tests', () => {
 
         test('should DELETE new user', async () => {
             await request(app)
