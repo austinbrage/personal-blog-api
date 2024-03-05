@@ -81,11 +81,11 @@ export class Sections implements SectionController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        const newIdSection = await this.sectionModel.addNew(validation.data)
+        const result = await this.sectionModel.addNew(validation.data)
 
         const addNewStyles = {
             ...validation.data,
-            section_id: newIdSection
+            section_id: result.insertId
         }
 
         await this.styleModel.addNew(addNewStyles)
@@ -106,14 +106,14 @@ export class Sections implements SectionController {
         }))      
 
         const insertData = async (item: Omit<SectionType['articleIdData'], "article_id">) => {
-            const newIdSection = await this.sectionModel.addNew({
+            const result = await this.sectionModel.addNew({
                 ...item,
                 article_id: validation.data[0].article_id,
             })
 
             await this.styleModel.addNew({
                 ...item,
-                section_id: newIdSection
+                section_id: result.insertId
             })
         }       
         
@@ -133,14 +133,14 @@ export class Sections implements SectionController {
         if(!validation.success) return this.validationErr(res, validation.error)
         
         const insertData = async (item: Omit<SectionType['articleIdData'], "article_id">) => {
-            const newIdSection = await this.sectionModel.addNew({
+            const result = await this.sectionModel.addNew({
                 ...item,
                 article_id: validation.data.article_id,
             })
 
             await this.styleModel.addNew({
                 ...item,
-                section_id: newIdSection
+                section_id: result.insertId
             })
         }
 

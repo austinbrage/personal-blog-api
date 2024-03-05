@@ -31,21 +31,19 @@ class Section implements ISection {
         )
 
         connection.release()
-        return rows as RowDataPacket[]
+        return rows as ResultSetHeader
     }
 
     addNew = async ({ article_id, content, content_type, image_url }: SectionType['articleIdContent']) => {
         const connection = await this.pool.getConnection()
 
-        const [results] = await connection.execute(
+        const [rows] = await connection.execute(
             sectionQueries[SectionQueries.addNew],
             [article_id, content, content_type, image_url]
-        ) as ResultSetHeader[]
-
-        const newId = results.insertId
+        ) 
 
         connection.release()
-        return newId as number
+        return rows as ResultSetHeader
     }
 
     remove = async ({ id }: SectionType['id']) => {
@@ -57,7 +55,7 @@ class Section implements ISection {
         )
 
         connection.release()
-        return rows as RowDataPacket[]
+        return rows as ResultSetHeader
     }
 }
 

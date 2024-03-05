@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { articleSchema, articlePaginationSchema } from '../schemas/articles'
 import { type AsyncFunction } from '../services/errorHandler'
-import { type RowDataPacket, ResultSetHeader } from 'mysql2'
+import { type RowDataPacket, type ResultSetHeader } from 'mysql2'
 
 export type ArticleType = {
     id: z.infer<typeof articleSchema.id>
@@ -26,10 +26,10 @@ export interface IArticle {
     getAllByKeyword({ keywords, limit, offset }: ArticleType['noUserIdPage']): Promise<RowDataPacket[]>
     getByKeyword({ keywords, limit, offset, user_id }: ArticleType['allDataPage']): Promise<RowDataPacket[]>
     getEverything({ limit, offset }: ArticleType['limitOffsetPage']): Promise<RowDataPacket[]>
-    changePublishState({ id, is_publish }: ArticleType['idPublishState']): Promise<RowDataPacket[]>
-    changeData({ id, name, title, image, keywords, description }: ArticleType['idData']): Promise<RowDataPacket[]>
-    addNew({ user_id, name, title, image, keywords, description }: ArticleType['userIdData']): Promise<ResultSetHeader[]>
-    remove({ id }: ArticleType['id']): Promise<RowDataPacket[]>
+    changePublishState({ id, is_publish }: ArticleType['idPublishState']): Promise<ResultSetHeader>
+    changeData({ id, name, title, image, keywords, description }: ArticleType['idData']): Promise<ResultSetHeader>
+    addNew({ user_id, name, title, image, keywords, description }: ArticleType['userIdData']): Promise<ResultSetHeader>
+    remove({ id }: ArticleType['id']): Promise<ResultSetHeader>
 }
 
 export interface ArticleController {

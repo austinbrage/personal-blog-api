@@ -1,4 +1,4 @@
-import type { RowDataPacket, Pool } from "mysql2/promise"
+import type { ResultSetHeader, Pool } from "mysql2/promise"
 import type { StyleType, IStyle } from "../types/styles"
 import { StyleQueries } from "../types/queries"
 import { styleQueries } from "../utils/queries"
@@ -43,7 +43,7 @@ class Style implements IStyle {
         )
 
         connection.release()
-        return rows as RowDataPacket[]
+        return rows as ResultSetHeader
     }
 
     addNew = async ({ 
@@ -79,7 +79,7 @@ class Style implements IStyle {
         )
 
         connection.release()
-        return rows as RowDataPacket[]
+        return rows as ResultSetHeader
     }
 }
 

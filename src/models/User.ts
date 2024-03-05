@@ -115,7 +115,7 @@ class User implements IUser {
         )
 
         connection.release()
-        return rows as RowDataPacket[]
+        return rows as ResultSetHeader
     }
     
     changeName = async ({ id, name }: UserType['idName']) => {
@@ -127,7 +127,7 @@ class User implements IUser {
         )
 
         connection.release()
-        return rows as RowDataPacket[]
+        return rows as ResultSetHeader
     }
 
     changeEmail = async ({ id, email }: UserType['idEmail']) => {
@@ -139,7 +139,7 @@ class User implements IUser {
         )
 
         connection.release()
-        return rows as RowDataPacket[]
+        return rows as ResultSetHeader
     }
 
     changeAuthor = async ({ id, author }: UserType['idAuthor']) => {
@@ -151,7 +151,7 @@ class User implements IUser {
         )
 
         connection.release()
-        return rows as RowDataPacket[]
+        return rows as ResultSetHeader
     }
 
     changePassword = async ({ id, password }: UserType['idPassword']) => {
@@ -163,7 +163,7 @@ class User implements IUser {
         )
 
         connection.release()
-        return rows as RowDataPacket[]
+        return rows as ResultSetHeader
     }
 
     remove = async ({ id }: UserType['id']) => {
@@ -175,21 +175,19 @@ class User implements IUser {
         )
 
         connection.release()
-        return rows as RowDataPacket[]
+        return rows as ResultSetHeader
     }
 
     addNew = async ({ name, password, email, author, auth_provider, external_id }: UserType['fullData']) => {
         const connection = await this.pool.getConnection()
         
-        const [results] = await connection.execute(
+        const [rows] = await connection.execute(
             userQueries[UserQueries.addNew], 
             [name, password, email, author, auth_provider, external_id]
-        ) as ResultSetHeader[]
-
-        const newId = results.insertId
+        ) 
 
         connection.release()
-        return newId as number
+        return rows as ResultSetHeader
     }
 }
 

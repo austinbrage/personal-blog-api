@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { styleSchema } from '../schemas/styles' 
-import { type RowDataPacket } from 'mysql2'
+import { type ResultSetHeader } from 'mysql2'
 
 export type StyleType = {
     data: z.infer<typeof styleSchema.data>
@@ -19,7 +19,7 @@ export interface IStyle {
         text_align,
         text_color,
         border_radius
-    }: StyleType['data']): Promise<RowDataPacket[]>
+    }: StyleType['data']): Promise<ResultSetHeader>
     addNew({ 
         section_id, 
         width,
@@ -32,5 +32,5 @@ export interface IStyle {
         text_align,
         text_color,
         border_radius
-    }: StyleType['data']): Promise<RowDataPacket[]>
+    }: StyleType['data']): Promise<ResultSetHeader>
 }

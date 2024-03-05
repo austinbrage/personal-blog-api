@@ -188,7 +188,7 @@ export class Articles implements ArticleController {
         
         return res.status(201).json(createOkResponse({
             message: 'New article created successfully',
-            data: newArticleInfo
+            data: [newArticleInfo]
         }))
     })
 

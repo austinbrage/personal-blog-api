@@ -63,8 +63,8 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
 
         if(!SECRET_KEY) return next(new CustomError('Secret key is not provided in the API', 500))
 
-        const newId = await userModel.addNew(newData)
-        const token = await sign({ id: newId }, SECRET_KEY, {
+        const result = await userModel.addNew(newData)
+        const token = await sign({ id: result.insertId }, SECRET_KEY, {
             expiresIn: JWT_EXPIRE
         })
 

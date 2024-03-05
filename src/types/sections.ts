@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { sectionSchema } from '../schemas/sections'
-import { type RowDataPacket } from 'mysql2'
 import { type AsyncFunction } from '../services/errorHandler'
+import { type RowDataPacket, type ResultSetHeader } from 'mysql2'
 
 export type SectionType = {
     id: z.infer<typeof sectionSchema.id>
@@ -18,9 +18,9 @@ export type SectionType = {
 
 export interface ISection {
     getAll({ article_id }: SectionType['articleId']): Promise<RowDataPacket[]>
-    changeContent({ id, content, content_type, image_url }: SectionType['idContent']): Promise<RowDataPacket[]>
-    addNew({ article_id, content, content_type, image_url }: SectionType['articleIdContent']): Promise<number>
-    remove({ id }: SectionType['id']): Promise<RowDataPacket[]>
+    changeContent({ id, content, content_type, image_url }: SectionType['idContent']): Promise<ResultSetHeader>
+    addNew({ article_id, content, content_type, image_url }: SectionType['articleIdContent']): Promise<ResultSetHeader>
+    remove({ id }: SectionType['id']): Promise<ResultSetHeader>
 }
 
 export interface SectionController {

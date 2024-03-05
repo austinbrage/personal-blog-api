@@ -104,7 +104,7 @@ class Article implements IArticle {
         )   
 
         connection.release()
-        return rows as RowDataPacket[]
+        return rows as ResultSetHeader
     }
 
     changePublishState = async ({ id, is_publish }: ArticleType['idPublishState']) => {
@@ -116,7 +116,7 @@ class Article implements IArticle {
         )
 
         connection.release()
-        return rows as RowDataPacket[]
+        return rows as ResultSetHeader
     }
 
     addNew = async ({ user_id, name, title, image, keywords, description }: ArticleType['userIdData']) => {
@@ -125,10 +125,10 @@ class Article implements IArticle {
         const [rows] = await connection.execute(
             articleQueries[ArticleQueries.addNew],
             [user_id, name, title, image, keywords, description]
-        ) as ResultSetHeader[]
+        ) 
 
         connection.release()
-        return [rows] as ResultSetHeader[] 
+        return rows as ResultSetHeader 
     }
 
     remove = async ({ id }: ArticleType['id']) => {
@@ -140,7 +140,7 @@ class Article implements IArticle {
         )
 
         connection.release()
-        return rows as RowDataPacket[]
+        return rows as ResultSetHeader
     }
 }
 
