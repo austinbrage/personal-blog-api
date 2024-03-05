@@ -1,15 +1,16 @@
-import express, { json } from 'express'
+import express, { json, Router } from 'express'
 import createUserRouter from './routes/users'
 import createArticleRouter from './routes/articles'
 import createSectionRouter from './routes/sections'
 import connectionRouter from './routes/connection'
 import corsMiddleware from './middlewares/cors'
 import errorMiddleware from './middlewares/error'
+import { notFoundHandler } from './services/notFoundHandler'
 import { type IUser } from './types/users'
 import { type IArticle } from './types/articles'
 import { type ISection } from './types/sections'
 import { type IStyle } from './types/styles'
-import { notFoundHandler } from './services/notFoundHandler'
+import { AppRoutes as APP, ResourceRoutes as RESOURCES } from './types/api'
 
 type ModelsType = {
     userModel: IUser,
@@ -20,16 +21,19 @@ type ModelsType = {
 
 const createApp = ({ userModel, articleModel, sectionModel, styleModel }: ModelsType) => {
     const app = express()
+    const mainRouter = Router()
 
     app.use(json())
     app.use(corsMiddleware())
     app.disable('x-powered-by')
     
-    app.use('/personal-blog/ping',    connectionRouter)
-    app.use('/personal-blog/user',    createUserRouter({ userModel }))
-    app.use('/personal-blog/article', createArticleRouter({ articleModel }))
-    app.use('/personal-blog/section', createSectionRouter({ sectionModel, styleModel }))
+    mainRouter.use(RESOURCES.PING,    connectionRouter)
+    mainRouter.use(RESOURCES.USER,    createUserRouter({ userModel }))
+    mainRouter.use(RESOURCES.ARTICLE, createArticleRouter({ articleModel }))
+    mainRouter.use(RESOURCES.SECTION, createSectionRouter({ sectionModel, styleModel }))
     
+    app.use(APP.VERSION_1, mainRouter)
+
     app.all('*', notFoundHandler)
     app.use(errorMiddleware)
 

@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { Articles as ArticleController } from '../controllers/Articles'
 import createAuthorization from '../auth/authorization'
-import { type IArticle } from '../types/articles'
+import { ArticleRoutes as A, type IArticle } from '../types/articles'
 
 const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
     const articleRouter = Router()
@@ -9,17 +9,17 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
     const userAuth = createAuthorization()
     const articleController = new ArticleController({ articleModel })
 
-    articleRouter.get('/keywords',           articleController.getKeywords)
-    articleRouter.get('/data/all',           articleController.getEverything)
-    articleRouter.get('/data/keywords',      articleController.getAllByKeywords)
-    articleRouter.get('/data/user/keywords', userAuth, articleController.getByKeywords)
-    articleRouter.get('/',                   userAuth, articleController.getAll)
+    articleRouter.get(A.KEYWORDS,                 articleController.getKeywords)
+    articleRouter.get(A.DALL,                     articleController.getEverything)
+    articleRouter.get(A.DKEYWORDS,                articleController.getAllByKeywords)
+    articleRouter.get(A.DUKEYWORDS,     userAuth, articleController.getByKeywords)
+    articleRouter.get(A.EMPTY,          userAuth, articleController.getAll)
 
-    articleRouter.patch('/data',        userAuth, articleController.changeData)
-    articleRouter.patch('/publishment', userAuth, articleController.changePublishState)
+    articleRouter.patch(A.DATA,         userAuth, articleController.changeData)
+    articleRouter.patch(A.PUBLISHMENT,  userAuth, articleController.changePublishState)
 
-    articleRouter.post('/',             userAuth, articleController.addNew)
-    articleRouter.delete('/',           userAuth, articleController.remove)
+    articleRouter.post(A.EMPTY,         userAuth, articleController.addNew)
+    articleRouter.delete(A.EMPTY,       userAuth, articleController.remove)
 
     return articleRouter
 }

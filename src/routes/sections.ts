@@ -1,7 +1,7 @@
 import { Router } from "express"
 import { Sections as SectionController } from "../controllers/Sections"
 import createAuthorization from "../auth/authorization"
-import { type ISection } from "../types/sections"
+import { SectionRoutes as S, type ISection } from "../types/sections"
 import { type IStyle } from "../types/styles"
 
 type ModelsType = {
@@ -15,13 +15,13 @@ const createSectionRouter = ({ styleModel, sectionModel }: ModelsType) => {
     const userAuth = createAuthorization()
     const sectionController = new SectionController({ styleModel, sectionModel })
 
-    sectionRouter.get('/',    sectionController.getAll)
-    sectionRouter.put('/',    userAuth, sectionController.changeAll)
-    sectionRouter.post('/',   userAuth, sectionController.addNew)
-    sectionRouter.delete('/', userAuth, sectionController.remove)
+    sectionRouter.get(S.EMPTY,     sectionController.getAll)
+    sectionRouter.put(S.EMPTY,     userAuth, sectionController.changeAll)
+    sectionRouter.post(S.EMPTY,    userAuth, sectionController.addNew)
+    sectionRouter.delete(S.EMPTY,  userAuth, sectionController.remove)
 
-    sectionRouter.post('/multiple', userAuth, sectionController.addMultiple)
-    sectionRouter.post('/template', userAuth, sectionController.addTemplate)
+    sectionRouter.post(S.MULTIPLE, userAuth, sectionController.addMultiple)
+    sectionRouter.post(S.TEMPLATE, userAuth, sectionController.addTemplate)
 
     return sectionRouter
 }
