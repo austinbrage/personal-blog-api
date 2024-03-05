@@ -1,7 +1,7 @@
 import { verify } from 'jsonwebtoken'
 import { SECRET_KEY } from '../utils/config'
 import { CustomError } from '../helpers/customError'
-import { type JwtPayload } from '../types/custom'
+import { type JwtPayload } from '../types/api'
 import { type RequestHandler } from 'express'
 
 const createAuthorization = () => {

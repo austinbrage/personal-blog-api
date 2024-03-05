@@ -3,6 +3,17 @@ import { type UserType } from "./users"
 import { type ZodFormattedError } from "zod"
 import { type RowDataPacket, ResultSetHeader } from "mysql2"
 
+export enum AppRoutes {
+    VERSION_1 = '/personal-blog'
+}
+
+export enum ResourceRoutes {
+    PING = '/ping',
+    USER = '/user',
+    ARTICLE = '/article',
+    SECTION = '/section',
+}
+
 declare global{
     namespace Express {
         interface Request {

@@ -1,5 +1,5 @@
 import { RowDataPacket, ResultSetHeader } from "mysql2"
-import type { OkResponse, ErrorResponse } from "../types/custom"
+import type { OkResponse, ErrorResponse } from "../types/api"
 import { ZodFormattedError } from "zod"
 
 export const createOkResponse = ({

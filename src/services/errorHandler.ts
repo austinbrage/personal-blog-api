@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express"
-import type { StardardResponse } from "../types/custom"
+import type { StardardResponse } from "../types/api"
 
 export type AsyncFunction = (
     req: Request, 

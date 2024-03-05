@@ -1,5 +1,5 @@
 import { ErrorRequestHandler } from "express"
-import { type ErrorResponse } from "../types/custom"
+import { type ErrorResponse } from "../types/api"
 
 const globalErrorMiddleware: ErrorRequestHandler = (error, _req, res, _next) => {
     const message = error.message || 'Internal Server Error'
