@@ -21,9 +21,9 @@ CREATE TABLE `articles` (
   `user_id` INT NOT NULL,
   `name` VARCHAR(200) NOT NULL DEFAULT 'Unnamed article',
   `title` VARCHAR(200) NOT NULL DEFAULT 'Untittled article',
-  `keywords` VARCHAR(200) NOT NULL DEFAULT 'General, Tech',
-  `description` VARCHAR(500) NOT NULL DEFAULT 'Empty description',
-  `image` VARCHAR(500) DEFAULT NULL,
+  `keywords` TEXT NOT NULL DEFAULT 'General, Tech',
+  `description` TEXT NOT NULL DEFAULT 'Empty description',
+  `image` TEXT DEFAULT NULL,
   `is_publish` BOOLEAN NOT NULL DEFAULT 0,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -34,9 +34,9 @@ CREATE TABLE `articles` (
 CREATE TABLE `sections` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `article_id` INT NOT NULL,
-  `sequence` SMALLINT NOT NULL DEFAULT 0,
-  `content` VARCHAR(5000) NOT NULL,
-  `image_url` VARCHAR(1000) DEFAULT NULL,
+  `sequence` INT NOT NULL DEFAULT 0,
+  `content` TEXT NOT NULL,
+  `image_url` TEXT DEFAULT NULL,
   `content_type` VARCHAR(200) NOT NULL DEFAULT 'paragraph',
   FOREIGN KEY (`article_id`) REFERENCES `articles`(`id`) ON DELETE CASCADE
 );
