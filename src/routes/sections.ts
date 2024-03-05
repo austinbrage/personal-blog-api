@@ -12,16 +12,17 @@ type ModelsType = {
 const createSectionRouter = ({ styleModel, sectionModel }: ModelsType) => {
     const sectionRouter = Router()
 
-    const userAuth = createAuthorization()
+    const writeAuth = createAuthorization('WRITE')
+
     const sectionController = new SectionController({ styleModel, sectionModel })
 
-    sectionRouter.get(S.EMPTY,     sectionController.getAll)
-    sectionRouter.put(S.EMPTY,     userAuth, sectionController.changeAll)
-    sectionRouter.post(S.EMPTY,    userAuth, sectionController.addNew)
-    sectionRouter.delete(S.EMPTY,  userAuth, sectionController.remove)
+    sectionRouter.get(S.EMPTY,                sectionController.getAll)
+    sectionRouter.put(S.EMPTY,     writeAuth, sectionController.changeAll)
+    sectionRouter.post(S.EMPTY,    writeAuth, sectionController.addNew)
+    sectionRouter.delete(S.EMPTY,  writeAuth, sectionController.remove)
 
-    sectionRouter.post(S.MULTIPLE, userAuth, sectionController.addMultiple)
-    sectionRouter.post(S.TEMPLATE, userAuth, sectionController.addTemplate)
+    sectionRouter.post(S.MULTIPLE, writeAuth, sectionController.addMultiple)
+    sectionRouter.post(S.TEMPLATE, writeAuth, sectionController.addTemplate)
 
     return sectionRouter
 }

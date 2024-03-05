@@ -8,9 +8,14 @@ import { CLIENT_ID, CLIENT_SECRET, ENVIRONMENT } from '../utils/config'
 import { JWT_EXPIRE, SECRET_KEY } from '../utils/config'
 import { createOkResponse, createErrorResponse } from '../helpers/appResponse'
 
-type Data = {
+type DataWithHash = {
     modelResult: UserType['idPassword']
     validatedData: UserType['namePassword']
+}
+
+type DataWithoutHash = {
+    userId: UserType['id']
+    isFullAccess: boolean
 }
 
 const createAuthentication = ({ userModel }: { userModel: IUser }) => {
@@ -34,7 +39,9 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
             external_id: userData.id
         })
 
-        if(result.length > 0) return signWithoutHash(result[0].id, res, next)
+        if(result.length > 0) {
+            return signWithoutHash({ userId: result[0].id, isFullAccess: true }, res, next)
+        }
 
         return registerHash(userData, res, next)     
     }
@@ -64,7 +71,8 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
         if(!SECRET_KEY) return next(new CustomError('Secret key is not provided in the API', 500))
 
         const result = await userModel.addNew(newData)
-        const token = await sign({ id: result.insertId }, SECRET_KEY, {
+        
+        const token = await sign({ id: result.insertId, roles: ['READ', 'WRITE', 'ADMIN'] }, SECRET_KEY, {
             expiresIn: JWT_EXPIRE
         })
 
@@ -74,7 +82,7 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
         }))
     }
 
-    const compareHash = async (data: Data, res: Response, next: NextFunction) => {
+    const compareHash = async (data: DataWithHash, res: Response, next: NextFunction) => {
 
         const isPassowordMatched = await bcript.compare(
             data.validatedData.password,
@@ -89,7 +97,7 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
 
         if(!SECRET_KEY) return next(new CustomError('Secret key is not provided in the API', 500))
         
-        const token = sign({id: data.modelResult.id}, SECRET_KEY, {
+        const token = sign({ id: data.modelResult.id, roles: ['READ', 'WRITE', 'ADMIN'] }, SECRET_KEY, {
             expiresIn: JWT_EXPIRE
         })
 
@@ -99,11 +107,13 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
         }))
     }
 
-    const signWithoutHash = async (userId: UserType['id'], res: Response, next: NextFunction) => {
+    const signWithoutHash = async (data: DataWithoutHash , res: Response, next: NextFunction) => {
 
         if(!SECRET_KEY) return next(new CustomError('Secret key is not provided in the API', 500))
 
-        const token = sign({id: userId}, SECRET_KEY, {
+        const roles = data.isFullAccess ? ['READ', 'WRITE', 'ADMIN'] : ['READ'] 
+
+        const token = sign({ id: data.userId, roles }, SECRET_KEY, {
             expiresIn: JWT_EXPIRE
         })
 
@@ -151,14 +161,14 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
         })
 
         if(result.length > 0) {
-            return signWithoutHash(result[0].id, res, next)
+            return signWithoutHash({ userId: result[0].id, isFullAccess: true }, res, next)
         }
 
         const emailResult = await userModel.getByEmail({ email: userData.email })
 
         if(emailResult.length > 0) {
             await userModel.changeExternalID(userData)
-            return signWithoutHash(emailResult[0].id, res, next)
+            return signWithoutHash({ userId: emailResult[0].id, isFullAccess: true }, res, next)
         }
 
         return registerHash(userData, res, next)

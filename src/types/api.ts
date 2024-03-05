@@ -22,8 +22,11 @@ declare global{
     }
 }
 
+export type UserRoles = ('READ' | 'WRITE' | 'ADMIN')
+
 export interface JwtPayload {
     id: number
+    roles: UserRoles[]
 }
 
 export type ErrorResponse = {

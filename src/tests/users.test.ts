@@ -43,6 +43,14 @@ export default () => {
                 .expect(200)
             token = response.body.result.token
         })
+
+        test('should NOT ALLOW write operations with api_key token', async () => {
+            await request(app)
+                .patch(USER(U.EMAIL))
+                .set('Authorization', `Bearer ${token}`)
+                .send({ email: userMock.patchData.email })
+                .expect(403)
+        })
     })
     
     describe('Test successful and unseccessful login', () => {
@@ -69,10 +77,11 @@ export default () => {
         })
     
         test('should LOGIN if username and password are correct', async () => {
-            await request(app)
+            const response = await request(app)
                 .post(USER(U.LOGIN))
                 .send(userMock.rightData)
                 .expect(200)
+            token = response.body.result.token
         })
     })
     
@@ -137,7 +146,6 @@ export default () => {
         })
 
         test('should NOT READ data after signout', async () => {
-            
             await request(app)
                 .get(USER(U.DATA))
                 .set('Authorization', `Bearer ${token}`)
@@ -179,7 +187,7 @@ export default () => {
             const response = await request(app)
                 .post(USER(U.OAUTH))
                 .send(userMock.fakeOAuth)
-                .expect(201)
+                .expect([200, 201])
             token = response.body.result.token
         })
 

@@ -69,7 +69,7 @@ export class Users implements UserController {
             }))
         }
 
-        this.signWithoutHash(result[0].id, res, next)
+        this.signWithoutHash({ userId: result[0].id, isFullAccess: false }, res, next)
     })
     
     getPassword = asyncErrorHandler(async (req: Request, res: Response, next: NextFunction) => {

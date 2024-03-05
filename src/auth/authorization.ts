@@ -1,10 +1,11 @@
 import { verify } from 'jsonwebtoken'
 import { SECRET_KEY } from '../utils/config'
 import { CustomError } from '../helpers/customError'
-import { type JwtPayload } from '../types/api'
-import { type RequestHandler } from 'express'
+import type { RequestHandler } from 'express'
+import type { UserRoles, JwtPayload } from '../types/api'
 
-const createAuthorization = () => {
+const createAuthorization = (requiredPermission: UserRoles) => {
+    
     const authMiddleware: RequestHandler = async (req, _res, next) => {
         const authContent = req.headers.authorization
 
@@ -20,6 +21,10 @@ const createAuthorization = () => {
 
             if(!verifyUser?.id || isNaN(verifyUser?.id)) {
                 return next(new CustomError('Token does not contain a valid user ID', 401))
+            }
+
+            if (!verifyUser?.roles || !verifyUser?.roles.includes(requiredPermission)) {
+                return next(new CustomError('Unauthorized, insufficient privileges', 403));
             }
 
             req.userId = { id: verifyUser.id }
