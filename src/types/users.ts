@@ -51,3 +51,15 @@ export interface UserController {
     addNew: AsyncFunction
     openAuth: AsyncFunction
 }
+
+export enum UserRoutes {
+    DATA = '/data',
+    NAME = '/name',
+    EMAIL = '/email',
+    AUTHOR = '/author',
+    PASSWORD = '/password',
+    REGISTER = '/register',
+    LOGIN = '/login',
+    OAUTH = '/oauth',
+    KEY = '/key',
+}

@@ -31,3 +31,9 @@ export interface SectionController {
     addTemplate: AsyncFunction
     remove: AsyncFunction
 }
+
+export enum SectionRoutes {
+    EMPTY = '/',
+    MULTIPLE = '/multiple',
+    TEMPLATE = '/template'
+}

@@ -43,3 +43,13 @@ export interface ArticleController {
     addNew: AsyncFunction
     remove: AsyncFunction
 }
+
+export enum ArticleRoutes {
+    KEYWORDS = '/keywords',
+    DALL = '/data/all',
+    DKEYWORDS = '/data/keywords',
+    DUKEYWORDS = '/data/user/keywords',
+    PUBLISHMENT = '/publishment',
+    DATA = '/data',
+    EMPTY = '/',
+}
