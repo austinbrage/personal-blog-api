@@ -8,7 +8,7 @@ const createAuthorization = () => {
     const authMiddleware: RequestHandler = async (req, _res, next) => {
         const authContent = req.headers.authorization
 
-        if(!authContent) return next(new CustomError('Missing Authorization Header', 404))
+        if(!authContent) return next(new CustomError('Missing Authorization Header', 401))
 
         const token = authContent.split(' ')[1]
 
@@ -17,6 +17,11 @@ const createAuthorization = () => {
     
         try {
             const verifyUser = await verify(token, SECRET_KEY) as JwtPayload
+
+            if(!verifyUser?.id || isNaN(verifyUser?.id)) {
+                return next(new CustomError('Token does not contain a valid user ID', 401))
+            }
+
             req.userId = { id: verifyUser.id }
             next()
         } catch(err) {
