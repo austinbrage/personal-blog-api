@@ -58,7 +58,9 @@ CREATE TABLE `styles` (
 
 CREATE TABLE `article_keywords` (
 	`id` INT AUTO_INCREMENT PRIMARY KEY,
-	`keyword` VARCHAR(255) UNIQUE
+	`category` VARCHAR(255),
+	`keyword` VARCHAR(255),
+	UNIQUE KEY `category_keyword` (`category`,`keyword`)
 );
 
 INSERT INTO `article_keywords` (`category`,`keyword`) VALUES
