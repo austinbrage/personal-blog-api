@@ -1,11 +1,10 @@
-import { app, server, userPool, stylePool, articlePool, sectionPool } from '../server'
-import { pool as connectionPool } from '../routes/connection'
 import request from 'supertest'
 import usersRouteTest from './users.test'
 import articlesRouteTest from './articles.test'
 import sectionsRouteTest from './sections.test'
-
-const RESOURCE = '/personal-blog'
+import { pool as connectionPool } from '../routes/connection'
+import { AppRoutes as APP, ResourceRoutes as RESOURCES } from '../types/api'
+import { app, server, userPool, stylePool, articlePool, sectionPool } from '../server'
 
 describe('Integration Tests', () => {
 
@@ -13,15 +12,15 @@ describe('Integration Tests', () => {
         
         test('should verify CONNECTION with the database', async () => {
             await request(app)
-                .get(`${RESOURCE}/ping`)
+                .get(`${APP.VERSION_1}${RESOURCES.PING}`)
                 .expect(200)
         })
     
     })
 
-    describe('Users Route:',    () => { usersRouteTest   (`${RESOURCE}/user`)    })
-    describe('Articles Route:', () => { articlesRouteTest(`${RESOURCE}/article`) })
-    describe('Sections Route:', () => { sectionsRouteTest(`${RESOURCE}/section`) })
+    describe('Users Route:',    () => { usersRouteTest() })
+    describe('Articles Route:', () => { articlesRouteTest() })
+    describe('Sections Route:', () => { sectionsRouteTest() })
 
     afterAll(async () => {
         await server.close()

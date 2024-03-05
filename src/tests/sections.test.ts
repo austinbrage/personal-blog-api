@@ -1,52 +1,51 @@
 import request from 'supertest'
 import { app } from '../server'
 import { loadJSON } from '../utils/templates'
-import { userMock, artileMock, sectionMock } from './mockData'
+import { UserRoutes as U } from '../types/users'
+import { ArticleRoutes as A } from '../types/articles'
+import { SectionRoutes as S } from '../types/sections'
+import { userMock, artileMock, sectionMock, USER, ARTICLE, SECTION } from './mockData'
 import { type SectionType } from '../types/sections'
 
-let userId: number
 let articleId: number
 let sectionId: number
 let token: string
 
-export default (RESOURCE: string) => {
-    const USER_RESOURCE = RESOURCE.replace('/section', '/user')  
-    const ARTICLE_RESOURCE = RESOURCE.replace('/section', '/article')  
+export default () => {
 
     describe('Get access and user, article data for sections route', () => {
         
         test('should SIGN-UP new user', async () => {
             await request(app)
-                .post(`${USER_RESOURCE}/register`)
+                .post(USER(U.REGISTER))
                 .send(userMock.signUp)
                 .expect(201)
         })
 
         test('should LOGIN to users account', async () => {
             const response = await request(app)
-                .post(`${USER_RESOURCE}/login`)
+                .post(USER(U.LOGIN))
                 .send(userMock.rightData)
                 .expect(200)
             token = response.body.result.token
         })  
         
         test('should GET ID from users account', async () => {
-            const response = await request(app)
-                .get(`${USER_RESOURCE}/data`)
+            await request(app)
+                .get(USER(U.DATA))
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
-            userId = response.body.result.data[0].id
         })  
 
         test('should GET ARTICLE-ID from new article user', async () => {
             await request(app)
-                .post(ARTICLE_RESOURCE)
+                .post(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newArticle)
                 .expect(201)
             
             const response = await request(app)
-                .get(ARTICLE_RESOURCE)
+                .get(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
             articleId = response.body.result.data[0].id
@@ -57,7 +56,7 @@ export default (RESOURCE: string) => {
 
         test('should POST new section', async () => {
             await request(app)
-                .post(RESOURCE)
+                .post(SECTION(S.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .send(sectionMock.newSectionStyles(articleId))
                 .expect(201)
@@ -65,7 +64,7 @@ export default (RESOURCE: string) => {
 
         test('should READ changes and GET SECTION-ID from new section', async () => {
             const response = await request(app)
-                .get(RESOURCE)
+                .get(SECTION(S.EMPTY))
                 .query({ article_id_query: articleId })
                 .expect(200)
             sectionId = response.body.result.data[0].id
@@ -79,7 +78,7 @@ export default (RESOURCE: string) => {
        
         test('should PUT data of new section', async () => {
             await request(app)
-                .put(RESOURCE)
+                .put(SECTION(S.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .send(sectionMock.changeStyles(sectionId))
                 .expect(200)
@@ -87,7 +86,7 @@ export default (RESOURCE: string) => {
 
         test('should READ data from changed section', async () => {
             const response = await request(app)
-                .get(RESOURCE)
+                .get(SECTION(S.EMPTY))
                 .query({ article_id_query: articleId })
                 .expect(200)
 
@@ -100,7 +99,7 @@ export default (RESOURCE: string) => {
         
         test('should DELETE new section', async () => {
             await request(app)
-                .delete(RESOURCE)
+                .delete(SECTION(S.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .send({ id: sectionId })
                 .expect(200)
@@ -108,7 +107,7 @@ export default (RESOURCE: string) => {
 
         test('should READ no data from deleted section', async () => {
             const response = await request(app)
-                .get(RESOURCE)
+                .get(SECTION(S.EMPTY))
                 .query({ article_id_query: articleId })
                 .expect(200)
 
@@ -122,7 +121,7 @@ export default (RESOURCE: string) => {
 
         test('should POST new template', async () => {
             await request(app)
-                .post(`${RESOURCE}/template`)
+                .post(SECTION(S.TEMPLATE))
                 .set('Authorization', `Bearer ${token}`)
                 .send({ article_id: articleId, template_option: templateName })
                 .expect(201)
@@ -130,7 +129,7 @@ export default (RESOURCE: string) => {
 
         test('should READ new sections added', async () => {
             const response = await request(app)
-                .get(RESOURCE)
+                .get(SECTION(S.EMPTY))
                 .query({ article_id_query: articleId })
                 .expect(200)
 
@@ -149,7 +148,7 @@ export default (RESOURCE: string) => {
         
         test('should DELETE new article', async () => {
             await request(app)
-                .delete(ARTICLE_RESOURCE)
+                .delete(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .send({ id: articleId })
                 .expect(200)
@@ -157,13 +156,13 @@ export default (RESOURCE: string) => {
 
         test('should GET ARTICLE-ID from new article user', async () => {
             await request(app)
-                .post(ARTICLE_RESOURCE)
+                .post(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newArticle)
                 .expect(201)
             
             const response = await request(app)
-                .get(ARTICLE_RESOURCE)
+                .get(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
             articleId = response.body.result.data[0].id
@@ -174,7 +173,7 @@ export default (RESOURCE: string) => {
         
         test('should POST new multiple sections', async () => {
             await request(app)
-                .post(`${RESOURCE}/multiple`)
+                .post(SECTION(S.MULTIPLE))
                 .set('Authorization', `Bearer ${token}`)
                 .send(sectionMock.newMultpleSections(articleId))
                 .expect(201)
@@ -182,7 +181,7 @@ export default (RESOURCE: string) => {
 
         test('should READ new sections added', async () => {
             const response = await request(app)
-                .get(RESOURCE)
+                .get(SECTION(S.EMPTY))
                 .query({ article_id_query: articleId })
                 .expect(200)
 
@@ -200,7 +199,7 @@ export default (RESOURCE: string) => {
 
         test('should DELETE new article', async () => {
             await request(app)
-                .delete(ARTICLE_RESOURCE)
+                .delete(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .send({ id: articleId })
                 .expect(200)
@@ -208,7 +207,7 @@ export default (RESOURCE: string) => {
 
         test('should DELETE new user', async () => {
             await request(app)
-                .delete(`${USER_RESOURCE}/data`)
+                .delete(USER(U.DATA))
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
         })

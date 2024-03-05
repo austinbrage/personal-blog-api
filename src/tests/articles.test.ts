@@ -1,37 +1,36 @@
 import request from 'supertest'
-import { app} from '../server'
-import { userMock, artileMock } from './mockData'
+import { app } from '../server'
+import { UserRoutes as U } from '../types/users'
+import { ArticleRoutes as A } from '../types/articles'
+import { userMock, artileMock, USER, ARTICLE } from './mockData'
 
-let userId: number
 let articleId: number
 let token: string
 
-export default (RESOURCE: string) => {
-    const USER_RESOURCE = RESOURCE.replace('/article', '/user')
+export default () => {
 
     describe('Get access and user data for articles route', () => {
         
         test('should SIGN-UP new user', async () => {
             await request(app)
-                .post(`${USER_RESOURCE}/register`)
+                .post(USER(U.REGISTER))
                 .send(userMock.signUp)
                 .expect(201)
         })
 
         test('should LOGIN to users account', async () => {
             const response = await request(app)
-                .post(`${USER_RESOURCE}/login`)
+                .post(USER(U.LOGIN))
                 .send(userMock.rightData)
                 .expect(200)
             token = response.body.result.token
         })  
         
         test('should GET USER-ID from users account', async () => {
-            const response = await request(app)
-                .get(`${USER_RESOURCE}/data`)
+            await request(app)
+                .get(USER(U.DATA))
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
-            userId = response.body.result.data[0].id
         })  
     })
 
@@ -39,14 +38,14 @@ export default (RESOURCE: string) => {
         
         test('should READ article keywords', async () => {
             await request(app)
-                .get(`${RESOURCE}/keywords`)
+                .get(ARTICLE(A.KEYWORDS))
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
         })
 
         test('should POST new article', async () => {
             await request(app)
-                .post(RESOURCE)
+                .post(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newArticle)
                 .expect(201)
@@ -54,7 +53,7 @@ export default (RESOURCE: string) => {
         
         test('should READ and GET ID from new article', async () => {
             const response = await request(app)
-                .get(RESOURCE)
+                .get(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
             articleId = response.body.result.data[0].id
@@ -68,7 +67,7 @@ export default (RESOURCE: string) => {
         
         test('should PATCH INFO of new article', async () => {
             await request(app)
-                .patch(`${RESOURCE}/data`)
+                .patch(ARTICLE(A.DATA))
                 .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newData(articleId))
                 .expect(200)
@@ -76,7 +75,7 @@ export default (RESOURCE: string) => {
 
         test('should PATH PUBLISH STATE of new article', async () => {
             await request(app)
-                .patch(`${RESOURCE}/publishment`)
+                .patch(ARTICLE(A.PUBLISHMENT))
                 .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newPublishState(articleId))
                 .expect(200)
@@ -84,7 +83,7 @@ export default (RESOURCE: string) => {
 
         test('should READ changed data from changed article', async () => {
             const response = await request(app)
-                .get(RESOURCE)
+                .get(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
                 
@@ -101,7 +100,7 @@ export default (RESOURCE: string) => {
        
         test('should DELETE new article', async () => {
             await request(app)
-                .delete(RESOURCE)
+                .delete(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .send({ id: articleId })
                 .expect(200)
@@ -109,7 +108,7 @@ export default (RESOURCE: string) => {
 
         test('should READ no data from deleted article', async () => {
             const response = await request(app)
-                .get(RESOURCE)
+                .get(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
 
@@ -121,13 +120,13 @@ export default (RESOURCE: string) => {
         
         test('should POST new article set', async () => {
             await request(app)
-                .post(RESOURCE)
+                .post(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newArticleSet1[0])
                 .expect(201)
 
             await request(app)
-                .post(RESOURCE)
+                .post(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newArticleSet1[1])
                 .expect(201)
@@ -135,18 +134,18 @@ export default (RESOURCE: string) => {
 
         test('Test update articles pusblish state', async () => {
             const response = await request(app)
-                .get(RESOURCE)
+                .get(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
             
             await request(app)
-                .patch(`${RESOURCE}/publishment`)
+                .patch(ARTICLE(A.PUBLISHMENT))
                 .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newPublishState(response.body.result.data[0].id))
                 .expect(200)
             
             await request(app)
-                .patch(`${RESOURCE}/publishment`)
+                .patch(ARTICLE(A.PUBLISHMENT))
                 .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newPublishState(response.body.result.data[1].id))
                 .expect(200)
@@ -154,12 +153,12 @@ export default (RESOURCE: string) => {
 
         test('should SIGN-UP and LOG-IN new user', async () => {
             await request(app)
-                .post(`${USER_RESOURCE}/register`)
+                .post(USER(U.REGISTER))
                 .send(userMock.patchData)
                 .expect(201)
 
             const response = await request(app)
-                .post(`${USER_RESOURCE}/login`)
+                .post(USER(U.LOGIN))
                 .send(userMock.newRightData)
                 .expect(200)
             token = response.body.result.token
@@ -167,13 +166,13 @@ export default (RESOURCE: string) => {
         
         test('should POST new article set in new user', async () => {
             await request(app)
-                .post(RESOURCE)
+                .post(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newArticleSet2[0])
                 .expect(201)
             
             await request(app)
-                .post(RESOURCE)
+                .post(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newArticleSet2[1])
                 .expect(201)
@@ -181,18 +180,18 @@ export default (RESOURCE: string) => {
 
         test('Test update articles pusblish state', async () => {
             const response = await request(app)
-                .get(RESOURCE)
+                .get(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
             
             await request(app)
-                .patch(`${RESOURCE}/publishment`)
+                .patch(ARTICLE(A.PUBLISHMENT))
                 .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newPublishState(response.body.result.data[0].id))
                 .expect(200)
             
             await request(app)
-                .patch(`${RESOURCE}/publishment`)
+                .patch(ARTICLE(A.PUBLISHMENT))
                 .set('Authorization', `Bearer ${token}`)
                 .send(artileMock.newPublishState(response.body.result.data[1].id))
                 .expect(200)
@@ -200,7 +199,7 @@ export default (RESOURCE: string) => {
 
         test('should READ paginated articles from new user', async () => {
             const response = await request(app)
-                .get(`${RESOURCE}/data/user/keywords`)
+                .get(ARTICLE(A.DUKEYWORDS))
                 .set('Authorization', `Bearer ${token}`)
                 .query(artileMock.newArticleKeywords1)
                 .expect(200)
@@ -214,7 +213,7 @@ export default (RESOURCE: string) => {
 
         test('should READ paginated articles from all users', async () => {
             const response = await request(app)
-                .get(`${RESOURCE}/data/keywords`)
+                .get(ARTICLE(A.DKEYWORDS))
                 .set('Authorization', `Bearer ${token}`)
                 .query(artileMock.newArticleKeywords2)
                 .expect(200)
@@ -232,7 +231,7 @@ export default (RESOURCE: string) => {
 
         test('should READ all paginated articles from all users', async () => {
             const response = await request(app)
-                .get(`${RESOURCE}/data/all`)
+                .get(ARTICLE(A.DALL))
                 .set('Authorization', `Bearer ${token}`)
                 .query(artileMock.allArticles)
                 .expect(200)
@@ -246,17 +245,17 @@ export default (RESOURCE: string) => {
 
         test('should DELETE both users', async () => {
             await request(app)
-                .delete(`${USER_RESOURCE}/data`)
+                .delete(USER(U.DATA))
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
 
             const response = await request(app)
-                .post(`${USER_RESOURCE}/login`)
+                .post(USER(U.LOGIN))
                 .send(userMock.rightData)
                 .expect(200)
 
             await request(app)
-                .delete(`${USER_RESOURCE}/data`)
+                .delete(USER(U.DATA))
                 .set('Authorization', `Bearer ${response.body.result.token}`)
                 .expect(200)
         })

@@ -1,6 +1,7 @@
-import { type UserType } from "../types/users"
-import { type ArticleType } from "../types/articles"
-import { type SectionType } from "../types/sections"
+import type { UserRoutes, UserType } from "../types/users"
+import type { ArticleRoutes, ArticleType } from "../types/articles"
+import type { SectionRoutes, SectionType } from "../types/sections"
+import { AppRoutes as APP, ResourceRoutes as RESOURCES } from '../types/api'
 
 type UserMock = {
     signUp: UserType['data']
@@ -30,6 +31,18 @@ type SectionMock = {
     newMultpleSections: (articleId: number) => SectionType['articleIdDatas']
     newSectionStyles: (articleId: number) => SectionType['articleIdData']
     changeStyles: (sectionId: number) => SectionType['idData']
+}
+
+export const USER = (ROUTE: UserRoutes) => {
+    return `${APP.VERSION_1}${RESOURCES.USER}${ROUTE}`
+}
+
+export const ARTICLE = (ROUTE: ArticleRoutes) => {
+    return `${APP.VERSION_1}${RESOURCES.ARTICLE}${ROUTE}`
+}
+
+export const SECTION = (ROUTE: SectionRoutes) => {
+    return `${APP.VERSION_1}${RESOURCES.SECTION}${ROUTE}`
 }
 
 export const userMock: UserMock = {
