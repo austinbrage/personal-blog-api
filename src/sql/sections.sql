@@ -19,6 +19,11 @@
         `image_url` = ?
     WHERE `id` = ?;
 
+-- changeSequence
+    UPDATE `sections`
+    SET `sequence` = ?
+    WHERE `id` = ?;
+
 -- remove
     DELETE FROM `sections`
     WHERE `id` = ?;

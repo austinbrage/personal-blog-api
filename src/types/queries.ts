@@ -34,6 +34,7 @@ export enum SectionQueries {
     getLastSequence = 'getLastSequence',
     addNew = 'addNew',
     changeContent = 'changeContent',
+    changeSequence = 'changeSequence',
     remove = 'remove'
 }
 
