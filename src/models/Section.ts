@@ -22,6 +22,18 @@ class Section implements ISection {
         return rows as RowDataPacket[]
     }
 
+    getLastSequence = async ({ article_id }: SectionType['articleId']) => {
+        const connection = await this.pool.getConnection()
+
+        const [rows] = await connection.execute(
+            sectionQueries[SectionQueries.getLastSequence],
+            [article_id]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
     changeContent = async ({ id, content, content_type, image_url }: SectionType['idContent']) => {
         const connection = await this.pool.getConnection()
 
@@ -34,12 +46,12 @@ class Section implements ISection {
         return rows as ResultSetHeader
     }
 
-    addNew = async ({ article_id, content, content_type, image_url }: SectionType['articleIdContent']) => {
+    addNew = async ({ article_id, content, content_type, image_url, sequence }: SectionType['articleIdContent']) => {
         const connection = await this.pool.getConnection()
 
         const [rows] = await connection.execute(
             sectionQueries[SectionQueries.addNew],
-            [article_id, content, content_type, image_url]
+            [article_id, content, content_type, image_url, sequence]
         ) 
 
         connection.release()

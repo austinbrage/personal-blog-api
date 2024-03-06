@@ -33,15 +33,16 @@ const sectionTableSchema = z.object({
 })
 
 const id = sectionTableSchema.pick({ id: true })
+const sequence = sectionTableSchema.pick({ sequence: true })
 const articleId = sectionTableSchema.pick({ article_id: true })
 const articleIdQuery = sectionTableSchema.pick({ article_id_query: true })
 const data = sectionTableSchema.pick({ content: true, content_type: true, image_url: true })
 const idContent = sectionTableSchema.pick({ id: true, content: true, content_type: true, image_url: true })
-const articleIdContent = sectionTableSchema.pick({ article_id: true, content: true, content_type: true, image_url: true })
+const articleIdContent = sectionTableSchema.pick({ article_id: true, content: true, content_type: true, image_url: true, sequence: true })
 
 const articleIdDatas = articleIdContent.merge(styleSchema.partialData).array()
 const articleIdData = articleIdContent.merge(styleSchema.partialData)
-const noIdData = data.merge(styleSchema.partialData).array()
+const noIdData = data.merge(sequence).merge(styleSchema.partialData).array()
 const idData = idContent.merge(styleSchema.partialData)
 
 

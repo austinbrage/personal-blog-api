@@ -9,8 +9,8 @@
     ORDER BY `sequence` DESC LIMIT 1;
 
 -- addNew
-    INSERT INTO `sections` (`article_id`, `content`, `content_type`, `image_url`)
-    VALUES (?, ?, ?, ?);
+    INSERT INTO `sections` (`article_id`, `content`, `content_type`, `image_url`, `sequence`)
+    VALUES (?, ?, ?, ?, ?);
 
 -- changeContent
     UPDATE `sections`

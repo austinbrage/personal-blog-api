@@ -81,7 +81,16 @@ export class Sections implements SectionController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        const result = await this.sectionModel.addNew(validation.data)
+        const resultSequence = await this.sectionModel.getLastSequence({ 
+            article_id: validation.data.article_id 
+        })
+
+        const newSequence = resultSequence[0]?.sequence + 1 ?? 1
+
+        const result = await this.sectionModel.addNew({
+            ...validation.data,
+            sequence: newSequence
+        })
 
         const addNewStyles = {
             ...validation.data,
