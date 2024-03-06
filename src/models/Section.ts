@@ -34,6 +34,18 @@ class Section implements ISection {
         return rows as RowDataPacket[]
     }
 
+    changeSequence = async ({ id, sequence }: SectionType['idSequence']) => {
+        const connection = await this.pool.getConnection()
+
+        const [rows] = await connection.execute(
+            sectionQueries[SectionQueries.changeSequence],
+            [sequence, id]
+        )
+
+        connection.release()
+        return rows as ResultSetHeader
+    }
+
     changeContent = async ({ id, content, content_type, image_url }: SectionType['idContent']) => {
         const connection = await this.pool.getConnection()
 

@@ -9,6 +9,8 @@ export type SectionType = {
     noIdData: z.infer<typeof sectionSchema.noIdData>
     articleId: z.infer<typeof sectionSchema.articleId>
     idContent: z.infer<typeof sectionSchema.idContent>
+    idSequence: z.infer<typeof sectionSchema.idSequence>
+    idSequenceData: z.infer<typeof sectionSchema.idSequenceData>
     articleIdData: z.infer<typeof sectionSchema.articleIdData>
     articleIdDatas: z.infer<typeof sectionSchema.articleIdDatas>
     articleIdQuery: z.infer<typeof sectionSchema.articleIdQuery>
@@ -19,6 +21,7 @@ export type SectionType = {
 export interface ISection {
     getAll({ article_id }: SectionType['articleId']): Promise<RowDataPacket[]>
     getLastSequence({ article_id }: SectionType['articleId']): Promise<RowDataPacket[]>
+    changeSequence({ id, sequence }: SectionType['idSequence']): Promise<ResultSetHeader>
     changeContent({ id, content, content_type, image_url }: SectionType['idContent']): Promise<ResultSetHeader>
     addNew({ article_id, content, content_type, image_url, sequence }: SectionType['articleIdContent']): Promise<ResultSetHeader>
     remove({ id }: SectionType['id']): Promise<ResultSetHeader>
@@ -27,6 +30,7 @@ export interface ISection {
 export interface SectionController {
     getAll: AsyncFunction
     changeAll: AsyncFunction
+    changeSequence: AsyncFunction
     addNew: AsyncFunction
     addMultiple: AsyncFunction
     addTemplate: AsyncFunction
@@ -35,6 +39,7 @@ export interface SectionController {
 
 export enum SectionRoutes {
     EMPTY = '/',
+    SEQUENCE = '/sequence',
     MULTIPLE = '/multiple',
     TEMPLATE = '/template'
 }

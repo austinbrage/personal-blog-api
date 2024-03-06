@@ -1,5 +1,5 @@
 import { loadJSON } from "../utils/templates"
-import { asyncErrorHandler } from "../services/errorHandler"
+import { AsyncFunction, asyncErrorHandler } from "../services/errorHandler"
 import { SectionValidation, type ISectionsValidation } from "../validations/Sections"
 import { createOkResponse, createErrorResponse } from "../helpers/appResponse"
 import type { Request, Response } from 'express'
@@ -72,6 +72,25 @@ export class Sections implements SectionController {
 
         return res.status(200).json(createOkResponse({
             message: 'Section content and styles changed successfully'
+        }))
+    })
+
+    changeSequence = asyncErrorHandler(async (req: Request, res: Response) => {
+        // const [{ id, sequence }] = req.body
+        const validation = this.validateSection.idSequenceData(req.body)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        const changeData = async (item: SectionType['idSequence']) => {
+            await this.sectionModel.changeSequence(item)
+        }
+
+        await validation.data.reduce((acc, curr) => acc.then(() => {
+            return changeData(curr)
+        }), Promise.resolve())
+
+        return res.status(200).json(createOkResponse({
+            message: 'Section sequences changed successfully'
         }))
     })
 

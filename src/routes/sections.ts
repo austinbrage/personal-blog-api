@@ -20,7 +20,8 @@ const createSectionRouter = ({ styleModel, sectionModel }: ModelsType) => {
     sectionRouter.put(S.EMPTY,     writeAuth, sectionController.changeAll)
     sectionRouter.post(S.EMPTY,    writeAuth, sectionController.addNew)
     sectionRouter.delete(S.EMPTY,  writeAuth, sectionController.remove)
-
+    
+    sectionRouter.put(S.SEQUENCE,  writeAuth, sectionController.changeSequence)
     sectionRouter.post(S.MULTIPLE, writeAuth, sectionController.addMultiple)
     sectionRouter.post(S.TEMPLATE, writeAuth, sectionController.addTemplate)
 
