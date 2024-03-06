@@ -7,6 +7,8 @@ import { SectionRoutes as S } from '../types/sections'
 import { userMock, artileMock, sectionMock, USER, ARTICLE, SECTION } from './mockData'
 import { type SectionType } from '../types/sections'
 
+let sequenceData: SectionType['idSequenceData']
+let sectionData: SectionType['id'][]
 let articleId: number
 let sectionId: number
 let token: string
@@ -132,6 +134,7 @@ export default () => {
                 .get(SECTION(S.EMPTY))
                 .query({ article_id_query: articleId })
                 .expect(200)
+            sectionData = response.body.result.data
 
             const templateTest = await loadJSON(templateName) as SectionType['noIdData']
 
@@ -142,6 +145,33 @@ export default () => {
                     .toMatchObject({ article_id: articleId, ...elem })
             })
         })
+    })
+
+    describe('Test update section sequence data', () => {
+
+        test('should PUT sequence value of all new sections', async () => {
+            sequenceData = sectionMock.changeSequence(sectionData)
+
+            await request(app)
+                .put(SECTION(S.SEQUENCE))
+                .set('Authorization', `Bearer ${token}`)
+                .send(sequenceData)
+                .expect(200)
+        })
+
+        test('should READ changes on new sections', async () => {
+            const response = await request(app)
+                .get(SECTION(S.EMPTY))
+                .query({ article_id_query: articleId })
+                .expect(200)
+
+            expect(response.body.result.data).toEqual(
+                expect.arrayContaining(
+                    sequenceData.map(data => expect.objectContaining(data))
+                )
+            )
+        })
+
     })
 
     describe('Test setup new fresh article for the next test', () => {

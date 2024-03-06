@@ -30,6 +30,7 @@ type ArticleMock = {
 type SectionMock = {
     newMultpleSections: (articleId: number) => SectionType['articleIdDatas']
     newSectionStyles: (articleId: number) => SectionType['articleIdData']
+    changeSequence: (sectionData: SectionType['id'][]) => SectionType['idSequenceData']
     changeStyles: (sectionId: number) => SectionType['idData']
 }
 
@@ -165,7 +166,7 @@ export const artileMock: ArticleMock = {
 }
 
 export const sectionMock: SectionMock = {
-    newMultpleSections: (articleId: number) => {
+    newMultpleSections: (articleId) => {
         return Array.from({ length: 4 }, (_, index) => ({
             article_id: articleId,
             content: `New Article Section ${index}`,
@@ -184,7 +185,7 @@ export const sectionMock: SectionMock = {
             border_radius: '0rem',
         }))
     },
-    newSectionStyles: (articleId: number) => {
+    newSectionStyles: (articleId) => {
         return {
            article_id: articleId,
            content: 'New Article Section',
@@ -203,7 +204,7 @@ export const sectionMock: SectionMock = {
            border_radius: '0rem',
         }
     },
-    changeStyles: (sectionId: number) => {
+    changeStyles: (sectionId) => {
         return {
            id: sectionId,
            content: 'Image alt text',
@@ -220,5 +221,9 @@ export const sectionMock: SectionMock = {
            text_color: 'gray',
            border_radius: '0.25rem'
         }
-    }
+    },
+    changeSequence: (sectionData) => sectionData?.map(elem => { 
+        const randomNumber = Math.floor(Math.random() * 11)
+        return { id: elem?.id, sequence: randomNumber } 
+    }) 
 }
