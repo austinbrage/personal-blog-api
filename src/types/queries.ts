@@ -31,6 +31,7 @@ export enum ArticleQueries {
 
 export enum SectionQueries {
     getAll = 'getAll',
+    getLastSequence = 'getLastSequence',
     addNew = 'addNew',
     changeContent = 'changeContent',
     remove = 'remove'

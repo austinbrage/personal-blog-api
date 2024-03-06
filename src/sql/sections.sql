@@ -3,6 +3,11 @@
     INNER JOIN `styles` ON `sections`.`id` = `styles`.`section_id`
     WHERE `sections`.`article_id` = ?;
 
+-- getLastSequence
+    SELECT `sequence` FROM `sections`
+    WHERE `article_id` = ?
+    ORDER BY `sequence` DESC LIMIT 1;
+
 -- addNew
     INSERT INTO `sections` (`article_id`, `content`, `content_type`, `image_url`)
     VALUES (?, ?, ?, ?);
