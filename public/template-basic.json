@@ -2,7 +2,7 @@
     {
         "content":       "Basic Title for Article",
         "content_type":  "title",
-        "sequence":       0,
+        "sequence":       1,
         "image_url":      null,
         "width":         "auto",
         "height":        "auto",
@@ -18,7 +18,7 @@
     {
         "content":       "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis, possimus.",
         "content_type":  "paragraph",
-        "sequence":       0,
+        "sequence":       2,
         "image_url":      null,
         "width":         "auto",
         "height":        "auto",
@@ -34,7 +34,7 @@
     {
         "content":       "Basic Image",
         "content_type":  "image",
-        "sequence":       0,
+        "sequence":       3,
         "image_url":     "https://th.bing.com/th/id/OIP.UEmQ1S8b-lRR_Ej4nh1Y9gHaEL?rs=1&pid=ImgDetMain",
         "width":         "auto",
         "height":        "auto",
