@@ -1,7 +1,8 @@
 -- getAll
     SELECT `sections`.*, `styles`.* FROM `sections`
     INNER JOIN `styles` ON `sections`.`id` = `styles`.`section_id`
-    WHERE `sections`.`article_id` = ?;
+    WHERE `sections`.`article_id` = ?
+    ORDER BY `sequence` ASC;
 
 -- getLastSequence
     SELECT `sequence` FROM `sections`
