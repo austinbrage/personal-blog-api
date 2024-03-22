@@ -4,6 +4,10 @@
     WHERE `sections`.`article_id` = ?
     ORDER BY `sequence` ASC;
 
+-- getImage
+    SELECT `image_url` FROM `sections`
+    WHERE `id` = ?;
+
 -- getLastSequence
     SELECT `sequence` FROM `sections`
     WHERE `article_id` = ?

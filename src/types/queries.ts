@@ -32,6 +32,7 @@ export enum ArticleQueries {
 
 export enum SectionQueries {
     getAll = 'getAll',
+    getImage = 'getImage',
     getLastSequence = 'getLastSequence',
     addNew = 'addNew',
     changeContent = 'changeContent',
