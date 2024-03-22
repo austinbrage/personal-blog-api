@@ -11,6 +11,10 @@
     SELECT `id` FROM `articles`
     WHERE `user_id` = ? AND `name` = ?;
 
+-- getImageById
+    SELECT `image` FROM `articles`
+    WHERE `id` = ?;
+
 -- getByKeyword
     SELECT * FROM `articles`
     WHERE `user_id` = ? AND `is_publish` = true AND (placeholder)

@@ -19,6 +19,7 @@ export enum UserQueries {
 export enum ArticleQueries {
     getAll = 'getAll',
     getId = 'getId',
+    getImageById = 'getImageById',
     getKeywords = 'getKeywords',
     getByKeyword = 'getByKeyword',
     getAllByKeyword = 'getAllByKeyword',
