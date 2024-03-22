@@ -31,8 +31,10 @@ export interface ISection {
 export interface SectionController {
     getAll: AsyncFunction
     changeAll: AsyncFunction
+    changeAllWithS3: AsyncFunction
     changeSequence: AsyncFunction
     addNew: AsyncFunction
+    addNewWithS3: AsyncFunction
     addMultiple: AsyncFunction
     addTemplate: AsyncFunction
     remove: AsyncFunction
