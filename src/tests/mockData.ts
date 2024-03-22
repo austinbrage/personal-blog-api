@@ -209,7 +209,7 @@ export const sectionMock: SectionMock = {
            id: sectionId,
            content: 'Image alt text',
            content_type: 'image_s3',
-           image_url: 'Jack Smith - My Article Test - Section Image 2',
+           image_url: 'Jack Smith - My Article Test - Section Image 1',
            width: '80%',
            height: '95%',
            font_family: 'Monospace',
