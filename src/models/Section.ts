@@ -22,6 +22,18 @@ class Section implements ISection {
         return rows as RowDataPacket[]
     }
 
+    getImage = async ({ id }: SectionType['id']) => {
+        const connection = await this.pool.getConnection()
+
+        const [rows] = await connection.execute(
+            sectionQueries[SectionQueries.getImage],
+            [id]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
     getLastSequence = async ({ article_id }: SectionType['articleId']) => {
         const connection = await this.pool.getConnection()
 

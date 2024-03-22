@@ -20,6 +20,7 @@ export type SectionType = {
 
 export interface ISection {
     getAll({ article_id }: SectionType['articleId']): Promise<RowDataPacket[]>
+    getImage({ id }: SectionType['id']): Promise<RowDataPacket[]>
     getLastSequence({ article_id }: SectionType['articleId']): Promise<RowDataPacket[]>
     changeSequence({ id, sequence }: SectionType['idSequence']): Promise<ResultSetHeader>
     changeContent({ id, content, content_type, image_url }: SectionType['idContent']): Promise<ResultSetHeader>
