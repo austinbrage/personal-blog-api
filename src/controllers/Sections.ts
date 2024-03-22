@@ -191,7 +191,14 @@ export class Sections implements SectionController {
 
     addNewWithS3 = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { article_id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
-        const validation = this.validateSection.articleIdData(req.body)
+        const article_id = +req.body?.article_id ?? ''
+        const sequence = +req.body?.sequence ?? ''
+
+        const validation = this.validateSection.articleIdData({ 
+            ...req.body, 
+            article_id,
+            sequence
+        })
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
