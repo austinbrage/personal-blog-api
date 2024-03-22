@@ -1,11 +1,15 @@
 import request from 'supertest'
 import { app } from '../server'
+import { resolve } from 'path'
+import { createReadStream } from 'fs'
 import { UserRoutes as U } from '../types/users'
 import { ArticleRoutes as A } from '../types/articles'
 import { userMock, artileMock, USER, ARTICLE } from './mockData'
 
 let articleId: number
 let token: string
+
+const imagePath = resolve(__dirname, '../../public/image-test.png')
 
 export default () => {
 
@@ -43,11 +47,17 @@ export default () => {
                 .expect(200)
         })
 
-        test('should POST new article', async () => {
+        test('should POST new article with an s3 image', async () => {
             await request(app)
-                .post(ARTICLE(A.EMPTY))
+                .post(ARTICLE(A.DATAS3))
                 .set('Authorization', `Bearer ${token}`)
-                .send(artileMock.newArticle)
+                .set('Content-Type', `multipart/form-data`)
+                .field('image_file', createReadStream(imagePath))
+                .field('name', artileMock.newArticle.name)
+                .field('title', artileMock.newArticle.title)
+                .field('keywords', artileMock.newArticle.keywords)
+                .field('image', artileMock.newArticle.image)
+                .field('description', artileMock.newArticle.description)
                 .expect(201)
         })
         

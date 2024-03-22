@@ -98,18 +98,18 @@ export const userMock: UserMock = {
 export const artileMock: ArticleMock = {
     newArticle: {
         name: 'My Article Test',
-        image: 'https://th.bing.com/th/id/OIP.jaWRCdx3lBfjZuK_dJ_jiwHaEK?rs=1&pid=ImgDetMain',
+        image: 'Jack Smith - My Article Test - Main Image',
         title: 'My Title',
         keywords: 'My Keywords',
         description: 'My Description'
     },
     newData: (articleId) => ({
-            id: articleId,
-            name: 'New Article Name',
-            image: 'https://th.bing.com/th/id/OIP.WQuVYA_rOsaqBTIK0TgsXwAAAA?w=280&h=235&rs=1&pid=ImgDetMain',
-            title: 'New Article Title',
-            keywords: 'New Article Keywords',
-            description: 'New Article Description'
+        id: articleId,
+        name: 'New Article Name',
+        image: 'Jack Smith - My Article Test - Main Image',
+        title: 'New Article Title',
+        keywords: 'New Article Keywords',
+        description: 'New Article Description'
     }),
     newPublishState: (articleId) => {
         return {
