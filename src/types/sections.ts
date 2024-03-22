@@ -42,6 +42,7 @@ export interface SectionController {
 
 export enum SectionRoutes {
     EMPTY = '/',
+    DATAS3 = '/s3',
     SEQUENCE = '/sequence',
     MULTIPLE = '/multiple',
     TEMPLATE = '/template'

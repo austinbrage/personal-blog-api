@@ -1,6 +1,8 @@
+import multer from "multer"
 import { Router } from "express"
 import { Sections as SectionController } from "../controllers/Sections"
 import createAuthorization from "../auth/authorization"
+import imageFileMiddleware from "../middlewares/image"
 import { SectionRoutes as S, type ISection } from "../types/sections"
 import { type IStyle } from "../types/styles"
 
@@ -11,6 +13,9 @@ type ModelsType = {
 
 const createSectionRouter = ({ styleModel, sectionModel }: ModelsType) => {
     const sectionRouter = Router()
+
+    const storage = multer.memoryStorage()
+    const upload = multer({ storage: storage })
 
     const writeAuth = createAuthorization('WRITE')
 
@@ -24,6 +29,22 @@ const createSectionRouter = ({ styleModel, sectionModel }: ModelsType) => {
     sectionRouter.put(S.SEQUENCE,  writeAuth, sectionController.changeSequence)
     sectionRouter.post(S.MULTIPLE, writeAuth, sectionController.addMultiple)
     sectionRouter.post(S.TEMPLATE, writeAuth, sectionController.addTemplate)
+
+    sectionRouter.post(
+        S.DATAS3, 
+        writeAuth, 
+        imageFileMiddleware, 
+        upload.single('image_file'), 
+        sectionController.addNewWithS3
+    )
+
+    sectionRouter.put(
+        S.DATAS3, 
+        writeAuth, 
+        imageFileMiddleware, 
+        upload.single('image_file'), 
+        sectionController.changeAllWithS3
+    )
 
     return sectionRouter
 }
