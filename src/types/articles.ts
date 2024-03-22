@@ -21,6 +21,7 @@ export type ArticleType = {
 
 export interface IArticle {
     getKeywords(): Promise<RowDataPacket[]>
+    getImageById({ id }: ArticleType['id']): Promise<RowDataPacket[]>
     getAll({ user_id }: ArticleType['userId']): Promise<RowDataPacket[]>
     getId({ user_id, name }: ArticleType['userIdName']): Promise<RowDataPacket[]>
     getAllByKeyword({ keywords, limit, offset }: ArticleType['noUserIdPage']): Promise<RowDataPacket[]>

@@ -95,6 +95,18 @@ class Article implements IArticle {
         return rows as RowDataPacket[]
     }
 
+    getImageById = async ({ id }: ArticleType['id']) => {
+        const connection = await this.pool.getConnection()
+
+        const [rows] = await connection.execute(
+            articleQueries[ArticleQueries.getImageById],
+            [id]
+        )
+
+        connection.release()
+        return rows as RowDataPacket[]
+    }
+
     changeData = async ({ id, name, title, image, keywords, description }: ArticleType['idData']) => {
         const connection = await this.pool.getConnection()
         
