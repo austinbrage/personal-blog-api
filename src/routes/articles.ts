@@ -32,7 +32,7 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
         A.DATAS3, 
         writeAuth, 
         imageFileMiddleware, 
-        upload.single('image'), 
+        upload.single('image_file'), 
         articleController.addNewWithS3
     )
 
@@ -40,7 +40,7 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
         A.DATAS3, 
         writeAuth, 
         imageFileMiddleware, 
-        upload.single('image'), 
+        upload.single('image_file'), 
         articleController.changeDataWithS3
     )
 
