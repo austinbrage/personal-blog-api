@@ -305,6 +305,12 @@ export class Sections implements SectionController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
+        const sectionImage = await this.sectionModel.getImage({ id: validation.data.id })
+
+        if(sectionImage[0]?.image_url !== null) {
+            await this.removeImage(sectionImage[0].image_url)
+        }
+
         await this.sectionModel.remove(validation.data)
 
         return res.status(200).json(createOkResponse({
