@@ -1,5 +1,7 @@
 import request from 'supertest'
 import { app } from '../server'
+import { resolve } from 'path'
+import { createReadStream } from 'fs'
 import { loadJSON } from '../utils/templates'
 import { UserRoutes as U } from '../types/users'
 import { ArticleRoutes as A } from '../types/articles'
@@ -12,6 +14,8 @@ let sectionData: SectionType['id'][]
 let articleId: number
 let sectionId: number
 let token: string
+
+const imagePath = resolve(__dirname, '../../public/image-test.png')
 
 export default () => {
 
@@ -58,9 +62,25 @@ export default () => {
 
         test('should POST new section', async () => {
             await request(app)
-                .post(SECTION(S.EMPTY))
+                .post(SECTION(S.DATAS3))
                 .set('Authorization', `Bearer ${token}`)
-                .send(sectionMock.newSectionStyles(articleId))
+                .set('Content-Type', `multipart/form-data`)
+                .field('image_file', createReadStream(imagePath))
+                .field('article_id', sectionMock.newSectionStyles(articleId).article_id)
+                .field('sequence', sectionMock.newSectionStyles(articleId).sequence)
+                .field('content', sectionMock.newSectionStyles(articleId).content)
+                .field('content_type', sectionMock.newSectionStyles(articleId).content_type)
+                .field('image_url', sectionMock.newSectionStyles(articleId).image_url ?? '')
+                .field('width', sectionMock.newSectionStyles(articleId).width)
+                .field('height', sectionMock.newSectionStyles(articleId).height)
+                .field('font_family', sectionMock.newSectionStyles(articleId).font_family)
+                .field('font_size', sectionMock.newSectionStyles(articleId).font_size)
+                .field('font_weight', sectionMock.newSectionStyles(articleId).font_weight)
+                .field('line_height', sectionMock.newSectionStyles(articleId).line_height)
+                .field('margin_top', sectionMock.newSectionStyles(articleId).margin_top)
+                .field('text_align', sectionMock.newSectionStyles(articleId).text_align)
+                .field('text_color', sectionMock.newSectionStyles(articleId).text_color)
+                .field('border_radius', sectionMock.newSectionStyles(articleId).border_radius)
                 .expect(201)
         })
 
@@ -80,9 +100,24 @@ export default () => {
        
         test('should PUT data of new section', async () => {
             await request(app)
-                .put(SECTION(S.EMPTY))
+                .put(SECTION(S.DATAS3))
                 .set('Authorization', `Bearer ${token}`)
-                .send(sectionMock.changeStyles(sectionId))
+                .set('Content-Type', `multipart/form-data`)
+                .field('image_file', createReadStream(imagePath))
+                .field('id', sectionMock.changeStyles(sectionId).id)
+                .field('content', sectionMock.changeStyles(sectionId).content)
+                .field('content_type', sectionMock.changeStyles(sectionId).content_type)
+                .field('image_url', sectionMock.changeStyles(sectionId).image_url ?? '')
+                .field('width', sectionMock.changeStyles(sectionId).width)
+                .field('height', sectionMock.changeStyles(sectionId).height)
+                .field('font_family', sectionMock.changeStyles(sectionId).font_family)
+                .field('font_size', sectionMock.changeStyles(sectionId).font_size)
+                .field('font_weight', sectionMock.changeStyles(sectionId).font_weight)
+                .field('line_height', sectionMock.changeStyles(sectionId).line_height)
+                .field('margin_top', sectionMock.changeStyles(sectionId).margin_top)
+                .field('text_align', sectionMock.changeStyles(sectionId).text_align)
+                .field('text_color', sectionMock.changeStyles(sectionId).text_color)
+                .field('border_radius', sectionMock.changeStyles(sectionId).border_radius)
                 .expect(200)
         })
 

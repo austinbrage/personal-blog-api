@@ -189,9 +189,9 @@ export const sectionMock: SectionMock = {
         return {
            article_id: articleId,
            content: 'New Article Section',
-           content_type: 'paragraph',
+           content_type: 'image_s3',
            sequence: 0,
-           image_url: null,
+           image_url: 'Jack Smith - My Article Test - Section Image 1',
            width: '90%',
            height: 'auto',
            font_family: 'Verdana',
@@ -208,8 +208,8 @@ export const sectionMock: SectionMock = {
         return {
            id: sectionId,
            content: 'Image alt text',
-           content_type: 'image',
-           image_url: 'https://th.bing.com/th/id/OIP.QI29d315w9fABt0BQCsIwwHaE8?rs=1&pid=ImgDetMain',
+           content_type: 'image_s3',
+           image_url: 'Jack Smith - My Article Test - Section Image 2',
            width: '80%',
            height: '95%',
            font_family: 'Monospace',
