@@ -36,6 +36,15 @@ export class Articles implements ArticleController {
         await s3.send(command)
     }
 
+    private async removeImage(imageName: string) {
+        const command = new DeleteObjectCommand({
+            Bucket: bucketName,
+            Key: imageName
+        })
+
+        await s3.send(command)
+    }
+
     getKeywords = asyncErrorHandler(async (_req, res: Response) => {
         const result = await this.articleModel.getKeywords()
 
@@ -177,11 +186,15 @@ export class Articles implements ArticleController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        if(req.file) {
-            const articleData = await this.articleModel.getImageById({ id: validation.data.id })
-            await this.uploadImage(articleData[0]?.image, req.file)
+        if(!req.file) {
+            return res.status(400).json(createErrorResponse({ 
+                message: 'Validation data error, image file required' 
+            }))
         }
 
+        const articleData = await this.articleModel.getImageById({ id: validation.data.id })
+        
+        await this.uploadImage(articleData[0]?.image || '', req.file)
         await this.articleModel.changeData(validation.data)
 
         return res.status(200).json(createOkResponse({
@@ -260,6 +273,9 @@ export class Articles implements ArticleController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
+        const articleData = await this.articleModel.getImageById({ id: validation.data.id })
+
+        await this.removeImage(articleData[0]?.image || '')
         await this.articleModel.remove(validation.data)
 
         return res.status(200).json(createOkResponse({
