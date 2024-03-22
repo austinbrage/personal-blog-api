@@ -100,7 +100,8 @@ export class Sections implements SectionController {
 
     changeAllWithS3 = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
-        const validation = this.validateSection.idData(req.body) 
+        const id = +req.body?.id ?? ''
+        const validation = this.validateSection.idData({ ...req.body, id }) 
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
@@ -128,10 +129,7 @@ export class Sections implements SectionController {
             await this.removeImage(imageDBName)
         }
 
-        await this.sectionModel.changeContent({
-            ...validation.data,
-            image_url: isImageType ? imageDBName : null
-        })
+        await this.sectionModel.changeContent(validation.data)
 
         await this.styleModel.changeStyles({
             ...validation.data,
