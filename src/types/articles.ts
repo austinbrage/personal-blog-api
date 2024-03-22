@@ -40,7 +40,9 @@ export interface ArticleController {
     getAllByKeywords: AsyncFunction
     getAll: AsyncFunction
     changeData: AsyncFunction
+    changeDataWithS3: AsyncFunction
     changePublishState: AsyncFunction
+    addNewWithS3: AsyncFunction
     addNew: AsyncFunction
     remove: AsyncFunction
 }

@@ -1,4 +1,7 @@
-import { AsyncFunction, asyncErrorHandler } from '../services/errorHandler'
+import { s3, bucketName } from '../services/bucket'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3"
+import { asyncErrorHandler } from '../services/errorHandler'
 import { ArticlesValidation, type IArticlesValidation } from '../validations/Articles'
 import { createOkResponse, createErrorResponse } from '../helpers/appResponse'
 import type { Request, Response } from 'express'
@@ -20,6 +23,17 @@ export class Articles implements ArticleController {
             message: 'Validation data error',
             error: validationError.format()
         }))
+    }
+
+    private async uploadImage(imageName: string, imageFile: Express.Multer.File) {
+        const command = new PutObjectCommand({
+            Key: imageName,
+            Bucket: bucketName,
+            Body: imageFile.buffer,
+            ContentType: imageFile.mimetype
+        })
+
+        await s3.send(command)
     }
 
     getKeywords = asyncErrorHandler(async (_req, res: Response) => {
@@ -156,6 +170,24 @@ export class Articles implements ArticleController {
             message: 'Article info changed successfully'
         }))
     })
+
+    changeDataWithS3 = asyncErrorHandler(async (req: Request, res: Response) => {
+        // const { id, name, title, image, keywords, description } = req.body
+        const validation = this.validateArticle.idData(req.body)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        if(req.file) {
+            const articleData = await this.articleModel.getImageById({ id: validation.data.id })
+            await this.uploadImage(articleData[0]?.image, req.file)
+        }
+
+        await this.articleModel.changeData(validation.data)
+
+        return res.status(200).json(createOkResponse({
+            message: 'Article info changed successfully'
+        }))
+    })
     
     changePublishState = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, is_publish } = req.body
@@ -183,6 +215,36 @@ export class Articles implements ArticleController {
                 message: 'Existing article name'
             }))
         }
+
+        const newArticleInfo = await this.articleModel.addNew(validation.data)
+        
+        return res.status(201).json(createOkResponse({
+            message: 'New article created successfully',
+            data: [newArticleInfo]
+        }))
+    })
+
+    addNewWithS3 = asyncErrorHandler(async (req: Request, res: Response) => {
+        // const { user_id, name, title, image, keywords, description } = req.body
+        const validation = this.validateArticle.userIdData({ ...req.body, user_id: req.userId?.id })
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        const result = await this.articleModel.getId(validation.data)
+        
+        if(result.length !== 0) {
+            return res.status(401).json(createErrorResponse({
+                message: 'Existing article name'
+            }))
+        }
+
+        if(!req.file) {
+            return res.status(400).json(createErrorResponse({ 
+                message: 'Validation data error, image file required' 
+            }))
+        }
+
+        await this.uploadImage(validation.data.image, req.file)
 
         const newArticleInfo = await this.articleModel.addNew(validation.data)
         
