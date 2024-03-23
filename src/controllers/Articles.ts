@@ -195,9 +195,9 @@ export class Articles implements ArticleController {
     })
 
     changeDataWithS3 = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { id, name, title, image, keywords, description } = req.body
+        // const { id, name, title, keywords, description } = req.body
         const id = +req.body?.id ?? '' 
-        const validation = this.validateArticle.idDataNoType({ ...req.body, id })
+        const validation = this.validateArticle.idDataNoImage({ ...req.body, id })
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
@@ -279,8 +279,8 @@ export class Articles implements ArticleController {
     })
 
     addNewWithS3 = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { user_id, name, title, image, keywords, description } = req.body
-        const validation = this.validateArticle.userIdDataNoType({ ...req.body, user_id: req.userId?.id })
+        // const { user_id, name, title, keywords, description } = req.body
+        const validation = this.validateArticle.userIdDataNoImage({ ...req.body, user_id: req.userId?.id })
 
         if(!validation.success) return this.validationErr(res, validation.error)
 

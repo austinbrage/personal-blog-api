@@ -46,6 +46,8 @@ const userIdData = articleTableSchema.omit({ id: true, is_publish: true })
 const idData = articleTableSchema.omit({ user_id: true, is_publish: true })
 const userIdDataNoType = articleTableSchema.omit({ id: true, is_publish: true, image_type: true })
 const idDataNoType = articleTableSchema.omit({ user_id: true, is_publish: true, image_type: true })
+const userIdDataNoImage = articleTableSchema.omit({ id: true, is_publish: true, image: true, image_type: true })
+const idDataNoImage = articleTableSchema.omit({ user_id: true, is_publish: true, image: true, image_type: true })
 const idPublishState = articleTableSchema.pick({ id: true, is_publish: true })
 
 export const articleSchema = {
@@ -55,8 +57,10 @@ export const articleSchema = {
     userIdName,
     userIdData,
     idDataNoType,
+    idDataNoImage,
     idPublishState,
-    userIdDataNoType
+    userIdDataNoType,
+    userIdDataNoImage
 }
 
 const articleTablePaginationSchema = z.object({
