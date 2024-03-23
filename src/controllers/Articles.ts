@@ -169,11 +169,14 @@ export class Articles implements ArticleController {
 
     changeData = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, name, title, image, keywords, description } = req.body
-        const validation = this.validateArticle.idData(req.body)
+        const validation = this.validateArticle.idDataNoType(req.body)
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        await this.articleModel.changeData(validation.data)
+        await this.articleModel.changeData({
+            ...validation.data,
+            image_type: 'image_url'
+        })
 
         return res.status(200).json(createOkResponse({
             message: 'Article info changed successfully'
@@ -182,7 +185,7 @@ export class Articles implements ArticleController {
 
     changeDataWithS3 = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, name, title, image, keywords, description } = req.body
-        const validation = this.validateArticle.idData(req.body)
+        const validation = this.validateArticle.idDataNoType(req.body)
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
@@ -195,7 +198,11 @@ export class Articles implements ArticleController {
         const articleData = await this.articleModel.getImageById({ id: validation.data.id })
         
         await this.uploadImage(articleData[0]?.image || '', req.file)
-        await this.articleModel.changeData(validation.data)
+
+        await this.articleModel.changeData({
+            ...validation.data,
+            image_type: 'image_s3'
+        })
 
         return res.status(200).json(createOkResponse({
             message: 'Article info changed successfully'
@@ -217,7 +224,7 @@ export class Articles implements ArticleController {
 
     addNew = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { user_id, name, title, image, keywords, description } = req.body
-        const validation = this.validateArticle.userIdData({ ...req.body, user_id: req.userId?.id })
+        const validation = this.validateArticle.userIdDataNoType({ ...req.body, user_id: req.userId?.id })
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
@@ -229,7 +236,10 @@ export class Articles implements ArticleController {
             }))
         }
 
-        const newArticleInfo = await this.articleModel.addNew(validation.data)
+        const newArticleInfo = await this.articleModel.addNew({
+            ...validation.data,
+            image_type: 'image_url'
+        })
         
         return res.status(201).json(createOkResponse({
             message: 'New article created successfully',
@@ -239,7 +249,7 @@ export class Articles implements ArticleController {
 
     addNewWithS3 = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { user_id, name, title, image, keywords, description } = req.body
-        const validation = this.validateArticle.userIdData({ ...req.body, user_id: req.userId?.id })
+        const validation = this.validateArticle.userIdDataNoType({ ...req.body, user_id: req.userId?.id })
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
@@ -259,7 +269,10 @@ export class Articles implements ArticleController {
 
         await this.uploadImage(validation.data.image, req.file)
 
-        const newArticleInfo = await this.articleModel.addNew(validation.data)
+        const newArticleInfo = await this.articleModel.addNew({
+            ...validation.data,
+            image_type: 'image_s3'
+        })
         
         return res.status(201).json(createOkResponse({
             message: 'New article created successfully',

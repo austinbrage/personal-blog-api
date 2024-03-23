@@ -17,11 +17,11 @@ type UserMock = {
 }
 
 type ArticleMock = {
-    newData: (articleId: number) => ArticleType['idData']
+    newData: (articleId: number) => ArticleType['idDataNoType']
     allArticles: ArticleType['pageValues']
-    newArticle: Omit<ArticleType['idData'], "id">
-    newArticleSet1: Omit<ArticleType['idData'], "id">[]
-    newArticleSet2: Omit<ArticleType['idData'], "id">[]
+    newArticle: Omit<ArticleType['idDataNoType'], "id">
+    newArticleSet1: Omit<ArticleType['idDataNoType'], "id">[]
+    newArticleSet2: Omit<ArticleType['idDataNoType'], "id">[]
     newArticleKeywords1: Omit<ArticleType['allDataPageQuery'], "user_id">
     newArticleKeywords2: ArticleType['noUserIdPageQuery']
     newPublishState: (articleId: number) => ArticleType['idPublishState']

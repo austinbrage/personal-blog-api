@@ -9,7 +9,9 @@ export type ArticleType = {
     userId: z.infer<typeof articleSchema.userId>
     userIdName: z.infer<typeof articleSchema.userIdName>
     userIdData: z.infer<typeof articleSchema.userIdData>
+    idDataNoType: z.infer<typeof articleSchema.idDataNoType>
     idPublishState: z.infer<typeof articleSchema.idPublishState>
+    userIdDataNoType: z.infer<typeof articleSchema.userIdDataNoType>
 
     allDataPage: z.infer<typeof articlePaginationSchema.allData>
     pageValues: z.infer<typeof articlePaginationSchema.pageValues>
