@@ -38,7 +38,7 @@ export default () => {
         })  
     })
 
-    describe('Test create and read new article post', () => {
+    describe('Test create and read new article post with url image', () => {
         
         test('should READ article keywords', async () => {
             await request(app)
@@ -47,7 +47,62 @@ export default () => {
                 .expect(200)
         })
 
-        test('should POST new article with an s3 image', async () => {
+        test('should POST new article', async () => {
+            await request(app)
+                .post(ARTICLE(A.EMPTY))
+                .set('Authorization', `Bearer ${token}`)
+                .send(artileMock.newArticle)
+                .expect(201)
+        })
+        
+        test('should READ and GET ID from new article', async () => {
+            const response = await request(app)
+                .get(ARTICLE(A.EMPTY))
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+            articleId = response.body.result.data[0].id
+                
+            expect(response.body.result.data[0])
+               .toMatchObject(artileMock.newArticle)
+        })
+    })
+
+    describe('Test update new article post with url image', () => {
+        
+        test('should PATCH INFO of new article', async () => {
+            await request(app)
+                .patch(ARTICLE(A.DATA))
+                .set('Authorization', `Bearer ${token}`)
+                .send(artileMock.newData1(articleId))
+                .expect(200)
+        })
+
+        test('should PATH PUBLISH STATE of new article', async () => {
+            await request(app)
+                .patch(ARTICLE(A.PUBLISHMENT))
+                .set('Authorization', `Bearer ${token}`)
+                .send(artileMock.newPublishState(articleId))
+                .expect(200)
+        })
+
+        test('should READ changed data from changed article', async () => {
+            const response = await request(app)
+                .get(ARTICLE(A.EMPTY))
+                .set('Authorization', `Bearer ${token}`)
+                .expect(200)
+                
+            expect(response.body.result.data[0])
+               .toMatchObject({
+                    ...artileMock.newData1(articleId),
+                    id: articleId,
+                    is_publish: 1
+                })
+        })
+    })
+
+    describe('Test create and read new article post with s3 image', () => {
+
+        test('should POST new article with', async () => {
             await request(app)
                 .post(ARTICLE(A.DATAS3))
                 .set('Authorization', `Bearer ${token}`)
@@ -73,21 +128,20 @@ export default () => {
         })
     })
 
-    describe('Test update new article post', () => {
+    describe('Test update new article post with s3 image', () => {
         
         test('should PATCH INFO of new article', async () => {
             await request(app)
-                .patch(ARTICLE(A.DATA))
+                .patch(ARTICLE(A.DATAS3))
                 .set('Authorization', `Bearer ${token}`)
-                .send(artileMock.newData(articleId))
-                .expect(200)
-        })
-
-        test('should PATH PUBLISH STATE of new article', async () => {
-            await request(app)
-                .patch(ARTICLE(A.PUBLISHMENT))
-                .set('Authorization', `Bearer ${token}`)
-                .send(artileMock.newPublishState(articleId))
+                .set('Content-Type', `multipart/form-data`)
+                .field('image_file', createReadStream(imagePath))
+                .field('id', artileMock.newData2(articleId).id)
+                .field('name', artileMock.newData2(articleId).name)
+                .field('title', artileMock.newData2(articleId).title)
+                .field('keywords', artileMock.newData2(articleId).keywords)
+                .field('image', artileMock.newData2(articleId).image)
+                .field('description', artileMock.newData2(articleId).description)
                 .expect(200)
         })
 
@@ -99,9 +153,8 @@ export default () => {
                 
             expect(response.body.result.data[0])
                .toMatchObject({
-                    ...artileMock.newData(articleId),
-                    id: articleId,
-                    is_publish: 1
+                    ...artileMock.newData2(articleId),
+                    id: articleId
                 })
         })
     })
@@ -122,7 +175,7 @@ export default () => {
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
 
-            expect(response.body.result.data).toHaveLength(0)
+            expect(response.body.result.data).toHaveLength(1)
         })        
     })
 
@@ -246,7 +299,7 @@ export default () => {
                 .query(artileMock.allArticles)
                 .expect(200)
 
-            expect(response.body.result.data).toHaveLength(4)
+            expect(response.body.result.data).toHaveLength(5)
         })
 
     })

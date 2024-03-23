@@ -17,7 +17,8 @@ type UserMock = {
 }
 
 type ArticleMock = {
-    newData: (articleId: number) => ArticleType['idDataNoType']
+    newData1: (articleId: number) => ArticleType['idDataNoType']
+    newData2: (articleId: number) => ArticleType['idDataNoType']
     allArticles: ArticleType['pageValues']
     newArticle: Omit<ArticleType['idDataNoType'], "id">
     newArticleSet1: Omit<ArticleType['idDataNoType'], "id">[]
@@ -103,9 +104,17 @@ export const artileMock: ArticleMock = {
         keywords: 'My Keywords',
         description: 'My Description'
     },
-    newData: (articleId) => ({
+    newData1: (articleId) => ({
         id: articleId,
-        name: 'New Article Name',
+        name: 'New Article Name 1',
+        image: 'Jack Smith - My Article Test - Main Image',
+        title: 'New Article Title',
+        keywords: 'New Article Keywords',
+        description: 'New Article Description'
+    }),
+    newData2: (articleId) => ({
+        id: articleId,
+        name: 'New Article Name 2',
         image: 'Jack Smith - My Article Test - Main Image',
         title: 'New Article Title',
         keywords: 'New Article Keywords',
