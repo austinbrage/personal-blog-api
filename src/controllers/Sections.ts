@@ -111,18 +111,14 @@ export class Sections implements SectionController {
         const imageDBName = sectionImage[0]?.image_url
 
         if(isImageType) {
-            if(!req.file) return res.status(400).json(createErrorResponse({ 
-                message: 'Validation data error, image file required' 
-            }))            
-
             if(!imageDBName) {
                 if(!validation.data.image_url) return res.status(400).json(createErrorResponse({ 
                     message: 'Validation data error, image name required' 
                 }))
 
-                await this.uploadImage(validation.data.image_url, req.file)
+                await this.uploadImage(validation.data.image_url, req.file as Express.Multer.File)
             } else {
-                await this.uploadImage(imageDBName, req.file)
+                await this.uploadImage(imageDBName, req.file as Express.Multer.File)
             }
                 
         } else if(imageDBName !== null) {
@@ -203,19 +199,13 @@ export class Sections implements SectionController {
         if(!validation.success) return this.validationErr(res, validation.error)
 
         if(validation.data.content_type === 'image_s3') {
-            if(!req.file) {
-                return res.status(400).json(createErrorResponse({ 
-                    message: 'Validation data error, image file required' 
-                }))
-            }
-            
             if(validation.data.image_url === null) {
                 return res.status(400).json(createErrorResponse({ 
                     message: 'Validation data error, image name required' 
                 }))
             }
 
-            await this.uploadImage(validation.data.image_url, req.file)
+            await this.uploadImage(validation.data.image_url, req.file as Express.Multer.File)
         }
 
         const resultSequence = await this.sectionModel.getLastSequence({ 

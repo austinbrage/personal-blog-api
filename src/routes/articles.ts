@@ -31,16 +31,16 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
     articleRouter.post(
         A.DATAS3, 
         writeAuth, 
-        imageFileMiddleware, 
         upload.single('image_file'), 
+        imageFileMiddleware, 
         articleController.addNewWithS3
     )
 
     articleRouter.patch(
         A.DATAS3, 
         writeAuth, 
-        imageFileMiddleware, 
         upload.single('image_file'), 
+        imageFileMiddleware, 
         articleController.changeDataWithS3
     )
 
