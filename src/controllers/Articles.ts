@@ -212,14 +212,28 @@ export class Articles implements ArticleController {
             }))
         }
 
+        const newImageName = 'userId: ' + req.userId?.id + ', articleName: ' + validation.data.name
         const articleData = await this.articleModel.getImageById({ id: validation.data.id })
-        
-        await this.uploadImage(articleData[0]?.image || '', req.file as Express.Multer.File)
+        const isImageS3 = articleData[0]?.image_type === 'image_s3'
+        const imageName = articleData[0]?.image ?? newImageName
 
-        await this.articleModel.changeData({
-            ...validation.data,
-            image_type: 'image_s3'
-        })
+        if(isImageS3) {
+            await this.uploadImage(imageName, req.file as Express.Multer.File)
+            
+            await this.articleModel.changeData({
+                ...validation.data,
+                image: imageName,
+                image_type: 'image_s3'
+            })
+        } else {
+            await this.uploadImage(newImageName, req.file as Express.Multer.File)
+
+            await this.articleModel.changeData({
+                ...validation.data,
+                image: newImageName,
+                image_type: 'image_s3'
+            })
+        }
 
         return res.status(200).json(createOkResponse({
             message: 'Article info changed successfully'
@@ -278,10 +292,12 @@ export class Articles implements ArticleController {
             }))
         }
 
-        await this.uploadImage(validation.data.image, req.file as Express.Multer.File)
+        const newImageName = 'userId: ' + req.userId?.id + ', articleName: ' + validation.data.name
+        await this.uploadImage(newImageName, req.file as Express.Multer.File)
 
         const newArticleInfo = await this.articleModel.addNew({
             ...validation.data,
+            image: newImageName,
             image_type: 'image_s3'
         })
         
