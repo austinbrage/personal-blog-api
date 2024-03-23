@@ -185,7 +185,8 @@ export class Articles implements ArticleController {
 
     changeDataWithS3 = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id, name, title, image, keywords, description } = req.body
-        const validation = this.validateArticle.idDataNoType(req.body)
+        const id = +req.body?.id ?? '' 
+        const validation = this.validateArticle.idDataNoType({ ...req.body, id })
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
