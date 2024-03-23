@@ -212,9 +212,15 @@ export class Articles implements ArticleController {
             }))
         }
 
+        if(!req.file) {
+            return res.status(400).json(createErrorResponse({ 
+                message: 'Validation data error, image file required' 
+            }))
+        }
+
         const articleData = await this.articleModel.getImageById({ id: validation.data.id })
         
-        await this.uploadImage(articleData[0]?.image || '', req.file as Express.Multer.File)
+        await this.uploadImage(articleData[0]?.image || '', req.file)
 
         await this.articleModel.changeData({
             ...validation.data,
@@ -278,7 +284,13 @@ export class Articles implements ArticleController {
             }))
         }
 
-        await this.uploadImage(validation.data.image, req.file as Express.Multer.File)
+        if(!req.file) {
+            return res.status(400).json(createErrorResponse({ 
+                message: 'Validation data error, image file required' 
+            }))
+        }
+
+        await this.uploadImage(validation.data.image, req.file)
 
         const newArticleInfo = await this.articleModel.addNew({
             ...validation.data,
