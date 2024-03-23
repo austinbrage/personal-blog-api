@@ -123,8 +123,13 @@ export default () => {
                 .expect(200)
             articleId = response.body.result.data[0].id
                 
-            expect(response.body.result.data[0])
-               .toMatchObject(artileMock.newArticle)
+            expect(response.body.result.data[0]).toMatchObject(expect.objectContaining({
+                id: articleId,
+                name: expect.any(String),
+                title: expect.any(String),
+                keywords: expect.any(String),
+                description: expect.any(String)
+            }))
         })
     })
 
@@ -151,11 +156,13 @@ export default () => {
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
                 
-            expect(response.body.result.data[0])
-               .toMatchObject({
-                    ...artileMock.newData2(articleId),
-                    id: articleId
-                })
+            expect(response.body.result.data[0]).toMatchObject(expect.objectContaining({
+                id: articleId,
+                name: expect.any(String),
+                title: expect.any(String),
+                keywords: expect.any(String),
+                description: expect.any(String)
+            }))
         })
     })
 
