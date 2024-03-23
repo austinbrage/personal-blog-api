@@ -12,7 +12,7 @@
     WHERE `user_id` = ? AND `name` = ?;
 
 -- getImageById
-    SELECT `image` FROM `articles`
+    SELECT `image`, `image_type` FROM `articles`
     WHERE `id` = ?;
 
 -- getByKeyword
