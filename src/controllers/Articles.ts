@@ -173,6 +173,17 @@ export class Articles implements ArticleController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
+        const result = await this.articleModel.getId({
+            name: validation.data.name,
+            user_id: req.userId?.id
+        })
+        
+        if(result.length !== 0) {
+            return res.status(401).json(createErrorResponse({
+                message: 'Existing article name'
+            }))
+        }
+
         await this.articleModel.changeData({
             ...validation.data,
             image_type: 'image_url'
@@ -189,6 +200,17 @@ export class Articles implements ArticleController {
         const validation = this.validateArticle.idDataNoType({ ...req.body, id })
 
         if(!validation.success) return this.validationErr(res, validation.error)
+
+        const result = await this.articleModel.getId({
+            name: validation.data.name,
+            user_id: req.userId?.id
+        })
+        
+        if(result.length !== 0) {
+            return res.status(401).json(createErrorResponse({
+                message: 'Existing article name'
+            }))
+        }
 
         if(!req.file) {
             return res.status(400).json(createErrorResponse({ 
