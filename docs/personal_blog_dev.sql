@@ -23,6 +23,7 @@ CREATE TABLE `articles` (
   `title` VARCHAR(200) NOT NULL DEFAULT 'Untittled article',
   `keywords` TEXT NOT NULL DEFAULT 'General, Tech',
   `description` TEXT NOT NULL DEFAULT 'Empty description',
+  `image_type` VARCHAR(200) NOT NULL DEFAULT 'image_url',
   `image` TEXT DEFAULT NULL,
   `is_publish` BOOLEAN NOT NULL DEFAULT 0,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
