@@ -28,8 +28,8 @@ export interface IArticle {
     getByKeyword({ keywords, limit, offset, user_id }: ArticleType['allDataPage']): Promise<RowDataPacket[]>
     getEverything({ limit, offset }: ArticleType['limitOffsetPage']): Promise<RowDataPacket[]>
     changePublishState({ id, is_publish }: ArticleType['idPublishState']): Promise<ResultSetHeader>
-    changeData({ id, name, title, image, keywords, description }: ArticleType['idData']): Promise<ResultSetHeader>
-    addNew({ user_id, name, title, image, keywords, description }: ArticleType['userIdData']): Promise<ResultSetHeader>
+    changeData({ id, name, title, image, image_type, keywords, description }: ArticleType['idData']): Promise<ResultSetHeader>
+    addNew({ user_id, name, title, image, image_type, keywords, description }: ArticleType['userIdData']): Promise<ResultSetHeader>
     remove({ id }: ArticleType['id']): Promise<ResultSetHeader>
 }
 

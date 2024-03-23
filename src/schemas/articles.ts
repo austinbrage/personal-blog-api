@@ -21,6 +21,10 @@ const articleTableSchema = z.object({
         required_error: 'Article image URL is required',
         invalid_type_error: 'Article image URL must be a string'
     }),
+    image_type: z.string({
+        required_error: 'Article image type is required',
+        invalid_type_error: 'Article image type must be a string'
+    }),
     keywords: z.string({
         required_error: 'Article keywords is required',
         invalid_type_error: 'Article keywords must be a string'

@@ -31,8 +31,8 @@
     ORDER BY `updated_at` DESC LIMIT ? OFFSET ?;
 
 -- addNew
-    INSERT INTO `articles` (`user_id`, `name`, `title`, `image`, `keywords`, `description`)
-    VALUES (?, ? ,?, ?, ?, ?);
+    INSERT INTO `articles` (`user_id`, `name`, `title`, `image`, `image_type`, `keywords`, `description`)
+    VALUES (?, ? ,?, ?, ?, ?, ?);
 
 -- changeData
     UPDATE `articles`
@@ -40,6 +40,7 @@
         `title` = ?,
         `image` = ?,
         `keywords` = ?,
+        `image_type` = ?,
         `description` = ?
     WHERE `id` = ?;
 
