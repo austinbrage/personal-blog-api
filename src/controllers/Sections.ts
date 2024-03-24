@@ -1,3 +1,4 @@
+import { randomBytes } from "crypto"
 import { s3, bucketName } from '../services/bucket'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3"
@@ -106,26 +107,21 @@ export class Sections implements SectionController {
         if(!validation.success) return this.validationErr(res, validation.error)
 
         const sectionImage = await this.sectionModel.getImage({ id: validation.data.id })
+        
+        const newImageName = 'sectionImg: ' + randomBytes(16).toString('hex')
+        const isImageS3 = sectionImage[0]?.content_type === 'image_s3'
+        const imageName = sectionImage[0]?.image ?? newImageName
 
-        const isImageType = validation.data.content_type === 'image_s3'
-        const imageDBName = sectionImage[0]?.image
-
-        if(isImageType) {
-            if(!imageDBName) {
-                if(!validation.data.image) return res.status(400).json(createErrorResponse({ 
-                    message: 'Validation data error, image name required' 
-                }))
-
-                await this.uploadImage(validation.data.image, req.file as Express.Multer.File)
-            } else {
-                await this.uploadImage(imageDBName, req.file as Express.Multer.File)
-            }
-                
-        } else if(imageDBName !== null) {
-            await this.removeImage(imageDBName)
+        if(isImageS3) {
+            await this.uploadImage(imageName, req.file as Express.Multer.File)
+        } else {
+            await this.uploadImage(newImageName, req.file as Express.Multer.File)
         }
 
-        await this.sectionModel.changeContent(validation.data)
+        await this.sectionModel.changeContent({
+            ...validation.data,
+            content_type: 'image_s3'
+        })
 
         await this.styleModel.changeStyles({
             ...validation.data,
