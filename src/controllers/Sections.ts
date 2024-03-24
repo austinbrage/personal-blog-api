@@ -200,15 +200,8 @@ export class Sections implements SectionController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        if(validation.data.content_type === 'image_s3') {
-            if(validation.data.image === null) {
-                return res.status(400).json(createErrorResponse({ 
-                    message: 'Validation data error, image name required' 
-                }))
-            }
-
-            await this.uploadImage(validation.data.image, req.file as Express.Multer.File)
-        }
+        const newImageName = 'sectionImg: ' + randomBytes(16).toString('hex')
+        await this.uploadImage(newImageName, req.file as Express.Multer.File)
 
         const resultSequence = await this.sectionModel.getLastSequence({ 
             article_id: validation.data.article_id 
@@ -216,6 +209,8 @@ export class Sections implements SectionController {
 
         const result = await this.sectionModel.addNew({
             ...validation.data,
+            image: newImageName,
+            content_type: 'image_s3',
             sequence: resultSequence[0]?.sequence + 1 ?? 1
         })
 
