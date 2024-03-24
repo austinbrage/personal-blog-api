@@ -85,14 +85,23 @@ export class Sections implements SectionController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        await this.sectionModel.changeContent(validation.data)
+        const sectionData = await this.sectionModel.getImage({ id: validation.data.id })
 
-        const changeStyleData = {
+        const currentType = validation.data.content_type
+        const isImageS3 = sectionData[0]?.content_type === 'image_s3'
+        const imageName = sectionData[0]?.image
+
+        if(isImageS3 && imageName) await this.removeImage(imageName)
+
+        await this.sectionModel.changeContent({
+            ...validation.data,
+            content_type: currentType === 'image_s3' ? 'image_url' : currentType
+        })
+
+        await this.styleModel.changeStyles({
             ...validation.data,
             section_id: validation.data.id
-        }
-
-        await this.styleModel.changeStyles(changeStyleData)
+        })
 
         return res.status(200).json(createOkResponse({
             message: 'Section content and styles changed successfully'
@@ -106,11 +115,11 @@ export class Sections implements SectionController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        const sectionImage = await this.sectionModel.getImage({ id: validation.data.id })
-        
+        const sectionData = await this.sectionModel.getImage({ id: validation.data.id })
+
         const newImageName = 'sectionImg: ' + randomBytes(16).toString('hex')
-        const isImageS3 = sectionImage[0]?.content_type === 'image_s3'
-        const imageName = sectionImage[0]?.image ?? newImageName
+        const isImageS3 = sectionData[0]?.content_type === 'image_s3'
+        const imageName = sectionData[0]?.image ?? newImageName
 
         if(isImageS3) {
             await this.uploadImage(imageName, req.file as Express.Multer.File)
