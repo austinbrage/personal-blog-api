@@ -30,7 +30,7 @@ type ArticleMock = {
 
 type SectionMock = {
     newMultpleSections: (articleId: number) => SectionType['articleIdDatas']
-    newSectionStyles: (articleId: number) => SectionType['articleIdData']
+    newSectionStyles: (articleId: number) => SectionType['articleIdDataNoSQC']
     changeSequence: (sectionData: SectionType['id'][]) => SectionType['idSequenceData']
     changeStyles: (sectionId: number) => SectionType['idData']
 }
@@ -199,7 +199,6 @@ export const sectionMock: SectionMock = {
            article_id: articleId,
            content: 'New Article Section',
            content_type: 'image_s3',
-           sequence: 0,
            image: 'Jack Smith - My Article Test - Section Image 1',
            width: '90%',
            height: 'auto',

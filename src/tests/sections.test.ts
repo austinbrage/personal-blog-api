@@ -67,7 +67,6 @@ export default () => {
                 .set('Content-Type', `multipart/form-data`)
                 .field('image', createReadStream(imagePath))
                 .field('article_id', sectionMock.newSectionStyles(articleId).article_id)
-                .field('sequence', sectionMock.newSectionStyles(articleId).sequence)
                 .field('content', sectionMock.newSectionStyles(articleId).content)
                 .field('content_type', sectionMock.newSectionStyles(articleId).content_type)
                 .field('image', sectionMock.newSectionStyles(articleId).image ?? '')
