@@ -18,8 +18,8 @@ const articleTableSchema = z.object({
         invalid_type_error: 'Article title must be a string'
     }),
     image: z.string({
-        required_error: 'Article image URL is required',
-        invalid_type_error: 'Article image URL must be a string'
+        required_error: 'Article image URL / NAME is required',
+        invalid_type_error: 'Article image URL / NAME must be a string'
     }),
     image_type: z.string({
         required_error: 'Article image type is required',
@@ -40,6 +40,7 @@ const articleTableSchema = z.object({
 })
 
 const id = articleTableSchema.pick({ id: true })
+const image = articleTableSchema.pick({ image: true })
 const userId = articleTableSchema.pick({ user_id: true })
 const userIdName = articleTableSchema.pick({ user_id: true, name: true })
 const userIdData = articleTableSchema.omit({ id: true, is_publish: true })
@@ -52,6 +53,7 @@ const idPublishState = articleTableSchema.pick({ id: true, is_publish: true })
 
 export const articleSchema = {
     id,
+    image,
     userId,
     idData,
     userIdName,

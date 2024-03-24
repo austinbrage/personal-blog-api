@@ -7,6 +7,7 @@ import { ArticleRoutes as A } from '../types/articles'
 import { userMock, artileMock, USER, ARTICLE } from './mockData'
 
 let articleId: number
+let imageName: string
 let token: string
 
 const imagePath = resolve(__dirname, '../../public/image-test.png')
@@ -114,13 +115,14 @@ export default () => {
                 .field('description', artileMock.newArticle.description)
                 .expect(201)
         })
-        
+
         test('should READ and GET ID from new article', async () => {
             const response = await request(app)
                 .get(ARTICLE(A.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .expect(200)
             articleId = response.body.result.data[0].id
+            imageName = response.body.result.data[0].image
                 
             expect(response.body.result.data[0]).toMatchObject(expect.objectContaining({
                 id: articleId,
@@ -129,6 +131,16 @@ export default () => {
                 keywords: expect.any(String),
                 description: expect.any(String)
             }))
+        })
+
+        test('should READ image signed URL', async () => {
+            const response = await request(app)
+                .get(ARTICLE(A.IMAGEURL))
+                .set('Authorization', `Bearer ${token}`)
+                .query({ image: imageName })
+                .expect(200)
+
+            expect(response.body?.result?.data[0]?.imageSignedUrl).toMatch(/^https:/)
         })
     })
 

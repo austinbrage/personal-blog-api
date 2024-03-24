@@ -5,6 +5,7 @@ import { type RowDataPacket, type ResultSetHeader } from 'mysql2'
 
 export type ArticleType = {
     id: z.infer<typeof articleSchema.id>
+    image: z.infer<typeof articleSchema.image>
     idData: z.infer<typeof articleSchema.idData>
     userId: z.infer<typeof articleSchema.userId>
     userIdName: z.infer<typeof articleSchema.userIdName>
@@ -39,6 +40,7 @@ export interface IArticle {
 
 export interface ArticleController {
     getKeywords: AsyncFunction
+    getSignedUrl: AsyncFunction
     getEverything: AsyncFunction
     getByKeywords: AsyncFunction
     getAllByKeywords: AsyncFunction
@@ -57,7 +59,8 @@ export enum ArticleRoutes {
     DKEYWORDS = '/data/keywords',
     DUKEYWORDS = '/data/user/keywords',
     PUBLISHMENT = '/publishment',
-    DATA = '/data',
+    IMAGEURL = '/data/url',
     DATAS3 = '/data/s3',
+    DATA = '/data',
     EMPTY = '/',
 }

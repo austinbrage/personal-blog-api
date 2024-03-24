@@ -17,6 +17,7 @@ type BucketConfig = {
 }
 
 export const ENVIRONMENT = process.env.NODE_ENV ?? 'production'
+export const SIGNED_URL_EXPIRE = process.env.SIGNED_URL_EXPIRE ?? '3600'
 
 export const JWT_EXPIRE = process.env.JWT_EXPIRE
 export const SECRET_KEY = process.env.SECRET_KEY

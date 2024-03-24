@@ -1,12 +1,14 @@
 import { s3, bucketName } from '../services/bucket'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3"
+import { SIGNED_URL_EXPIRE } from '../utils/config'
 import { asyncErrorHandler } from '../services/errorHandler'
 import { ArticlesValidation, type IArticlesValidation } from '../validations/Articles'
 import { createOkResponse, createErrorResponse } from '../helpers/appResponse'
 import type { Request, Response } from 'express'
 import { type ArticleController } from '../types/articles'
 import { type IArticle } from '../types/articles'
+import { type RowDataPacket } from 'mysql2'
 import { type ZodError } from 'zod'
 
 export class Articles implements ArticleController {
@@ -45,12 +47,35 @@ export class Articles implements ArticleController {
         await s3.send(command)
     }
 
+    private async readImage(imageName: string) {
+        const command = new GetObjectCommand({
+            Bucket: bucketName,
+            Key: imageName
+        })
+
+        return await getSignedUrl(s3, command, { expiresIn: +SIGNED_URL_EXPIRE })
+    }
+
     getKeywords = asyncErrorHandler(async (_req, res: Response) => {
         const result = await this.articleModel.getKeywords()
 
         return res.status(200).json(createOkResponse({
             message: 'Articles keywords requested',
             data: result
+        }))
+    })
+
+    getSignedUrl = asyncErrorHandler(async (req: Request, res: Response) => {
+        // const { image } = req.query
+        const validation = this.validateArticle.image(req.query)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        const result = await this.readImage(validation.data.image)
+
+        return res.status(200).json(createOkResponse({
+            message: 'Article image url requested',
+            data: [{ imageSignedUrl: result }] as RowDataPacket[]
         }))
     })
 

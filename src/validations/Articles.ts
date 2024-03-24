@@ -4,6 +4,7 @@ import { SafeParseSuccess, type SafeParseReturnType } from 'zod'
 
 export interface IArticlesValidation {
     id(data: unknown): SafeParseReturnType<unknown, ArticleType['id']>
+    image(data: unknown): SafeParseReturnType<unknown, ArticleType['image']>
     idData(data: unknown): SafeParseReturnType<unknown, ArticleType['idData']>
     userId(data: unknown): SafeParseReturnType<unknown, ArticleType['userId']>
     userIdName(data: unknown): SafeParseReturnType<unknown, ArticleType['userIdName']>
@@ -28,6 +29,7 @@ export class ArticlesValidation implements IArticlesValidation {
     }
 
     id = (data: unknown) => this.articleSchema.id.safeParse(data)
+    image = (data: unknown) => this.articleSchema.image.safeParse(data)
     idData = (data: unknown) => this.articleSchema.idData.safeParse(data)
     userId = (data: unknown) => this.articleSchema.userId.safeParse(data)
     userIdName = (data: unknown) => this.articleSchema.userIdName.safeParse(data)
