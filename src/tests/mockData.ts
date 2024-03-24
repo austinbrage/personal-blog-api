@@ -99,7 +99,7 @@ export const userMock: UserMock = {
 export const artileMock: ArticleMock = {
     newArticle: {
         name: 'My Article Test',
-        image: 'Jack Smith - My Article Test - Main Image',
+        image: 'https://th.bing.com/th/id/OIP.jaWRCdx3lBfjZuK_dJ_jiwHaEK?rs=1&pid=ImgDetMain',
         title: 'My Title',
         keywords: 'My Keywords',
         description: 'My Description'
@@ -107,7 +107,7 @@ export const artileMock: ArticleMock = {
     newData1: (articleId) => ({
         id: articleId,
         name: 'New Article Name 1',
-        image: 'Jack Smith - My Article Test - Main Image',
+        image: 'https://th.bing.com/th/id/OIP.jaWRCdx3lBfjZuK_dJ_jiwHaEK?rs=1&pid=ImgDetMain',
         title: 'New Article Title',
         keywords: 'New Article Keywords',
         description: 'New Article Description'
@@ -115,7 +115,7 @@ export const artileMock: ArticleMock = {
     newData2: (articleId) => ({
         id: articleId,
         name: 'New Article Name 2',
-        image: 'Jack Smith - My Article Test - Main Image',
+        image: 'https://th.bing.com/th/id/OIP.jaWRCdx3lBfjZuK_dJ_jiwHaEK?rs=1&pid=ImgDetMain',
         title: 'New Article Title',
         keywords: 'New Article Keywords',
         description: 'New Article Description'
