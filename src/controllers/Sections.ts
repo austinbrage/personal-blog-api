@@ -109,9 +109,9 @@ export class Sections implements SectionController {
     })
 
     changeAllWithS3 = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { id, content, content_type, image, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
+        // const { id, content, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
         const id = +req.body?.id ?? ''
-        const validation = this.validateSection.idData({ ...req.body, id }) 
+        const validation = this.validateSection.idDataNoIMG({ ...req.body, id }) 
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
