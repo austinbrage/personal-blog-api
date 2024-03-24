@@ -5,7 +5,7 @@
     ORDER BY `sequence` ASC;
 
 -- getImage
-    SELECT `image_url` FROM `sections`
+    SELECT `image` FROM `sections`
     WHERE `id` = ?;
 
 -- getLastSequence
@@ -14,14 +14,14 @@
     ORDER BY `sequence` DESC LIMIT 1;
 
 -- addNew
-    INSERT INTO `sections` (`article_id`, `content`, `content_type`, `image_url`, `sequence`)
+    INSERT INTO `sections` (`article_id`, `content`, `content_type`, `image`, `sequence`)
     VALUES (?, ?, ?, ?, ?);
 
 -- changeContent
     UPDATE `sections`
     SET `content` = ?,
         `content_type` = ?,
-        `image_url` = ?
+        `image` = ?
     WHERE `id` = ?;
 
 -- changeSequence

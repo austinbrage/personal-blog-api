@@ -23,8 +23,8 @@ export interface ISection {
     getImage({ id }: SectionType['id']): Promise<RowDataPacket[]>
     getLastSequence({ article_id }: SectionType['articleId']): Promise<RowDataPacket[]>
     changeSequence({ id, sequence }: SectionType['idSequence']): Promise<ResultSetHeader>
-    changeContent({ id, content, content_type, image_url }: SectionType['idContent']): Promise<ResultSetHeader>
-    addNew({ article_id, content, content_type, image_url, sequence }: SectionType['articleIdContent']): Promise<ResultSetHeader>
+    changeContent({ id, content, content_type, image }: SectionType['idContent']): Promise<ResultSetHeader>
+    addNew({ article_id, content, content_type, image, sequence }: SectionType['articleIdContent']): Promise<ResultSetHeader>
     remove({ id }: SectionType['id']): Promise<ResultSetHeader>
 }
 

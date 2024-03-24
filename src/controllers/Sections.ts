@@ -79,7 +79,7 @@ export class Sections implements SectionController {
     })
 
     changeAll = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
+        // const { id, content, content_type, image, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
         const validation = this.validateSection.idData(req.body) 
 
         if(!validation.success) return this.validationErr(res, validation.error)
@@ -99,7 +99,7 @@ export class Sections implements SectionController {
     })
 
     changeAllWithS3 = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
+        // const { id, content, content_type, image, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
         const id = +req.body?.id ?? ''
         const validation = this.validateSection.idData({ ...req.body, id }) 
 
@@ -108,15 +108,15 @@ export class Sections implements SectionController {
         const sectionImage = await this.sectionModel.getImage({ id: validation.data.id })
 
         const isImageType = validation.data.content_type === 'image_s3'
-        const imageDBName = sectionImage[0]?.image_url
+        const imageDBName = sectionImage[0]?.image
 
         if(isImageType) {
             if(!imageDBName) {
-                if(!validation.data.image_url) return res.status(400).json(createErrorResponse({ 
+                if(!validation.data.image) return res.status(400).json(createErrorResponse({ 
                     message: 'Validation data error, image name required' 
                 }))
 
-                await this.uploadImage(validation.data.image_url, req.file as Express.Multer.File)
+                await this.uploadImage(validation.data.image, req.file as Express.Multer.File)
             } else {
                 await this.uploadImage(imageDBName, req.file as Express.Multer.File)
             }
@@ -157,7 +157,7 @@ export class Sections implements SectionController {
     })
 
     addNew = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { article_id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
+        // const { article_id, content, content_type, image, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
         const validation = this.validateSection.articleIdData(req.body)
 
         if(!validation.success) return this.validationErr(res, validation.error)
@@ -186,7 +186,7 @@ export class Sections implements SectionController {
     })
 
     addNewWithS3 = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { article_id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
+        // const { article_id, content, content_type, image, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
         const article_id = +req.body?.article_id ?? ''
         const sequence = +req.body?.sequence ?? ''
 
@@ -199,13 +199,13 @@ export class Sections implements SectionController {
         if(!validation.success) return this.validationErr(res, validation.error)
 
         if(validation.data.content_type === 'image_s3') {
-            if(validation.data.image_url === null) {
+            if(validation.data.image === null) {
                 return res.status(400).json(createErrorResponse({ 
                     message: 'Validation data error, image name required' 
                 }))
             }
 
-            await this.uploadImage(validation.data.image_url, req.file as Express.Multer.File)
+            await this.uploadImage(validation.data.image, req.file as Express.Multer.File)
         }
 
         const resultSequence = await this.sectionModel.getLastSequence({ 
@@ -232,7 +232,7 @@ export class Sections implements SectionController {
     })
 
     addMultiple = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const [{ article_id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius }] = req.body
+        // const [{ article_id, content, content_type, image, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius }] = req.body
         const validation = this.validateSection.articleIdDatas(req.body)
 
         if(!validation.success) return this.validationErr(res, validation.error)
@@ -302,8 +302,8 @@ export class Sections implements SectionController {
 
         const sectionImage = await this.sectionModel.getImage({ id: validation.data.id })
 
-        if(sectionImage[0]?.image_url !== null) {
-            await this.removeImage(sectionImage[0].image_url)
+        if(sectionImage[0]?.image !== null) {
+            await this.removeImage(sectionImage[0].image)
         }
 
         await this.sectionModel.remove(validation.data)

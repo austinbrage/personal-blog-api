@@ -26,9 +26,9 @@ const sectionTableSchema = z.object({
         required_error: 'Content section type is required',
         invalid_type_error: 'Content section type must be a string'
     }),
-    image_url: z.string({
-        required_error: 'Content image url is required',
-        invalid_type_error: 'Content image url must be a string'
+    image: z.string({
+        required_error: 'Content image URL / NAME is required',
+        invalid_type_error: 'Content image URL / NAME must be a string'
     }).nullable()
 })
 
@@ -37,9 +37,9 @@ const sequence = sectionTableSchema.pick({ sequence: true })
 const articleId = sectionTableSchema.pick({ article_id: true })
 const idSequence = sectionTableSchema.pick({ id: true, sequence: true })
 const articleIdQuery = sectionTableSchema.pick({ article_id_query: true })
-const data = sectionTableSchema.pick({ content: true, content_type: true, image_url: true })
-const idContent = sectionTableSchema.pick({ id: true, content: true, content_type: true, image_url: true })
-const articleIdContent = sectionTableSchema.pick({ article_id: true, content: true, content_type: true, image_url: true, sequence: true })
+const data = sectionTableSchema.pick({ content: true, content_type: true, image: true })
+const idContent = sectionTableSchema.pick({ id: true, content: true, content_type: true, image: true })
+const articleIdContent = sectionTableSchema.pick({ article_id: true, content: true, content_type: true, image: true, sequence: true })
 
 const articleIdDatas = articleIdContent.merge(styleSchema.partialData).array()
 const articleIdData = articleIdContent.merge(styleSchema.partialData)

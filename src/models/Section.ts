@@ -58,24 +58,24 @@ class Section implements ISection {
         return rows as ResultSetHeader
     }
 
-    changeContent = async ({ id, content, content_type, image_url }: SectionType['idContent']) => {
+    changeContent = async ({ id, content, content_type, image }: SectionType['idContent']) => {
         const connection = await this.pool.getConnection()
 
         const [rows] = await connection.execute(
             sectionQueries[SectionQueries.changeContent],
-            [content, content_type, image_url, id]
+            [content, content_type, image, id]
         )
 
         connection.release()
         return rows as ResultSetHeader
     }
 
-    addNew = async ({ article_id, content, content_type, image_url, sequence }: SectionType['articleIdContent']) => {
+    addNew = async ({ article_id, content, content_type, image, sequence }: SectionType['articleIdContent']) => {
         const connection = await this.pool.getConnection()
 
         const [rows] = await connection.execute(
             sectionQueries[SectionQueries.addNew],
-            [article_id, content, content_type, image_url, sequence]
+            [article_id, content, content_type, image, sequence]
         ) 
 
         connection.release()
