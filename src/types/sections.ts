@@ -15,6 +15,7 @@ export type SectionType = {
     articleIdDatas: z.infer<typeof sectionSchema.articleIdDatas>
     articleIdQuery: z.infer<typeof sectionSchema.articleIdQuery>
     articleIdContent: z.infer<typeof sectionSchema.articleIdContent>
+    articleIdDataNoSQC: z.infer<typeof sectionSchema.articleIdDataNoSQC>
     templateData: z.infer<typeof sectionSchema.templateData>
 }
 

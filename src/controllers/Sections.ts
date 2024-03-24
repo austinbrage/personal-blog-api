@@ -170,7 +170,7 @@ export class Sections implements SectionController {
 
     addNew = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { article_id, content, content_type, image, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
-        const validation = this.validateSection.articleIdData(req.body)
+        const validation = this.validateSection.articleIdDataNoSQC(req.body)
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
@@ -178,19 +178,15 @@ export class Sections implements SectionController {
             article_id: validation.data.article_id 
         })
 
-        const newSequence = resultSequence[0]?.sequence + 1 ?? 1
-
         const result = await this.sectionModel.addNew({
             ...validation.data,
-            sequence: newSequence
+            sequence: resultSequence[0]?.sequence + 1 ?? 1
         })
 
-        const addNewStyles = {
+        await this.styleModel.addNew({
             ...validation.data,
             section_id: result.insertId
-        }
-
-        await this.styleModel.addNew(addNewStyles)
+        })
 
         return res.status(201).json(createOkResponse({
             message: 'New section content and styles created successfully'
@@ -200,13 +196,7 @@ export class Sections implements SectionController {
     addNewWithS3 = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { article_id, content, content_type, image, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align`, text_color, border_radius } = req.body
         const article_id = +req.body?.article_id ?? ''
-        const sequence = +req.body?.sequence ?? ''
-
-        const validation = this.validateSection.articleIdData({ 
-            ...req.body, 
-            article_id,
-            sequence
-        })
+        const validation = this.validateSection.articleIdDataNoSQC({ ...req.body, article_id })
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
@@ -224,19 +214,15 @@ export class Sections implements SectionController {
             article_id: validation.data.article_id 
         })
 
-        const newSequence = resultSequence[0]?.sequence + 1 ?? 1
-
         const result = await this.sectionModel.addNew({
             ...validation.data,
-            sequence: newSequence
+            sequence: resultSequence[0]?.sequence + 1 ?? 1
         })
 
-        const addNewStyles = {
+        await this.styleModel.addNew({
             ...validation.data,
             section_id: result.insertId
-        }
-
-        await this.styleModel.addNew(addNewStyles)
+        })
 
         return res.status(201).json(createOkResponse({
             message: 'New section content and styles created successfully'

@@ -40,9 +40,11 @@ const articleIdQuery = sectionTableSchema.pick({ article_id_query: true })
 const data = sectionTableSchema.pick({ content: true, content_type: true, image: true })
 const idContent = sectionTableSchema.pick({ id: true, content: true, content_type: true, image: true })
 const articleIdContent = sectionTableSchema.pick({ article_id: true, content: true, content_type: true, image: true, sequence: true })
+const articleIdContentNoSQC = sectionTableSchema.pick({ article_id: true, content: true, content_type: true, image: true })
 
 const articleIdDatas = articleIdContent.merge(styleSchema.partialData).array()
 const articleIdData = articleIdContent.merge(styleSchema.partialData)
+const articleIdDataNoSQC = articleIdContentNoSQC.merge(styleSchema.partialData)
 const noIdData = data.merge(sequence).merge(styleSchema.partialData).array()
 const idData = idContent.merge(styleSchema.partialData)
 const idSequenceData = idSequence.array()
@@ -70,4 +72,5 @@ export const sectionSchema = {
     idSequenceData,
     articleIdQuery,
     articleIdContent,
+    articleIdDataNoSQC
 }

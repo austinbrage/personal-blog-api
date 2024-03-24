@@ -11,6 +11,7 @@ export interface ISectionsValidation {
     articleIdDatas(data: unknown): SafeParseReturnType<unknown, SectionType['articleIdDatas']>
     articleIdQuery(data: unknown): SafeParseReturnType<unknown, SectionType['articleIdQuery']>
     idSequenceData(data: unknown): SafeParseReturnType<unknown, SectionType['idSequenceData']>
+    articleIdDataNoSQC(data: unknown): SafeParseReturnType<unknown, SectionType['articleIdDataNoSQC']>
     templateData(data: unknown): SafeParseReturnType<unknown, SectionType['templateData']>
 }
 
@@ -29,5 +30,6 @@ export class SectionValidation implements ISectionsValidation {
     articleIdDatas = (data: unknown) => this.sectionSchema.articleIdDatas.safeParse(data)
     articleIdQuery = (data: unknown) => this.sectionSchema.articleIdQuery.safeParse(data)
     idSequenceData = (data: unknown) => this.sectionSchema.idSequenceData.safeParse(data)
+    articleIdDataNoSQC = (data: unknown) => this.sectionSchema.articleIdDataNoSQC.safeParse(data)
     templateData = (data: unknown) => this.sectionSchema.templateData.safeParse(data)
 }
