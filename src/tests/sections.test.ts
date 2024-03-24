@@ -105,8 +105,6 @@ export default () => {
                 .field('image', createReadStream(imagePath))
                 .field('id', sectionMock.changeStyles(sectionId).id)
                 .field('content', sectionMock.changeStyles(sectionId).content)
-                .field('content_type', sectionMock.changeStyles(sectionId).content_type)
-                .field('image', sectionMock.changeStyles(sectionId).image ?? '')
                 .field('width', sectionMock.changeStyles(sectionId).width)
                 .field('height', sectionMock.changeStyles(sectionId).height)
                 .field('font_family', sectionMock.changeStyles(sectionId).font_family)
