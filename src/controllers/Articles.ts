@@ -184,6 +184,13 @@ export class Articles implements ArticleController {
             }))
         }
 
+        const articleData = await this.articleModel.getImageById({ id: validation.data.id })
+
+        const isImageS3 = articleData[0]?.image_type === 'image_s3'
+        const imageName = articleData[0]?.image
+
+        if(isImageS3 && imageName) await this.removeImage(imageName)
+
         await this.articleModel.changeData({
             ...validation.data,
             image_type: 'image_url'
@@ -316,9 +323,9 @@ export class Articles implements ArticleController {
         const articleData = await this.articleModel.getImageById({ id: validation.data.id })
 
         const isImageS3 = articleData[0]?.image_type === 'image_s3'
-        const imageName = articleData[0]?.image ?? ''
+        const imageName = articleData[0]?.image
 
-        if(isImageS3) await this.removeImage(imageName)
+        if(isImageS3 && imageName) await this.removeImage(imageName)
         await this.articleModel.remove(validation.data)
 
         return res.status(200).json(createOkResponse({
