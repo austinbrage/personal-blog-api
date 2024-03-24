@@ -123,14 +123,21 @@ export class Sections implements SectionController {
 
         if(isImageS3) {
             await this.uploadImage(imageName, req.file as Express.Multer.File)
+
+            await this.sectionModel.changeContent({
+                ...validation.data,
+                image: imageName,
+                content_type: 'image_s3'
+            })
         } else {
             await this.uploadImage(newImageName, req.file as Express.Multer.File)
-        }
 
-        await this.sectionModel.changeContent({
-            ...validation.data,
-            content_type: 'image_s3'
-        })
+            await this.sectionModel.changeContent({
+                ...validation.data,
+                image: newImageName,
+                content_type: 'image_s3'
+            })
+        }
 
         await this.styleModel.changeStyles({
             ...validation.data,
