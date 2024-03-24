@@ -5,7 +5,7 @@
     ORDER BY `sequence` ASC;
 
 -- getImage
-    SELECT `image` FROM `sections`
+    SELECT `image`, `content_type` FROM `sections`
     WHERE `id` = ?;
 
 -- getLastSequence
