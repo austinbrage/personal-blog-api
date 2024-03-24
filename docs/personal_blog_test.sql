@@ -36,7 +36,7 @@ CREATE TABLE `sections` (
   `article_id` INT NOT NULL,
   `sequence` INT NOT NULL DEFAULT 0,
   `content` TEXT NOT NULL,
-  `image_url` TEXT DEFAULT NULL,
+  `image` TEXT DEFAULT NULL,
   `content_type` VARCHAR(200) NOT NULL DEFAULT 'paragraph',
   FOREIGN KEY (`article_id`) REFERENCES `articles`(`id`) ON DELETE CASCADE
 );
