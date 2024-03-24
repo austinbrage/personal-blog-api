@@ -31,7 +31,7 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
     articleRouter.post(
         A.DATAS3, 
         writeAuth, 
-        upload.single('image_file'), 
+        upload.single('image'), 
         imageFileMiddleware, 
         articleController.addNewWithS3
     )
@@ -39,7 +39,7 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
     articleRouter.patch(
         A.DATAS3, 
         writeAuth, 
-        upload.single('image_file'), 
+        upload.single('image'), 
         imageFileMiddleware, 
         articleController.changeDataWithS3
     )

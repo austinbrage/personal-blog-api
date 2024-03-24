@@ -33,7 +33,7 @@ const createSectionRouter = ({ styleModel, sectionModel }: ModelsType) => {
     sectionRouter.post(
         S.DATAS3, 
         writeAuth, 
-        upload.single('image_file'), 
+        upload.single('image'), 
         imageFileMiddleware, 
         sectionController.addNewWithS3
     )
@@ -41,7 +41,7 @@ const createSectionRouter = ({ styleModel, sectionModel }: ModelsType) => {
     sectionRouter.put(
         S.DATAS3, 
         writeAuth, 
-        upload.single('image_file'), 
+        upload.single('image'), 
         imageFileMiddleware, 
         sectionController.changeAllWithS3
     )
