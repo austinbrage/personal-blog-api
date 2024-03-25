@@ -42,10 +42,12 @@ const idContent = sectionTableSchema.pick({ id: true, content: true, content_typ
 const idContentNoIMG = sectionTableSchema.pick({ id: true, content: true })
 const articleIdContent = sectionTableSchema.pick({ article_id: true, content: true, content_type: true, image: true, sequence: true })
 const articleIdContentNoSQC = sectionTableSchema.pick({ article_id: true, content: true, content_type: true, image: true })
+const articleIdContentNoIMG = sectionTableSchema.pick({ article_id: true, content: true })
 
 const articleIdDatas = articleIdContent.merge(styleSchema.partialData).array()
 const articleIdData = articleIdContent.merge(styleSchema.partialData)
 const articleIdDataNoSQC = articleIdContentNoSQC.merge(styleSchema.partialData)
+const articleIdDataNoIMG = articleIdContentNoIMG.merge(styleSchema.partialData)
 const noIdData = data.merge(sequence).merge(styleSchema.partialData).array()
 const idData = idContent.merge(styleSchema.partialData)
 const idDataNoIMG = idContentNoIMG.merge(styleSchema.partialData)
@@ -75,5 +77,6 @@ export const sectionSchema = {
     idSequenceData,
     articleIdQuery,
     articleIdContent,
-    articleIdDataNoSQC
+    articleIdDataNoSQC,
+    articleIdDataNoIMG
 }
