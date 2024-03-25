@@ -13,6 +13,7 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
 
     const readAuth = createAuthorization('READ')
     const writeAuth = createAuthorization('WRITE')
+    const premiumAuth = createAuthorization('PREMIUM')
     
     const articleController = new ArticleController({ articleModel })
 
@@ -31,7 +32,7 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
     
     articleRouter.post(
         A.DATAS3, 
-        writeAuth, 
+        premiumAuth, 
         upload.single('image'), 
         imageFileMiddleware, 
         articleController.addNewWithS3
@@ -39,7 +40,7 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
 
     articleRouter.patch(
         A.DATAS3, 
-        writeAuth, 
+        premiumAuth, 
         upload.single('image'), 
         imageFileMiddleware, 
         articleController.changeDataWithS3

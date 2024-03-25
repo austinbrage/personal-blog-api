@@ -18,6 +18,7 @@ const createSectionRouter = ({ styleModel, sectionModel }: ModelsType) => {
     const upload = multer({ storage: storage })
 
     const writeAuth = createAuthorization('WRITE')
+    const premiumAuth = createAuthorization('PREMIUM')
 
     const sectionController = new SectionController({ styleModel, sectionModel })
 
@@ -33,7 +34,7 @@ const createSectionRouter = ({ styleModel, sectionModel }: ModelsType) => {
 
     sectionRouter.post(
         S.DATAS3, 
-        writeAuth, 
+        premiumAuth, 
         upload.single('image'), 
         imageFileMiddleware, 
         sectionController.addNewWithS3
@@ -41,7 +42,7 @@ const createSectionRouter = ({ styleModel, sectionModel }: ModelsType) => {
 
     sectionRouter.put(
         S.DATAS3, 
-        writeAuth, 
+        premiumAuth, 
         upload.single('image'), 
         imageFileMiddleware, 
         sectionController.changeAllWithS3

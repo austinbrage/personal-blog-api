@@ -14,7 +14,7 @@ type DataWithHash = {
 }
 
 type DataWithoutHash = {
-    userId: UserType['id']
+    userId: number
     isFullAccess: boolean
 }
 
@@ -84,6 +84,10 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
 
     const compareHash = async (data: DataWithHash, res: Response, next: NextFunction) => {
 
+        const roles = ['READ', 'WRITE', 'ADMIN']
+
+        if(!SECRET_KEY) return next(new CustomError('Secret key is not provided in the API', 500))
+
         const isPassowordMatched = await bcript.compare(
             data.validatedData.password,
             data.modelResult.password 
@@ -94,10 +98,13 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
                 message: 'Incorrect password'
             }))
         }
-
-        if(!SECRET_KEY) return next(new CustomError('Secret key is not provided in the API', 500))
         
-        const token = sign({ id: data.modelResult.id, roles: ['READ', 'WRITE', 'ADMIN'] }, SECRET_KEY, {
+        if(data.modelResult.id) {
+            const result = await userModel.getMembership({ id: data.modelResult.id })
+            if(result[0]?.membership_type === 'premium' || ENVIRONMENT === 'test') roles.push('PREMIUM')
+        }
+
+        const token = sign({ id: data.modelResult.id, roles }, SECRET_KEY, {
             expiresIn: JWT_EXPIRE
         })
 
@@ -109,9 +116,14 @@ const createAuthentication = ({ userModel }: { userModel: IUser }) => {
 
     const signWithoutHash = async (data: DataWithoutHash , res: Response, next: NextFunction) => {
 
+        const roles = data.isFullAccess ? ['READ', 'WRITE', 'ADMIN'] : ['READ'] 
+        
         if(!SECRET_KEY) return next(new CustomError('Secret key is not provided in the API', 500))
 
-        const roles = data.isFullAccess ? ['READ', 'WRITE', 'ADMIN'] : ['READ'] 
+        if(data.userId) {
+            const result = await userModel.getMembership({ id: data.userId })
+            if(result[0]?.membership_type === 'premium' && data.isFullAccess) roles.push('PREMIUM')
+        }
 
         const token = sign({ id: data.userId, roles }, SECRET_KEY, {
             expiresIn: JWT_EXPIRE

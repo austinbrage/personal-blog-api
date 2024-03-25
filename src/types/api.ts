@@ -22,7 +22,7 @@ declare global{
     }
 }
 
-export type UserRoles = ('READ' | 'WRITE' | 'ADMIN')
+export type UserRoles = ('READ' | 'WRITE' | 'ADMIN' | 'PREMIUM')
 
 export interface JwtPayload {
     id: number
