@@ -30,9 +30,11 @@ type ArticleMock = {
 
 type SectionMock = {
     newMultpleSections: (articleId: number) => SectionType['articleIdDatas']
-    newSectionStyles: (articleId: number) => SectionType['articleIdDataNoSQC']
+    newSectionStyles1: (articleId: number) => SectionType['articleIdDataNoSQC']
+    newSectionStyles2: (articleId: number) => SectionType['articleIdDataNoIMG']
     changeSequence: (sectionData: SectionType['id'][]) => SectionType['idSequenceData']
-    changeStyles: (sectionId: number) => SectionType['idData']
+    changeStyles1: (sectionId: number) => SectionType['idData']
+    changeStyles2: (sectionId: number) => SectionType['idDataNoIMG']
 }
 
 export const USER = (ROUTE: UserRoutes) => {
@@ -194,12 +196,12 @@ export const sectionMock: SectionMock = {
             border_radius: '0rem',
         }))
     },
-    newSectionStyles: (articleId) => {
+    newSectionStyles1: (articleId) => {
         return {
            article_id: articleId,
-           content: 'New Article Section',
-           content_type: 'image_s3',
-           image: 'Jack Smith - My Article Test - Section Image 1',
+           content: 'New Article Section 1',
+           content_type: 'image_url',
+           image: 'https://th.bing.com/th/id/OIP.jaWRCdx3lBfjZuK_dJ_jiwHaEK?rs=1&pid=ImgDetMain',
            width: '90%',
            height: 'auto',
            font_family: 'Verdana',
@@ -212,12 +214,44 @@ export const sectionMock: SectionMock = {
            border_radius: '0rem',
         }
     },
-    changeStyles: (sectionId) => {
+    newSectionStyles2: (articleId) => {
+        return {
+           article_id: articleId,
+           content: 'New Article Section 2',
+           width: '90%',
+           height: 'auto',
+           font_family: 'Verdana',
+           font_size: '1.5rem',
+           font_weight: 'bold',
+           line_height: '1rem',
+           margin_top: '0.25rem',
+           text_align: 'right',
+           text_color: 'white',
+           border_radius: '0rem',
+        }
+    },
+    changeStyles1: (sectionId) => {
         return {
            id: sectionId,
-           content: 'Image alt text',
-           content_type: 'image_s3',
-           image: 'Jack Smith - My Article Test - Section Image 1',
+           content: 'Image alt text 1',
+           content_type: 'image_url',
+           image: 'https://th.bing.com/th/id/OIP.jaWRCdx3lBfjZuK_dJ_jiwHaEK?rs=1&pid=ImgDetMain',
+           width: '80%',
+           height: '95%',
+           font_family: 'Monospace',
+           font_size: '1.25rem',
+           font_weight: 'normal',
+           line_height: '1.25rem',
+           margin_top: '0.5rem',
+           text_align: 'center',
+           text_color: 'gray',
+           border_radius: '0.25rem'
+        }
+    },
+    changeStyles2: (sectionId) => {
+        return {
+           id: sectionId,
+           content: 'Image alt text 2',
            width: '80%',
            height: '95%',
            font_family: 'Monospace',

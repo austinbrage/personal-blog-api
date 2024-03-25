@@ -11,8 +11,9 @@ import { type SectionType } from '../types/sections'
 
 let sequenceData: SectionType['idSequenceData']
 let sectionData: SectionType['id'][]
-let articleId: number
+let sectionIdS3: number
 let sectionId: number
+let articleId: number
 let imageName: string
 let token: string
 
@@ -59,26 +60,13 @@ export default () => {
         })
     })
 
-    describe('Test create new section in article post', () => {
+    describe('Test create new section in article post with url image', () => {
 
         test('should POST new section', async () => {
             await request(app)
-                .post(SECTION(S.DATAS3))
+                .post(SECTION(S.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
-                .set('Content-Type', `multipart/form-data`)
-                .field('image', createReadStream(imagePath))
-                .field('article_id', sectionMock.newSectionStyles(articleId).article_id)
-                .field('content', sectionMock.newSectionStyles(articleId).content)
-                .field('width', sectionMock.newSectionStyles(articleId).width)
-                .field('height', sectionMock.newSectionStyles(articleId).height)
-                .field('font_family', sectionMock.newSectionStyles(articleId).font_family)
-                .field('font_size', sectionMock.newSectionStyles(articleId).font_size)
-                .field('font_weight', sectionMock.newSectionStyles(articleId).font_weight)
-                .field('line_height', sectionMock.newSectionStyles(articleId).line_height)
-                .field('margin_top', sectionMock.newSectionStyles(articleId).margin_top)
-                .field('text_align', sectionMock.newSectionStyles(articleId).text_align)
-                .field('text_color', sectionMock.newSectionStyles(articleId).text_color)
-                .field('border_radius', sectionMock.newSectionStyles(articleId).border_radius)
+                .send(sectionMock.newSectionStyles1(articleId))
                 .expect(201)
         })
 
@@ -88,10 +76,66 @@ export default () => {
                 .query({ article_id_query: articleId })
                 .expect(200)
             sectionId = response.body.result.data[0].id
-            imageName = response.body.result.data[0].image
 
-            expect(response.body.result.data[0]).toMatchObject(expect.objectContaining({
-                ...sectionMock.newSectionStyles(articleId),
+            expect(response.body.result.data[0])
+                .toMatchObject(sectionMock.newSectionStyles1(articleId))
+        })
+    })
+
+    describe('Test update new section in article post with url image', () => {
+       
+        test('should PUT data of new section', async () => {
+            await request(app)
+                .put(SECTION(S.EMPTY))
+                .set('Authorization', `Bearer ${token}`)
+                .send(sectionMock.changeStyles1(sectionId))
+                .expect(200)
+        })
+
+        test('should READ data from changed section', async () => {
+            const response = await request(app)
+                .get(SECTION(S.EMPTY))
+                .query({ article_id_query: articleId })
+                .expect(200)
+
+            expect(response.body.result.data[0])
+                .toMatchObject(sectionMock.changeStyles1(sectionId))
+        })
+    })
+
+    describe('Test create new section in article post with s3 image', () => {
+
+        test('should POST new section', async () => {
+            await request(app)
+                .post(SECTION(S.DATAS3))
+                .set('Authorization', `Bearer ${token}`)
+                .set('Content-Type', `multipart/form-data`)
+                .field('image', createReadStream(imagePath))
+                .field('article_id', sectionMock.newSectionStyles2(articleId).article_id)
+                .field('content', sectionMock.newSectionStyles2(articleId).content)
+                .field('width', sectionMock.newSectionStyles2(articleId).width)
+                .field('height', sectionMock.newSectionStyles2(articleId).height)
+                .field('font_family', sectionMock.newSectionStyles2(articleId).font_family)
+                .field('font_size', sectionMock.newSectionStyles2(articleId).font_size)
+                .field('font_weight', sectionMock.newSectionStyles2(articleId).font_weight)
+                .field('line_height', sectionMock.newSectionStyles2(articleId).line_height)
+                .field('margin_top', sectionMock.newSectionStyles2(articleId).margin_top)
+                .field('text_align', sectionMock.newSectionStyles2(articleId).text_align)
+                .field('text_color', sectionMock.newSectionStyles2(articleId).text_color)
+                .field('border_radius', sectionMock.newSectionStyles2(articleId).border_radius)
+                .expect(201)
+        })
+
+        test('should READ changes and GET SECTION-ID from new section', async () => {
+            const response = await request(app)
+                .get(SECTION(S.EMPTY))
+                .query({ article_id_query: articleId })
+                .expect(200)
+            sectionIdS3 = response.body.result.data[1].id
+            imageName = response.body.result.data[1].image
+
+            expect(response.body.result.data[1]).toMatchObject(expect.objectContaining({
+                ...sectionMock.newSectionStyles2(articleId),
                 image: expect.anything(),
                 content_type: 'image_s3'
             }))
@@ -108,7 +152,7 @@ export default () => {
         })
     })
 
-    describe('Test update new section in article post', () => {
+    describe('Test update new section in article post with s3 image', () => {
        
         test('should PUT data of new section', async () => {
             await request(app)
@@ -116,18 +160,18 @@ export default () => {
                 .set('Authorization', `Bearer ${token}`)
                 .set('Content-Type', `multipart/form-data`)
                 .field('image', createReadStream(imagePath))
-                .field('id', sectionMock.changeStyles(sectionId).id)
-                .field('content', sectionMock.changeStyles(sectionId).content)
-                .field('width', sectionMock.changeStyles(sectionId).width)
-                .field('height', sectionMock.changeStyles(sectionId).height)
-                .field('font_family', sectionMock.changeStyles(sectionId).font_family)
-                .field('font_size', sectionMock.changeStyles(sectionId).font_size)
-                .field('font_weight', sectionMock.changeStyles(sectionId).font_weight)
-                .field('line_height', sectionMock.changeStyles(sectionId).line_height)
-                .field('margin_top', sectionMock.changeStyles(sectionId).margin_top)
-                .field('text_align', sectionMock.changeStyles(sectionId).text_align)
-                .field('text_color', sectionMock.changeStyles(sectionId).text_color)
-                .field('border_radius', sectionMock.changeStyles(sectionId).border_radius)
+                .field('id', sectionMock.changeStyles2(sectionIdS3).id)
+                .field('content', sectionMock.changeStyles2(sectionIdS3).content)
+                .field('width', sectionMock.changeStyles2(sectionIdS3).width)
+                .field('height', sectionMock.changeStyles2(sectionIdS3).height)
+                .field('font_family', sectionMock.changeStyles2(sectionIdS3).font_family)
+                .field('font_size', sectionMock.changeStyles2(sectionIdS3).font_size)
+                .field('font_weight', sectionMock.changeStyles2(sectionIdS3).font_weight)
+                .field('line_height', sectionMock.changeStyles2(sectionIdS3).line_height)
+                .field('margin_top', sectionMock.changeStyles2(sectionIdS3).margin_top)
+                .field('text_align', sectionMock.changeStyles2(sectionIdS3).text_align)
+                .field('text_color', sectionMock.changeStyles2(sectionIdS3).text_color)
+                .field('border_radius', sectionMock.changeStyles2(sectionIdS3).border_radius)
                 .expect(200)
         })
 
@@ -137,8 +181,8 @@ export default () => {
                 .query({ article_id_query: articleId })
                 .expect(200)
 
-            expect(response.body.result.data[0]).toMatchObject(expect.objectContaining({
-                ...sectionMock.changeStyles(sectionId),
+            expect(response.body.result.data[1]).toMatchObject(expect.objectContaining({
+                ...sectionMock.changeStyles2(sectionIdS3),
                 image: expect.anything(),
                 content_type: 'image_s3'
             }))
@@ -147,11 +191,19 @@ export default () => {
 
     describe('Test delete new section in article post', () => {
         
-        test('should DELETE new section', async () => {
+        test('should DELETE new url section', async () => {
             await request(app)
                 .delete(SECTION(S.EMPTY))
                 .set('Authorization', `Bearer ${token}`)
                 .send({ id: sectionId })
+                .expect(200)
+        })
+        
+        test('should DELETE new s3 section', async () => {
+            await request(app)
+                .delete(SECTION(S.EMPTY))
+                .set('Authorization', `Bearer ${token}`)
+                .send({ id: sectionIdS3 })
                 .expect(200)
         })
 
