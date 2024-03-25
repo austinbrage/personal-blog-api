@@ -3,7 +3,7 @@ import { CustomError } from "../helpers/customError"
 
 const imageFileMiddleware: RequestHandler = (req, _res, next) => {
 
-    const maxFileSize = 3 * 1024 * 1024 // 3 MB
+    const maxFileSize = 100 * 1024 // 100 KB
     const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp']
 
     if (!req.file) {
@@ -19,7 +19,7 @@ const imageFileMiddleware: RequestHandler = (req, _res, next) => {
     }
 
     if (req.file.size > maxFileSize) {
-        return next(new CustomError('Wrong image size, must not exceed 3 MB', 400))
+        return next(new CustomError('Wrong image size, must not exceed 100 KB', 400))
     }
 
     next()
