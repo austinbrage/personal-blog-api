@@ -68,8 +68,6 @@ export default () => {
                 .field('image', createReadStream(imagePath))
                 .field('article_id', sectionMock.newSectionStyles(articleId).article_id)
                 .field('content', sectionMock.newSectionStyles(articleId).content)
-                .field('content_type', sectionMock.newSectionStyles(articleId).content_type)
-                .field('image', sectionMock.newSectionStyles(articleId).image ?? '')
                 .field('width', sectionMock.newSectionStyles(articleId).width)
                 .field('height', sectionMock.newSectionStyles(articleId).height)
                 .field('font_family', sectionMock.newSectionStyles(articleId).font_family)
@@ -90,8 +88,11 @@ export default () => {
                 .expect(200)
             sectionId = response.body.result.data[0].id
 
-            expect(response.body.result.data[0])
-               .toMatchObject(sectionMock.newSectionStyles(articleId))
+            expect(response.body.result.data[0]).toMatchObject(expect.objectContaining({
+                ...sectionMock.newSectionStyles(articleId),
+                image: expect.anything(),
+                content_type: 'image_s3'
+            }))
         })
     })
 
@@ -124,8 +125,11 @@ export default () => {
                 .query({ article_id_query: articleId })
                 .expect(200)
 
-            expect(response.body.result.data[0])
-               .toMatchObject(sectionMock.changeStyles(sectionId))
+            expect(response.body.result.data[0]).toMatchObject(expect.objectContaining({
+                ...sectionMock.changeStyles(sectionId),
+                image: expect.anything(),
+                content_type: 'image_s3'
+            }))
         })
     })
 
