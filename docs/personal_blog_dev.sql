@@ -12,6 +12,7 @@ CREATE TABLE `users` (
   `author` VARCHAR(250) UNIQUE NOT NULL,
   `external_id` VARCHAR(250) DEFAULT NULL,
   `auth_provider` VARCHAR(250) DEFAULT NULL,
+  `membership_type` VARCHAR(250) NOT NULL DEFAULT 'basic',
   `api_key` VARCHAR(32) UNIQUE DEFAULT SUBSTRING(MD5(RAND()), 1, 32) 
 );
 
