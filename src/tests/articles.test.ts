@@ -103,7 +103,7 @@ export default () => {
 
     describe('Test create and read new article post with s3 image', () => {
 
-        test('should POST new article with', async () => {
+        test('should POST new article', async () => {
             await request(app)
                 .post(ARTICLE(A.DATAS3))
                 .set('Authorization', `Bearer ${token}`)
