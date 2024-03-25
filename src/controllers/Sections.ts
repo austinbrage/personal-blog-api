@@ -3,6 +3,7 @@ import { s3, bucketName } from '../services/bucket'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3"
 import { loadJSON } from "../utils/templates"
+import { SIGNED_URL_EXPIRE } from '../utils/config'
 import { asyncErrorHandler } from "../services/errorHandler"
 import { SectionValidation, type ISectionsValidation } from "../validations/Sections"
 import { createOkResponse, createErrorResponse } from "../helpers/appResponse"
@@ -10,6 +11,7 @@ import type { Request, Response } from 'express'
 import { SectionType, type SectionController } from "../types/sections"
 import { type ISection } from "../types/sections"
 import { type IStyle } from "../types/styles"
+import { type RowDataPacket } from "mysql2"
 import { type ZodError } from "zod"
 
 type ModelsType = {
@@ -56,6 +58,33 @@ export class Sections implements SectionController {
 
         await s3.send(command)
     }
+
+    private async readImage(imageName: string) {
+        const command = new GetObjectCommand({
+            Bucket: bucketName,
+            Key: imageName
+        })
+
+        return await getSignedUrl(s3, command, { expiresIn: +SIGNED_URL_EXPIRE })
+    }
+
+    getSignedUrl = asyncErrorHandler(async (req: Request, res: Response) => {
+        // const { image } = req.query
+        const validation = this.validateSection.image(req.query)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        if(!validation.data.image) return res.status(400).json(createErrorResponse({
+            message: 'Validation data error, image value cannot be null'
+        }))
+
+        const result = await this.readImage(validation.data.image)
+
+        return res.status(200).json(createOkResponse({
+            message: 'Article image url requested',
+            data: [{ imageSignedUrl: result }] as RowDataPacket[]
+        }))
+    })
 
     getAll = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { article_id_query } = req.query 

@@ -5,6 +5,7 @@ import { type RowDataPacket, type ResultSetHeader } from 'mysql2'
 
 export type SectionType = {
     id: z.infer<typeof sectionSchema.id>
+    image: z.infer<typeof sectionSchema.image>
     idData: z.infer<typeof sectionSchema.idData>
     noIdData: z.infer<typeof sectionSchema.noIdData>
     articleId: z.infer<typeof sectionSchema.articleId>
@@ -33,6 +34,7 @@ export interface ISection {
 
 export interface SectionController {
     getAll: AsyncFunction
+    getSignedUrl: AsyncFunction
     changeAll: AsyncFunction
     changeAllWithS3: AsyncFunction
     changeSequence: AsyncFunction

@@ -4,6 +4,7 @@ import { type SafeParseReturnType } from "zod"
 
 export interface ISectionsValidation {
     id(data: unknown): SafeParseReturnType<unknown, SectionType['id']>
+    image(data: unknown): SafeParseReturnType<unknown, SectionType['image']>
     idData(data: unknown): SafeParseReturnType<unknown, SectionType['idData']>
     noIdData(data: unknown): SafeParseReturnType<unknown, SectionType['noIdData']>
     articleId(data: unknown): SafeParseReturnType<unknown, SectionType['articleId']>
@@ -25,6 +26,7 @@ export class SectionValidation implements ISectionsValidation {
     }
 
     id = (data: unknown) => this.sectionSchema.id.safeParse(data)
+    image = (data: unknown) => this.sectionSchema.image.safeParse(data)
     idData = (data: unknown) => this.sectionSchema.idData.safeParse(data)
     noIdData = (data: unknown) => this.sectionSchema.noIdData.safeParse(data)
     articleId = (data: unknown) => this.sectionSchema.articleId.safeParse(data)

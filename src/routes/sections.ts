@@ -21,6 +21,7 @@ const createSectionRouter = ({ styleModel, sectionModel }: ModelsType) => {
 
     const sectionController = new SectionController({ styleModel, sectionModel })
 
+    sectionRouter.get(S.DATAS3,               sectionController.getSignedUrl)
     sectionRouter.get(S.EMPTY,                sectionController.getAll)
     sectionRouter.put(S.EMPTY,     writeAuth, sectionController.changeAll)
     sectionRouter.post(S.EMPTY,    writeAuth, sectionController.addNew)

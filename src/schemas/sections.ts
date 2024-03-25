@@ -33,6 +33,7 @@ const sectionTableSchema = z.object({
 })
 
 const id = sectionTableSchema.pick({ id: true })
+const image = sectionTableSchema.pick({ image: true })
 const sequence = sectionTableSchema.pick({ sequence: true })
 const articleId = sectionTableSchema.pick({ article_id: true })
 const idSequence = sectionTableSchema.pick({ id: true, sequence: true })
@@ -65,6 +66,7 @@ const templateData = articleId.merge(z.object({
 
 export const sectionSchema = {
     id,
+    image,
     idData,
     noIdData,
     articleId,

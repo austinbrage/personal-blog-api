@@ -13,6 +13,7 @@ let sequenceData: SectionType['idSequenceData']
 let sectionData: SectionType['id'][]
 let articleId: number
 let sectionId: number
+let imageName: string
 let token: string
 
 const imagePath = resolve(__dirname, '../../public/image-test.png')
@@ -87,12 +88,23 @@ export default () => {
                 .query({ article_id_query: articleId })
                 .expect(200)
             sectionId = response.body.result.data[0].id
+            imageName = response.body.result.data[0].image
 
             expect(response.body.result.data[0]).toMatchObject(expect.objectContaining({
                 ...sectionMock.newSectionStyles(articleId),
                 image: expect.anything(),
                 content_type: 'image_s3'
             }))
+        })
+
+        test('should READ image signed URL', async () => {
+            const response = await request(app)
+                .get(SECTION(S.DATAS3))
+                .set('Authorization', `Bearer ${token}`)
+                .query({ image: imageName })
+                .expect(200)
+
+            expect(response.body?.result?.data[0]?.imageSignedUrl).toMatch(/^https:/)
         })
     })
 
