@@ -26,6 +26,7 @@ export interface IUser {
     getName({ name }: UserType['name']): Promise<RowDataPacket[]>
     getEmail({ email }: UserType['email']): Promise<RowDataPacket[]>
     getAuthor({ author }: UserType['author']): Promise<RowDataPacket[]>
+    getMembership({ id }: UserType['id']): Promise<RowDataPacket[]>
     getId({ api_key }: UserType['apiKey']): Promise<RowDataPacket[]>
     getByEmail({ email }: UserType['email']): Promise<RowDataPacket[]>
     getIdPassword({ name }: UserType['name']): Promise<RowDataPacket[]>

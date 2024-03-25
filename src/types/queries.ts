@@ -2,6 +2,7 @@ export enum UserQueries {
     getId = 'getId',
     getAll = 'getAll',
     getByEmail = 'getByEmail',
+    getMembership = 'getMembership',
     getIdPassword = 'getIdPassword',
     getByExternalId = 'getByExternalId',
     getName = 'getName',

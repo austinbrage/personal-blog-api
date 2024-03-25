@@ -14,6 +14,10 @@
     SELECT `id`, `name`, `email`, `author`, `api_key` FROM `users` 
     WHERE `id` = ?;
 
+-- getMembership
+    SELECT `membership_type` FROM `users`
+    WHERE `id` = ?;
+
 -- getIdPassword
     SELECT `id`, `password` FROM `users`
     WHERE `name` = ?;
