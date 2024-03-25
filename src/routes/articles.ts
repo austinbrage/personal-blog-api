@@ -17,10 +17,10 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
     const articleController = new ArticleController({ articleModel })
 
     articleRouter.get(A.KEYWORDS,                 articleController.getKeywords)
+    articleRouter.get(A.IMAGEURL,                 articleController.getSignedUrl)
     articleRouter.get(A.DALL,                     articleController.getEverything)
     articleRouter.get(A.DKEYWORDS,                articleController.getAllByKeywords)
     articleRouter.get(A.DUKEYWORDS,     readAuth, articleController.getByKeywords)
-    articleRouter.get(A.IMAGEURL,       readAuth, articleController.getSignedUrl)
     articleRouter.get(A.EMPTY,          readAuth, articleController.getAll)
 
     articleRouter.patch(A.DATA,         writeAuth, articleController.changeData)
