@@ -322,11 +322,12 @@ export class Sections implements SectionController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        const sectionImage = await this.sectionModel.getImage({ id: validation.data.id })
+        const sectionData = await this.sectionModel.getImage({ id: validation.data.id })
 
-        if(sectionImage[0]?.image !== null) {
-            await this.removeImage(sectionImage[0].image)
-        }
+        const isImageS3 = sectionData[0]?.content_type === 'image_s3'
+        const imageName = sectionData[0]?.image
+
+        if(isImageS3 && imageName) await this.removeImage(imageName)
 
         await this.sectionModel.remove(validation.data)
 
