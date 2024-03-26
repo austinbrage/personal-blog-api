@@ -61,11 +61,11 @@ The API relies on headers, sending the signed token within the response body and
 | ------ | ------ | ------ |
 | **GET ***`/section`***** | article_id_query | Get all sections from article |
 | **GET ***`/section/s3`***** | image | Get s3 image signed url |
-| **PUT ***`/section`***** | id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius **token** | Change section |
+| **PUT ***`/section`***** | id, content, content_type, image, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius **token** | Change section |
 | **PUT ***`/section/s3`***** | id, content, image(file), width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius **token** | Change section with s3 image |
 | **POST ***`/section/s3`***** | article_id, content, image(file), width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius **token** | Add new section with s3 image |
-| **POST ***`/section`***** | article_id, content, content_type, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius **token** | Add new section |
+| **POST ***`/section`***** | article_id, content, content_type, image, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius **token** | Add new section |
 | **POST ***`/section/template`***** | article_id, template_option **token** | Add new section template |
-| **POST ***`/section/multiple`***** | [ article_id, content, content_type, sequence, image_url, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius ] **token** | Add new multiple sections |
+| **POST ***`/section/multiple`***** | [ article_id, content, content_type, sequence, image, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius ] **token** | Add new multiple sections |
 | **PUT ***`/section/sequence`***** | [ id, sequence ] **token** | Change sequences |
 | **DELETE ***`/section`***** | id, **token** | Remove section |
