@@ -191,6 +191,14 @@ export default () => {
 
     describe('Test delete new section in article post', () => {
         
+        test('should DELETE new s3 image from bucket', async () => {
+            await request(app)
+                .delete(SECTION(S.DATAS3))
+                .set('Authorization', `Bearer ${token}`)
+                .send([{ image: imageName }])
+                .expect(200)
+        })
+
         test('should DELETE new url section', async () => {
             await request(app)
                 .delete(SECTION(S.EMPTY))
