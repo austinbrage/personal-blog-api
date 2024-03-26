@@ -59,7 +59,6 @@ export enum ArticleRoutes {
     DKEYWORDS = '/data/keywords',
     DUKEYWORDS = '/data/user/keywords',
     PUBLISHMENT = '/publishment',
-    IMAGEURL = '/data/url',
     DATAS3 = '/data/s3',
     DATA = '/data',
     EMPTY = '/',

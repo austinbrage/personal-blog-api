@@ -135,7 +135,7 @@ export default () => {
 
         test('should READ image signed URL', async () => {
             const response = await request(app)
-                .get(ARTICLE(A.IMAGEURL))
+                .get(ARTICLE(A.DATAS3))
                 .set('Authorization', `Bearer ${token}`)
                 .query({ image: imageName })
                 .expect(200)

@@ -17,8 +17,8 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
     
     const articleController = new ArticleController({ articleModel })
 
+    articleRouter.get(A.DATAS3,                   articleController.getSignedUrl)
     articleRouter.get(A.KEYWORDS,                 articleController.getKeywords)
-    articleRouter.get(A.IMAGEURL,                 articleController.getSignedUrl)
     articleRouter.get(A.DALL,                     articleController.getEverything)
     articleRouter.get(A.DKEYWORDS,                articleController.getAllByKeywords)
     articleRouter.get(A.DUKEYWORDS,     readAuth, articleController.getByKeywords)
