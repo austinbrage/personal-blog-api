@@ -317,7 +317,7 @@ export class Sections implements SectionController {
     })
 
     removeS3 = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { [image] } = req.body
+        // const [{ image }] = req.body
         const validation = this.validateSection.imageSet(req.body)
 
         if(!validation.success) return this.validationErr(res, validation.error)
