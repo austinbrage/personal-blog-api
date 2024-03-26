@@ -340,6 +340,22 @@ export class Articles implements ArticleController {
         }))
     })
 
+    removeS3 = asyncErrorHandler(async (req: Request, res: Response) => {
+        // const { [image] } = req.body
+        const validation = this.validateArticle.imageSet(req.body)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        await validation.data.reduce((acc, curr) => acc.then(() => {
+            if(!curr.image) return Promise.resolve()
+            return this.removeImage(curr.image)
+        }), Promise.resolve())
+
+        return res.status(200).json(createOkResponse({
+            message: 'Article images removed from bucket successfully'
+        }))
+    })
+
     remove = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { id } = req.body
         const validation = this.validateArticle.id(req.body)

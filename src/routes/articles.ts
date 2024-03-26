@@ -27,8 +27,9 @@ const createArticleRouter = ({ articleModel }: { articleModel: IArticle }) => {
     articleRouter.patch(A.DATA,         writeAuth, articleController.changeData)
     articleRouter.patch(A.PUBLISHMENT,  writeAuth, articleController.changePublishState)
     
-    articleRouter.post(A.EMPTY,         writeAuth, articleController.addNew)
-    articleRouter.delete(A.EMPTY,       writeAuth, articleController.remove)
+    articleRouter.post(A.EMPTY,         writeAuth,   articleController.addNew)
+    articleRouter.delete(A.EMPTY,       writeAuth,   articleController.remove)
+    articleRouter.delete(A.DATAS3,      premiumAuth, articleController.removeS3)
     
     articleRouter.post(
         A.DATAS3, 

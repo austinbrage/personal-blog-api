@@ -42,6 +42,7 @@ const articleTableSchema = z.object({
 const id = articleTableSchema.pick({ id: true })
 const image = articleTableSchema.pick({ image: true })
 const userId = articleTableSchema.pick({ user_id: true })
+const imageSet = articleTableSchema.pick({ image: true }).array()
 const userIdName = articleTableSchema.pick({ user_id: true, name: true })
 const userIdData = articleTableSchema.omit({ id: true, is_publish: true })
 const idData = articleTableSchema.omit({ user_id: true, is_publish: true })
@@ -56,6 +57,7 @@ export const articleSchema = {
     image,
     userId,
     idData,
+    imageSet,
     userIdName,
     userIdData,
     idDataNoType,

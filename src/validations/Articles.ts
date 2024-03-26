@@ -7,6 +7,7 @@ export interface IArticlesValidation {
     image(data: unknown): SafeParseReturnType<unknown, ArticleType['image']>
     idData(data: unknown): SafeParseReturnType<unknown, ArticleType['idData']>
     userId(data: unknown): SafeParseReturnType<unknown, ArticleType['userId']>
+    imageSet(data: unknown): SafeParseReturnType<unknown, ArticleType['imageSet']>
     userIdName(data: unknown): SafeParseReturnType<unknown, ArticleType['userIdName']>
     userIdData(data: unknown): SafeParseReturnType<unknown, ArticleType['userIdData']>
     idDataNoType(data: unknown): SafeParseReturnType<unknown, ArticleType['idDataNoType']>
@@ -32,6 +33,7 @@ export class ArticlesValidation implements IArticlesValidation {
     image = (data: unknown) => this.articleSchema.image.safeParse(data)
     idData = (data: unknown) => this.articleSchema.idData.safeParse(data)
     userId = (data: unknown) => this.articleSchema.userId.safeParse(data)
+    imageSet = (data: unknown) => this.articleSchema.imageSet.safeParse(data)
     userIdName = (data: unknown) => this.articleSchema.userIdName.safeParse(data)
     userIdData = (data: unknown) => this.articleSchema.userIdData.safeParse(data)
     idDataNoType = (data: unknown) => this.articleSchema.idDataNoType.safeParse(data)

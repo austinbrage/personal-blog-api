@@ -8,6 +8,7 @@ export type ArticleType = {
     image: z.infer<typeof articleSchema.image>
     idData: z.infer<typeof articleSchema.idData>
     userId: z.infer<typeof articleSchema.userId>
+    imageSet: z.infer<typeof articleSchema.imageSet>
     userIdName: z.infer<typeof articleSchema.userIdName>
     userIdData: z.infer<typeof articleSchema.userIdData>
     idDataNoType: z.infer<typeof articleSchema.idDataNoType>
@@ -50,6 +51,7 @@ export interface ArticleController {
     changePublishState: AsyncFunction
     addNewWithS3: AsyncFunction
     addNew: AsyncFunction
+    removeS3: AsyncFunction
     remove: AsyncFunction
 }
 
