@@ -73,9 +73,9 @@ INSERT INTO `article_keywords` (`category`,`keyword`) VALUES
 ('Backend','Node'), ('Backend','Bun'), ('Backend','SpringBoot'), ('Backend','Flask'), 
 ('Devops','AWS'), ('Devops','Azure'), ('Devops','Google Cloud'), ('Devops','Docker'), ('Devops','Kubernetes');
 
-INSERT INTO `users` (`name`, `password`, `email`, `author`) VALUES
-('Usuario0', '$2a$10$JS3bJ7sGRCPOW2hi2jBCserm5vDYwxKtLHQJtJXJuhqHINw96IUGK', 'algo@gmail.com', 'Nombre0'),
-('Usuario1', '$2a$10$dm3yz.bWif29TEqRnOm/Vu/TWbBCbN09BbHfoldm33BhGnQIh6hsW', 'algo1@gmail.com', 'Nombre1');
+INSERT INTO `users` (`name`, `password`, `email`, `author`, `membership_type`) VALUES
+('Usuario0', '$2a$10$JS3bJ7sGRCPOW2hi2jBCserm5vDYwxKtLHQJtJXJuhqHINw96IUGK', 'algo@gmail.com', 'Nombre0', 'premium'),
+('Usuario1', '$2a$10$dm3yz.bWif29TEqRnOm/Vu/TWbBCbN09BbHfoldm33BhGnQIh6hsW', 'algo1@gmail.com', 'Nombre1', 'basic');
 
 INSERT INTO `articles` (`user_id`, `name`, `is_publish`) VALUES
 ((SELECT `id` FROM `users` WHERE `name` = 'Usuario0'), 'My Article 1', 1),
