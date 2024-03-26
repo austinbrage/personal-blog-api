@@ -22,12 +22,12 @@ const createSectionRouter = ({ styleModel, sectionModel }: ModelsType) => {
 
     const sectionController = new SectionController({ styleModel, sectionModel })
 
-    sectionRouter.get(S.DATAS3,                sectionController.getSignedUrl)
-    sectionRouter.get(S.EMPTY,                 sectionController.getAll)
-    sectionRouter.put(S.EMPTY,      writeAuth, sectionController.changeAll)
-    sectionRouter.post(S.EMPTY,     writeAuth, sectionController.addNew)
-    sectionRouter.delete(S.EMPTY,   writeAuth, sectionController.remove)
-    sectionRouter.delete(S.DATAS3,  writeAuth, sectionController.removeS3)
+    sectionRouter.get(S.DATAS3,                  sectionController.getSignedUrl)
+    sectionRouter.get(S.EMPTY,                   sectionController.getAll)
+    sectionRouter.put(S.EMPTY,      writeAuth,   sectionController.changeAll)
+    sectionRouter.post(S.EMPTY,     writeAuth,   sectionController.addNew)
+    sectionRouter.delete(S.EMPTY,   writeAuth,   sectionController.remove)
+    sectionRouter.delete(S.DATAS3,  premiumAuth, sectionController.removeS3)
     
     sectionRouter.put(S.SEQUENCE,   writeAuth, sectionController.changeSequence)
     sectionRouter.post(S.MULTIPLE,  writeAuth, sectionController.addMultiple)
