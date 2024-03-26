@@ -1,4 +1,4 @@
-import { randomBytes } from "crypto"
+import { v4 as uuidv4 } from 'uuid'
 import { s3, bucketName } from '../services/bucket'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3"
@@ -146,7 +146,7 @@ export class Sections implements SectionController {
 
         const sectionData = await this.sectionModel.getImage({ id: validation.data.id })
 
-        const newImageName = 'sectionImg: ' + randomBytes(16).toString('hex')
+        const newImageName = 'sectionImg: ' + uuidv4()
         const isImageS3 = sectionData[0]?.content_type === 'image_s3'
         const imageName = sectionData[0]?.image ?? newImageName
 
@@ -229,7 +229,7 @@ export class Sections implements SectionController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        const newImageName = 'sectionImg: ' + randomBytes(16).toString('hex')
+        const newImageName = 'sectionImg: ' + uuidv4()
         await this.uploadImage(newImageName, req.file as Express.Multer.File)
 
         const resultSequence = await this.sectionModel.getLastSequence({ 

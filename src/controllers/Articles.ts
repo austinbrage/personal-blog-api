@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import { s3, bucketName } from '../services/bucket'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3"
@@ -244,7 +245,7 @@ export class Articles implements ArticleController {
             }))
         }
 
-        const newImageName = 'userId: ' + req.userId?.id + ', articleName: ' + validation.data.name
+        const newImageName = 'articleImg: ' + uuidv4()
         const articleData = await this.articleModel.getImageById({ id: validation.data.id })
         const isImageS3 = articleData[0]?.image_type === 'image_s3'
         const imageName = articleData[0]?.image ?? newImageName
@@ -324,7 +325,7 @@ export class Articles implements ArticleController {
             }))
         }
 
-        const newImageName = 'userId: ' + req.userId?.id + ', articleName: ' + validation.data.name
+        const newImageName = 'articleImg: ' + uuidv4()
         await this.uploadImage(newImageName, req.file as Express.Multer.File)
 
         const newArticleInfo = await this.articleModel.addNew({
