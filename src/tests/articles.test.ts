@@ -178,6 +178,14 @@ export default () => {
 
     describe('Test delete new article post', () => {
        
+        test('should DELETE new s3 image from bucket', async () => {
+            await request(app)
+                .delete(ARTICLE(A.DATAS3))
+                .set('Authorization', `Bearer ${token}`)
+                .send([{ image: imageName }])
+                .expect(200)
+        })
+
         test('should DELETE new article', async () => {
             await request(app)
                 .delete(ARTICLE(A.EMPTY))
