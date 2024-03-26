@@ -8,6 +8,7 @@ export type SectionType = {
     image: z.infer<typeof sectionSchema.image>
     idData: z.infer<typeof sectionSchema.idData>
     noIdData: z.infer<typeof sectionSchema.noIdData>
+    imageSet: z.infer<typeof sectionSchema.imageSet>
     articleId: z.infer<typeof sectionSchema.articleId>
     idContent: z.infer<typeof sectionSchema.idContent>
     idSequence: z.infer<typeof sectionSchema.idSequence>
@@ -42,6 +43,7 @@ export interface SectionController {
     addNewWithS3: AsyncFunction
     addMultiple: AsyncFunction
     addTemplate: AsyncFunction
+    removeS3: AsyncFunction
     remove: AsyncFunction
 }
 

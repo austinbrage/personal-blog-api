@@ -7,6 +7,7 @@ export interface ISectionsValidation {
     image(data: unknown): SafeParseReturnType<unknown, SectionType['image']>
     idData(data: unknown): SafeParseReturnType<unknown, SectionType['idData']>
     noIdData(data: unknown): SafeParseReturnType<unknown, SectionType['noIdData']>
+    imageSet(data: unknown): SafeParseReturnType<unknown, SectionType['imageSet']>
     articleId(data: unknown): SafeParseReturnType<unknown, SectionType['articleId']>
     idDataNoIMG(data: unknown): SafeParseReturnType<unknown, SectionType['idDataNoIMG']>
     articleIdData(data: unknown): SafeParseReturnType<unknown, SectionType['articleIdData']>
@@ -29,6 +30,7 @@ export class SectionValidation implements ISectionsValidation {
     image = (data: unknown) => this.sectionSchema.image.safeParse(data)
     idData = (data: unknown) => this.sectionSchema.idData.safeParse(data)
     noIdData = (data: unknown) => this.sectionSchema.noIdData.safeParse(data)
+    imageSet = (data: unknown) => this.sectionSchema.imageSet.safeParse(data)
     articleId = (data: unknown) => this.sectionSchema.articleId.safeParse(data)
     idDataNoIMG = (data: unknown) => this.sectionSchema.idDataNoIMG.safeParse(data)
     articleIdData = (data: unknown) => this.sectionSchema.articleIdData.safeParse(data)

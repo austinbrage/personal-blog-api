@@ -51,6 +51,7 @@ const articleIdDataNoSQC = articleIdContentNoSQC.merge(styleSchema.partialData)
 const articleIdDataNoIMG = articleIdContentNoIMG.merge(styleSchema.partialData)
 const noIdData = data.merge(sequence).merge(styleSchema.partialData).array()
 const idData = idContent.merge(styleSchema.partialData)
+const imageSet = image.array()
 const idDataNoIMG = idContentNoIMG.merge(styleSchema.partialData)
 const idSequenceData = idSequence.array()
 
@@ -69,6 +70,7 @@ export const sectionSchema = {
     image,
     idData,
     noIdData,
+    imageSet,
     articleId,
     idContent,
     idSequence,

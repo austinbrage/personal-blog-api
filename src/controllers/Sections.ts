@@ -4,7 +4,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3"
 import { loadJSON } from "../utils/templates"
 import { SIGNED_URL_EXPIRE } from '../utils/config'
-import { asyncErrorHandler } from "../services/errorHandler"
+import { AsyncFunction, asyncErrorHandler } from "../services/errorHandler"
 import { SectionValidation, type ISectionsValidation } from "../validations/Sections"
 import { createOkResponse, createErrorResponse } from "../helpers/appResponse"
 import type { Request, Response } from 'express'
@@ -313,6 +313,22 @@ export class Sections implements SectionController {
 
         return res.status(201).json(createOkResponse({
             message: 'New template of sections created successfully'
+        }))
+    })
+
+    removeS3 = asyncErrorHandler(async (req: Request, res: Response) => {
+        // const { [image] } = req.body
+        const validation = this.validateSection.imageSet(req.body)
+
+        if(!validation.success) return this.validationErr(res, validation.error)
+
+        await validation.data.reduce((acc, curr) => acc.then(() => {
+            if(!curr.image) return Promise.resolve()
+            return this.removeImage(curr.image)
+        }), Promise.resolve())
+
+        return res.status(200).json(createOkResponse({
+            message: 'Section images removed from bucket successfully'
         }))
     })
 
