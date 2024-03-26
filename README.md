@@ -69,3 +69,4 @@ The API relies on headers, sending the signed token within the response body and
 | **POST ***`/section/multiple`***** | [ article_id, content, content_type, sequence, image, width, height, font_size, font_weight, font_family, line_height, margin_top, text_align, text_color, border_radius ] **token** | Add new multiple sections |
 | **PUT ***`/section/sequence`***** | [ id, sequence ] **token** | Change sequences |
 | **DELETE ***`/section`***** | id, **token** | Remove section |
+| **DELETE ***`/section/s3`***** | [ image ], **token** | Remove s3 section images |
