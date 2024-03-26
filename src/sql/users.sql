@@ -11,7 +11,7 @@
     WHERE `auth_provider` = ? AND `external_id` = ?;
 
 -- getAll
-    SELECT `id`, `name`, `email`, `author`, `api_key` FROM `users` 
+    SELECT `id`, `name`, `email`, `author`, `api_key`, `membership_type` FROM `users` 
     WHERE `id` = ?;
 
 -- getMembership
