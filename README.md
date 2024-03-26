@@ -54,6 +54,7 @@ The API relies on headers, sending the signed token within the response body and
 | **POST ***`/article/data/s3`***** | name, title, image(file), keywords, description, **token** |  Add new article with s3 image |
 | **POST ***`/article`***** | name, title, image, keywords, description, **token** |  Add new article |
 | **DELETE ***`/article`***** | id, **token** |  Remove article |
+| **DELETE ***`/article/data/s3`***** | [ image ], **token** | Remove s3 article images |
 
 ## Section Routes
 
