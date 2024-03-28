@@ -360,10 +360,9 @@ export class Articles implements ArticleController {
 
         if(!validation.success) return this.validationErr(res, validation.error)
 
-        await validation.data.reduce((acc, curr) => acc.then(() => {
-            if(!curr.image) return Promise.resolve()
-            return this.removeImage(curr.image)
-        }), Promise.resolve())
+        for (let i = 0; i < validation.data.length; i++) {
+            await this.removeImage(validation.data[i].image)
+        }
 
         return res.status(200).json(createOkResponse({
             message: 'Article images removed from bucket successfully'
