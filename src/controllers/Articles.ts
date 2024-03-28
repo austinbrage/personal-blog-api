@@ -108,6 +108,13 @@ export class Articles implements ArticleController {
             offset: perPage * (currentPage - 1) 
         })
 
+        for (let i = 0; i < result.length; i++) {
+            if (result[i]?.image_type === 'image_s3' && result[i]?.image) {
+                const imageURL = await this.readImage(result[i].image)
+                result[i].image = imageURL
+            }
+        }
+
         return res.status(200).json(createOkResponse({
             message: 'Articles from user requested in pages',
             data: result
@@ -142,6 +149,13 @@ export class Articles implements ArticleController {
             offset: perPage * (currentPage - 1) 
         })
 
+        for (let i = 0; i < result.length; i++) {
+            if (result[i]?.image_type === 'image_s3' && result[i]?.image) {
+                const imageURL = await this.readImage(result[i].image)
+                result[i].image = imageURL
+            }
+        }
+
         return res.status(200).json(createOkResponse({
             message: 'Filtered articles requested',
             data: result
@@ -172,6 +186,13 @@ export class Articles implements ArticleController {
             limit:  perPage, 
             offset: perPage * (currentPage - 1) 
         })
+
+        for (let i = 0; i < result.length; i++) {
+            if (result[i]?.image_type === 'image_s3' && result[i]?.image) {
+                const imageURL = await this.readImage(result[i].image)
+                result[i].image = imageURL
+            }
+        }
 
         return res.status(200).json(createOkResponse({
             message: 'All articles stored requested',
