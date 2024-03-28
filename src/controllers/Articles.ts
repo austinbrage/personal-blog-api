@@ -187,20 +187,16 @@ export class Articles implements ArticleController {
         
         const result = await this.articleModel.getAll(validation.data)
 
-        const newResult = await result?.reduce(async (accumulatorPromise, post) => {
-            const accumulator = await accumulatorPromise
-            if (post?.image_type !== 'image_s3' || !post?.image) {
-                accumulator.push(post)
-            } else {
-                const imageURL = await this.readImage(post?.image)
-                accumulator.push({ ...post, image: imageURL })
+        for (let i = 0; i < result.length; i++) {
+            if (result[i]?.image_type === 'image_s3' && result[i]?.image) {
+                const imageURL = await this.readImage(result[i].image)
+                result[i].image = imageURL
             }
-            return accumulator
-        }, Promise.resolve([] as RowDataPacket[]))
+        }
         
         return res.status(200).json(createOkResponse({
             message: 'Articles from user requested',
-            data: newResult
+            data: result
         }))
     })
 
