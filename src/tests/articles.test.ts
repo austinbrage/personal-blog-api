@@ -129,18 +129,9 @@ export default () => {
                 name: expect.any(String),
                 title: expect.any(String),
                 keywords: expect.any(String),
-                description: expect.any(String)
+                description: expect.any(String),
+                image: expect.stringMatching(/^https:/)
             }))
-        })
-
-        test('should READ image signed URL', async () => {
-            const response = await request(app)
-                .get(ARTICLE(A.DATAS3))
-                .set('Authorization', `Bearer ${token}`)
-                .query({ image: imageName })
-                .expect(200)
-
-            expect(response.body?.result?.data[0]?.imageSignedUrl).toMatch(/^https:/)
         })
     })
 
@@ -171,7 +162,8 @@ export default () => {
                 name: expect.any(String),
                 title: expect.any(String),
                 keywords: expect.any(String),
-                description: expect.any(String)
+                description: expect.any(String),
+                image: expect.stringMatching(/^https:/)
             }))
         })
     })

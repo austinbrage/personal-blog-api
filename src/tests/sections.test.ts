@@ -136,19 +136,9 @@ export default () => {
 
             expect(response.body.result.data[1]).toMatchObject(expect.objectContaining({
                 ...sectionMock.newSectionStyles2(articleId),
-                image: expect.anything(),
+                image: expect.stringMatching(/^https:/),
                 content_type: 'image_s3'
             }))
-        })
-
-        test('should READ image signed URL', async () => {
-            const response = await request(app)
-                .get(SECTION(S.DATAS3))
-                .set('Authorization', `Bearer ${token}`)
-                .query({ image: imageName })
-                .expect(200)
-
-            expect(response.body?.result?.data[0]?.imageSignedUrl).toMatch(/^https:/)
         })
     })
 
@@ -183,7 +173,7 @@ export default () => {
 
             expect(response.body.result.data[1]).toMatchObject(expect.objectContaining({
                 ...sectionMock.changeStyles2(sectionIdS3),
-                image: expect.anything(),
+                image: expect.stringMatching(/^https:/),
                 content_type: 'image_s3'
             }))
         })

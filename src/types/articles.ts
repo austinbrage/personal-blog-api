@@ -41,7 +41,6 @@ export interface IArticle {
 
 export interface ArticleController {
     getKeywords: AsyncFunction
-    getSignedUrl: AsyncFunction
     getEverything: AsyncFunction
     getByKeywords: AsyncFunction
     getAllByKeywords: AsyncFunction

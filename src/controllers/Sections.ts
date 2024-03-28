@@ -68,24 +68,6 @@ export class Sections implements SectionController {
         return await getSignedUrl(s3, command, { expiresIn: +SIGNED_URL_EXPIRE })
     }
 
-    getSignedUrl = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { image } = req.query
-        const validation = this.validateSection.image(req.query)
-
-        if(!validation.success) return this.validationErr(res, validation.error)
-
-        if(!validation.data.image) return res.status(400).json(createErrorResponse({
-            message: 'Validation data error, image value cannot be null'
-        }))
-
-        const result = await this.readImage(validation.data.image)
-
-        return res.status(200).json(createOkResponse({
-            message: 'Article image url requested',
-            data: [{ imageSignedUrl: result }] as RowDataPacket[]
-        }))
-    })
-
     getAll = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { article_id_query } = req.query 
         const validation = this.validateSection.articleIdQuery(req.query)

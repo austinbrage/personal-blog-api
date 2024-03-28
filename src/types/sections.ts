@@ -35,7 +35,6 @@ export interface ISection {
 
 export interface SectionController {
     getAll: AsyncFunction
-    getSignedUrl: AsyncFunction
     changeAll: AsyncFunction
     changeAllWithS3: AsyncFunction
     changeSequence: AsyncFunction

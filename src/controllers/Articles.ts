@@ -66,20 +66,6 @@ export class Articles implements ArticleController {
         }))
     })
 
-    getSignedUrl = asyncErrorHandler(async (req: Request, res: Response) => {
-        // const { image } = req.query
-        const validation = this.validateArticle.image(req.query)
-
-        if(!validation.success) return this.validationErr(res, validation.error)
-
-        const result = await this.readImage(validation.data.image)
-
-        return res.status(200).json(createOkResponse({
-            message: 'Article image url requested',
-            data: [{ imageSignedUrl: result }] as RowDataPacket[]
-        }))
-    })
-
     getByKeywords = asyncErrorHandler(async (req: Request, res: Response) => {
         // const { keywords, perPage, currentPage, user_id } = req.query
         if(typeof req.query?.keywords === 'string') req.query.keywords = [req.query.keywords]
