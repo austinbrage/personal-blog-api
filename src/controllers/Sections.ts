@@ -102,20 +102,16 @@ export class Sections implements SectionController {
 
         const result = await this.sectionModel.getAll({ article_id: article_id })
 
-        const newResult = await result?.reduce(async (accumulatorPromise, post) => {
-            const accumulator = await accumulatorPromise
-            if (post?.content_type !== 'image_s3' || !post?.image) {
-                accumulator.push(post)
-            } else {
-                const imageURL = await this.readImage(post?.image)
-                accumulator.push({ ...post, image: imageURL })
+        for (let i = 0; i < result.length; i++) {
+            if (result[i]?.content_type === 'image_s3' && result[i]?.image) {
+                const imageURL = await this.readImage(result[i].image)
+                result[i].image = imageURL
             }
-            return accumulator
-        }, Promise.resolve([] as RowDataPacket[]))
+        }        
 
         return res.status(200).json(createOkResponse({
             message: 'Sections from article requested',
-            data: newResult
+            data: result
         }))
     })
 
